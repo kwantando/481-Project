@@ -3,12 +3,17 @@
 
 #include <QMainWindow>
 #include <QtWidgets>
-#include "buttons.h"
-/*
-QT_BEGIN_NAMESPACE
-class QAction;
-class QMenu;
-QT_END_NAMESPACE*/
+
+enum Difficulty {
+    EASY,
+    MEDIUM,
+    HARD
+};
+
+enum Mode {
+    SONG,
+    PATTERN
+};
 
 class MainWindow : public QMainWindow
 {
