@@ -1,4 +1,5 @@
 #include "song.h"
+#include "Controller.h"
 #include <iostream>
 #include <fstream>
 #include <utility>
@@ -7,7 +8,7 @@
 const char* const default_library_file_c = "filedata.txt";
 
 using namespace std;
-
+//
 int main()
 {
     ifstream songreader {default_library_file_c};
@@ -21,27 +22,33 @@ int main()
     //the following isn't done maintainable, but this is meant
     //as a proof of concept
     char read_data;
-    while(cin >> read_data) {
-        switch(read_data) {
-            case '1': 
-            songs[1]->pause();
-            songs[2]->pause();
-            songs[0]->play();
-            break;
-            case '2':
-            songs[0]->pause();
-            songs[2]->pause();
-            songs[1]->play();
-            break;
-            case '3':
-            songs[0]->pause();
-            songs[1]->pause();
-            songs[2]->play();
-            break;
-            case 'q':
-            return 0;
-            default:
-            cout << "Sorry, I don't know what command " << read_data << "is.\n";
+    cout << "Please pick song 1-3.\n";
+    cin >> read_data;
+    int song_num = atoi(read_data);
+    cout << "Okay. Please pick (E)asy(0.5x), (M)edium(1.0x), or (H)ard(1.5x).\n";
+    while(true) {
+        cin >> read_data;
+        if(read_data == 'E') {
+            songs[song_num].adjust_bpm(0.5);
+        }
+        else if(read_data == 'M') {
+            songs[song_num].adjust_bpm(1.0);
+        }
+        else if(read_data == 'H') {
+            songs[song_num].adjust_bpm(1.5);
+        }
+        else {
+            cout << "Please select either Easy, Medium, or Hard with E, M, or H.\n";
+            continue;
+        }
+        break;
+    }
+    int beats_frequency = songs[song_num].get_bpm() / 60;
+    int success_beats = 0, failure_beats = 0;
+    songs[song_num].play();
+    while(songs[song_num].is_playing()) {
+        if(int(songs[song_num].get_time().asSeconds()) % beats_frequency == 0) {
+
         }
     }
     return 0;

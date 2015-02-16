@@ -26,3 +26,8 @@ Song::Song(ifstream& input)
         throw std::runtime_error{"File not found: " + path};
     }
 }
+
+bool Song::is_playing()
+{
+    return song_data.getStatus() == sf::SoundSource::Status::Playing;
+}
