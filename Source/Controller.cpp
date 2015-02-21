@@ -2,24 +2,45 @@
 #include "Controller.h"
 
 using namespace sf;
+using namespace std;
 
 // Useful keyboard key constants.
-const auto keypad1_c = Keyboard::Q;
-const auto keypad2_c = Keyboard::W;
-const auto keypad3_c = Keyboard::E;
-const auto keypad4_c = Keyboard::R;
-const auto keypad5_c = Keyboard::T;
-const auto keypad6_c = Keyboard::Y;
+enum keypads_e {KEYPAD1 = Keyboard::Q,
+				KEYPAD2 = Keyboard::W,
+				KEYPAD3 = Keyboard::E,
+				KEYPAD4 = Keyboard::R,
+				KEYPAD5 = Keyboard::T,
+				KEYPAD6 = Keyboard::Y};
 
 bool Controller::was_pressed = false;
+
+// This constructor creates a game controller based on the given music_filename.
+// It will create a new song object that will be buffered from that filename.
+Controller::Controller(std::string music_filename){
+
+	sequence.push_back(KEYPAD1);
+	sequence.push_back(KEYPAD2);
+	sequence.push_back(KEYPAD6);
+	sequence.push_back(KEYPAD2);
+	sequence.push_back(KEYPAD1);
+
+	DEBUG_MSG("constructed successfully");
+}
+
+// Clears dynamic memory.
+Controller::~Controller() {
+
+	DEBUG_MSG("destructed successfully");
+}
 
 // This function will do any preprocessing necessary before entering
 // an infinite loop that reads and processes user's commands based on
 // keyboard input.
 void Controller::start_reading_input() {
 
-	// Any preprocessing should go here.
 	Window event_window(VideoMode(5,5), "Event_Handler_Window");
+
+	init_controller();
 
 	Event event;
 	while (true) {
@@ -43,24 +64,45 @@ void Controller::command_switch(const sf::Event& event) {
 
 	else if ((event.type == Event::KeyPressed) && !was_pressed) {
 
+		if (event.key.code == *seq_it) {
+
+			DEBUG_MSG("Correct input entered.");
+			++seq_it;
+
+			if (seq_it == sequence.end()) {
+
+				DEBUG_MSG("PATTERN SUCCESSFULLY REPEATED! Resetting...");
+				init_controller();
+
+			}
+
+		}
+		else {
+
+			DEBUG_MSG("WRONG PATTERN INPUT! Resetting...");
+			init_controller();
+
+		}
+
+		/*
 		switch (event.key.code) {
 
-		case keypad1_c:
+		case KEYPAD1:
 			DEBUG_MSG("keypad1 pressed.");
 			break;
-		case keypad2_c:
+		case KEYPAD2:
 			DEBUG_MSG("keypad2 pressed.");
 			break;
-		case keypad3_c:
+		case KEYPAD3:
 			DEBUG_MSG("keypad3 pressed.");
 			break;
-		case keypad4_c:
+		case KEYPAD4:
 			DEBUG_MSG("keypad4 pressed.");
 			break;
-		case keypad5_c:
+		case KEYPAD5:
 			DEBUG_MSG("keypad5 pressed.");
 			break;
-		case keypad6_c:
+		case KEYPAD6:
 			DEBUG_MSG("keypad6 pressed.");
 			break;
 		default:
@@ -68,9 +110,23 @@ void Controller::command_switch(const sf::Event& event) {
 			break;
 
 		}
+		*/
 
 		was_pressed = true;
 
 	}
+
+}
+
+void Controller::init_controller() {
+
+
+	// Generate pattern and place it into the member vector.
+	//...
+
+	// Play pattern notes and block.
+	//...
+
+	seq_it = sequence.begin();
 
 }
