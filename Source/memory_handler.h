@@ -18,13 +18,31 @@ public:
     //When a sequence plays, displays the accompanying beats
     //(or beat equivalents)
     void run();
+    //sets current sequence to the next one; increments seq
+    void next_sequence() { cur_seq++;}
+
+    //returns the next sequence in line
+    Beat_sequence get_current_sequence() { return sequences[cur_seq];}
+
+    //plays the next note waiting in the sequence
+    int play_next_note();
+
+    //runs the next sequence waiting
+    void run_next_sequence() { run_sequence(sequences[cur_seq]);}
+
+    //plays the note as a "correct" note
+    void play_specified_note(int note);
 
 private:
     //runs the given sequence;
     //returns the number of beats the user gets correct
-    int run_sequence(const Beat_sequence& seq);
+    void run_sequence(const Beat_sequence& seq);
+
+    int cur_seq;
+    int cur_note;
 
     std::vector<Beat_sequence> sequences;
+    std::vector<int> beat_locations;
     std::vector<std::shared_ptr<sf::Music>> notes;
     sf::Music song_data;
 };

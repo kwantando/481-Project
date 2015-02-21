@@ -19,11 +19,12 @@ using std::move;
 const char* const notes_dir_c = "Notes/";
 const char* const default_note_filetype_c = ".ogg";
 const int num_notes_c = 6;
+const int done_playing_c = -1;
 
 //constructs the handler by reading in the song data from filename
 //and then loading the chords for the song
 Memory_handler::Memory_handler(const string& filename, vector<Beat_sequence> seq_in)
- : sequences(move(seq_in))
+ : cur_seq(0),  sequences(move(seq_in))
 {
     if(!song_data.openFromFile(filename)) {
         throw runtime_error{"Could not open: " + filename};
@@ -65,22 +66,23 @@ void Memory_handler::run()
     int total = 0, successes = 0;
     for(auto x = sequences.begin(); x != sequences.end(); x++) {
         total += x->played_beats.size();
-        successes += run_sequence(*x);
+        run_sequence(*x);
     }
     cout << "Congratulations! You got " << successes << " out of " << total << " correct!\n";
 }
 
 //runs the given sequence;
 //returns the number of beats the user gets correct
-int Memory_handler::run_sequence(const Beat_sequence& seq)
+void Memory_handler::run_sequence(const Beat_sequence& seq)
 {
     int seq_len = int(seq.played_beats.size());
-    vector<int> beat_locations;
+    if(!beat_locations.empty()) beat_locations.clear();
     for(int i = 0; i < seq_len; i++) {
         //each beat location is equal to length of seq * i / num_beats
         beat_locations.push_back((i * ((seq.end_time - seq.start_time) / seq_len) + seq.start_time));
     }
-    int seq_num = 0;
+    cur_note = 0;
+    /*
     if(song_data.getStatus() == sf::SoundSource::Status::Stopped) {
         song_data.play();
     }
@@ -88,6 +90,8 @@ int Memory_handler::run_sequence(const Beat_sequence& seq)
         song_data.setPlayingOffset(sf::milliseconds(seq.start_time));
         song_data.play();
     }
+    */
+    /*
     sf::Time end_time = sf::milliseconds(seq.end_time);
     sf::Time cur_time;
     while((cur_time = song_data.getPlayingOffset()) < end_time) {
@@ -127,4 +131,41 @@ int Memory_handler::run_sequence(const Beat_sequence& seq)
     cout << "You got " << successes << " out of " << seq_len << " right!\n";
     qdsleep(2500);
     return successes;
+    */
+}
+//plays the next note in the sequence, returning the note that was played(1-6)
+//returns -1 if the sequence is over
+int Memory_handler::play_next_note()
+{
+    if(cur_note >= sequences[cur_seq].played_beats.size()) return done_playing_c;
+    //if the next note is out of sequence size, means we've played out this sequence
+    play_specified_note(cur_note);
+    return sequences[cur_seq].played_beats[cur_note++];
+}
+//plays the note passed to it in the -currently loaded- sequence
+//undefined behavior if no sequence is currently loaded
+void Memory_handler::play_specified_note(int note)
+{
+    if(note < 1 || note > 6) {
+        throw runtime_error{"play_correct_note passed note out of range"};
+    }
+    int note_start_time = beat_locations[cur_note];
+    if(song_data.getStatus() == sf::SoundSource::Status::Stopped) {
+        song_data.play();
+    }
+    else {
+        song_data.setPlayingOffset(sf::milliseconds(note_start_time));
+        song_data.play();
+    }
+    sf::Time end_time;
+    if(cur_note == sequences[cur_seq].played_beats.size()-1) {
+        end_time = sf::milliseconds(sequences[cur_seq].end_time);
+    } else {//if last note in seq, play to end; otherwise play to next note
+        end_time = sf::milliseconds(beat_locations[cur_note+1]);
+    }
+    sf::Time cur_time;
+    while((cur_time = song_data.getPlayingOffset()) < end_time) {
+        continue;
+    }
+    song_data.pause();
 }
