@@ -34,11 +34,12 @@ private:
     QHBoxLayout *mode_buttons;
     QWidget *diff_widget;
     QWidget *mode_widget;
-    QVBoxLayout *grid;
+    QGridLayout *grid;
     QLabel *button_info;
     QPushButton *back_button;
     void show_difficulty();
     void show_mode();
+    void show_gameplay();
 };
 
 #endif // MAINWINDOW_H
