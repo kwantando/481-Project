@@ -16,30 +16,14 @@ using std::string;
 using std::vector;
 using std::move;
 
-const char* const notes_dir_c = "Notes/";
 const char* const default_note_filetype_c = ".ogg";
-const int num_notes_c = 6;
 const int done_playing_c = -1;
 
 //constructs the handler by reading in the song data from filename
 //and then loading the chords for the song
-Memory_handler::Memory_handler(const string& filename, vector<Beat_sequence> seq_in)
+Memory_handler::Memory_handler(vector<Beat_sequence> seq_in)
  : cur_seq(0),  sequences(move(seq_in))
 {
-    if(!song_data.openFromFile(filename)) {
-        throw runtime_error{"Could not open: " + filename};
-    }
-    notes.resize(num_notes_c);
-    //initialize notes:
-    for(int i = 0; i < num_notes_c; i++) {
-        stringstream note_location;
-        note_location << notes_dir_c << "Note" 
-            << i+1 << default_note_filetype_c;
-        notes[i] = std::make_shared<sf::Music>();
-        if(!notes[i]->openFromFile(note_location.str())) {
-            throw runtime_error{"Could not open: " + note_location.str()};
-        }
-    }
 }
 //runs the memory handler demo by running each beat sequence,
 //pausing for input, displaying "Right!\n" for each correct beat, 
