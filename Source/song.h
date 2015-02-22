@@ -20,9 +20,9 @@ public:
 
     void stop() { song_data.stop(); }
 
-    sf::Time getTime() { return song_data.getPlayingOffset(); }
+    sf::Time get_time() { return song_data.getPlayingOffset(); }
 
-    int get_bpm() { return bpm;}
+    double get_bpm() { return bpm;}
 
     void adjust_bpm(double amount_to_adjust) { bpm *= amount_to_adjust; }
 
@@ -31,7 +31,7 @@ public:
 private:
     sf::Music song_data;
     std::string title;
-    int bpm;
+    double bpm;
 };
 
 #endif
