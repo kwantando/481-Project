@@ -27,7 +27,7 @@ const char* const default_note_filetype_c = ".ogg";
 //constructs the handler by reading in the song data from filename
 //and then loading the chords for the song
 Memory_handler::Memory_handler(int length)
- : cur_seq_length(1), cur_note(0)
+ : cur_seq_length(5), cur_note(0)
 {
     srand(time(NULL));
     full_sequence.resize(length);
@@ -145,18 +145,20 @@ int Memory_handler::play_next_note()
 {
     if(cur_note >= cur_sequence.size()) return done_playing_c;
     //if the next note is out of sequence size, means we've played out this sequence
-    play_specified_note(cur_note);
+    play_specified_note(cur_note, true);
     return cur_sequence[cur_note++];
 }
 //plays the note passed to it in the -currently loaded- sequence
 //undefined behavior if no sequence is currently loaded
-void Memory_handler::play_specified_note(int note)
+void Memory_handler::play_specified_note(int note, bool block)
 {
-    if(note < 0 || note >= num_notes_c) {
-        throw runtime_error{"play_correct_note passed note out of range"};
-    }
-    notes[note]->play();
-    while(notes[note]->getStatus() != sf::SoundSource::Status::Playing);//do nothing
+    //if(note < 0 || note >= num_notes_c) {
+    //    throw runtime_error{"play_correct_note passed note out of range"};
+    //}
+    notes[cur_sequence[note]]->play();
+	if (block) {
+		while (notes[cur_sequence[note]]->getStatus() == sf::SoundSource::Status::Playing);//do nothing
+	}
     //returns when note has finished playing
 }
 
@@ -169,9 +171,11 @@ void Memory_handler::gen_sequence(int len)
     }
 }
 //prepares the next sequence to play
-void Memory_handler::next_sequence()
+void Memory_handler::next_sequence(bool move_up)
 {
-    cur_seq_length++;
+	if (move_up) {
+		cur_seq_length++;
+	}
     cur_note = 0;
     gen_sequence(cur_seq_length);
 }

@@ -21,7 +21,7 @@ public:
     //(or beat equivalents)
     void run();
     //sets current sequence to the next one; increments seq
-    void next_sequence();
+	void next_sequence(bool move_up);
 
     //returns the next sequence in line
     std::vector<int> get_current_sequence() { return cur_sequence; }
@@ -30,7 +30,7 @@ public:
     int play_next_note();
 
     //plays the note as a "correct" note
-    void play_specified_note(int note);
+    void play_specified_note(int note, bool block);
 
 private:
     //runs the given sequence;
