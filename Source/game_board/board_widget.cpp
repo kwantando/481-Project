@@ -1,7 +1,7 @@
 #include "board_widget.h"
 #include <iostream>
 
-static bool DEMO = false;
+static bool DEMO = true;
 
 Board_Widget::Board_Widget()
 {
@@ -51,7 +51,7 @@ Board_Widget::Board_Widget()
 
 // Receives input from the controller to light
 // up one of the buttons.
-void Board_Widget::trigger(Button_Position butt_pos) {
+void Board_Widget::trigger(Button_Event butt_pos) {
     switch(butt_pos) {
         case LIGHT_TOP_LEFT:
             trigger_Top_L();
@@ -161,6 +161,6 @@ void Board_Widget::fail() {
 void Board_Widget::demo() {
     std::mt19937 gen(time(NULL));
     std::uniform_int_distribution<> dis(0, 5);
-    Button_Position bp = static_cast<Button_Position>(dis(gen));
+    Button_Event bp = static_cast<Button_Event>(dis(gen));
     trigger(bp);
 }
