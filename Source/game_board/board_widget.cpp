@@ -51,26 +51,45 @@ Board_Widget::Board_Widget()
 
 // Receives input from the controller to light
 // up one of the buttons.
-void Board_Widget::trigger(Button_Position butt_pos) {
+void Board_Widget::trigger(Button_Event butt_pos) {
     switch(butt_pos) {
-        case TOP_LEFT:
+        case LIGHT_TOP_LEFT:
             trigger_Top_L();
             break;
-        case TOP_MIDDLE:
+        case LIGHT_TOP_MIDDLE:
             trigger_Top_M();
             break;
-        case TOP_RIGHT:
+        case LIGHT_TOP_RIGHT:
             trigger_Top_R();
             break;
-        case BOTTOM_LEFT:
+        case LIGHT_BOTTOM_LEFT:
             trigger_Bottom_L();
             break;
-        case BOTTOM_MIDDLE:
+        case LIGHT_BOTTOM_MIDDLE:
             trigger_Bottom_M();
             break;
-        case BOTTOM_RIGHT:
+        case LIGHT_BOTTOM_RIGHT:
             trigger_Bottom_R();
             break;
+        case CLEAR_TOP_LEFT:
+            top_L();
+            break;
+        case CLEAR_TOP_MIDDLE:
+            top_M();
+            break;
+        case CLEAR_TOP_RIGHT:
+            top_R();
+            break;
+        case CLEAR_BOTTOM_LEFT:
+            bottom_L();
+            break;
+        case CLEAR_BOTTOM_MIDDLE:
+            bottom_M();
+            break;
+        case CLEAR_BOTTOM_RIGHT:
+            bottom_R();
+            break;
+        case FAIL:
         default:
             fail();
     }
@@ -142,6 +161,6 @@ void Board_Widget::fail() {
 void Board_Widget::demo() {
     std::mt19937 gen(time(NULL));
     std::uniform_int_distribution<> dis(0, 5);
-    Button_Position bp = static_cast<Button_Position>(dis(gen));
+    Button_Event bp = static_cast<Button_Event>(dis(gen));
     trigger(bp);
 }
