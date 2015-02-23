@@ -1,4 +1,5 @@
 #include "memory_handler.h"
+#include "qdsleep.h"
 #include <SFML/System.hpp>
 #include <stdexcept>
 #include <sstream>
@@ -19,6 +20,7 @@ using std::move;
 
 const int done_playing_c = -1;
 const int num_notes_c = 6;
+const int default_note_wait_c = 250;
 const char* const notes_dir_c = "Notes/";
 const char* const default_note_filetype_c = ".ogg";
 const char* const note_file_name_c = "n";//n + number, of course
@@ -159,9 +161,8 @@ void Memory_handler::play_specified_note(int note, bool block)
     //    throw runtime_error{"play_correct_note passed note out of range"};
     //}
     notes[cur_sequence[note]]->play();
-	if (block) {
-		while (notes[cur_sequence[note]]->getStatus() == sf::SoundSource::Status::Playing);//do nothing
-	}
+	qdsleep(default_note_wait_c);
+    notes[cur_sequence[note]]->stop();
     //returns when note has finished playing
 }
 
