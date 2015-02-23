@@ -1,5 +1,4 @@
 #include "memory_handler.h"
-#include "qdsleep.h"
 #include <SFML/System.hpp>
 #include <stdexcept>
 #include <sstream>
@@ -143,7 +142,10 @@ void Memory_handler::run_sequence(const Beat_sequence& seq)
 //returns -1 if the sequence is over
 int Memory_handler::play_next_note()
 {
-    if(cur_note >= cur_sequence.size()) return done_playing_c;
+    if(cur_note >= cur_sequence.size()) {
+        notes[cur_sequence[cur_note - 1]]->stop();
+        return done_playing_c;
+    }
     //if the next note is out of sequence size, means we've played out this sequence
     play_specified_note(cur_note, true);
     return cur_sequence[cur_note++];

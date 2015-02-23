@@ -3,17 +3,11 @@
 #include "memory_handler.h"
 #include "beat_sequence.h"
 #include "songinfoparser.h"
+#include "qdsleep.h"
 
 using namespace sf;
 using namespace std;
 
-// Useful keyboard key constants.
-enum keypads_e {KEYPAD1 = Keyboard::Q,
-				KEYPAD2 = Keyboard::W,
-				KEYPAD3 = Keyboard::E,
-				KEYPAD4 = Keyboard::R,
-				KEYPAD5 = Keyboard::T,
-				KEYPAD6 = Keyboard::Y};
 
 bool Controller::was_pressed = false;
 
@@ -63,7 +57,7 @@ static vector<keypads_e> convert_int_to_keypads(const vector<int>& vc) {
 // It will create a new song object that will be buffered from that filename.
 Controller::Controller(std::string music_filename, std::string data_filename){
 
-	Song_info_parser sparser(data_filename);
+	//Song_info_parser sparser(data_filename);
 	mem_hand = new Memory_handler();
 
 
@@ -114,7 +108,7 @@ void Controller::command_switch(const sf::Event& event) {
 
 	else if ((event.type == Event::KeyPressed) && !was_pressed) {
 
-		if (event.key.code == sequence[seq_it]) {
+		if (static_cast<keypads_e>(event.key.code) == sequence[seq_it]) {
 
 			DEBUG_MSG("Correct input entered.");
 			mem_hand->play_specified_note(seq_it, false);
@@ -185,6 +179,7 @@ void Controller::init_controller() {
 		cout << "Just played " << note + 1 << " note!" << endl;
 
 	}
+	qdsleep(250);
 
 	seq_it = 0;
 

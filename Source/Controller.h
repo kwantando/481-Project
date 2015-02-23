@@ -5,7 +5,13 @@
 #include <string>
 
 class Memory_handler;
-enum keypads_e;
+// Useful keyboard key constants.
+enum keypads_e {KEYPAD1 = sf::Keyboard::Q,
+				KEYPAD2 = sf::Keyboard::W,
+				KEYPAD3 = sf::Keyboard::E,
+				KEYPAD4 = sf::Keyboard::R,
+				KEYPAD5 = sf::Keyboard::T,
+				KEYPAD6 = sf::Keyboard::Y};
 
 // This class is designed as a main way to control the behavior of the game
 // based on user inputs from the keyboard.
