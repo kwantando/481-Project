@@ -21,6 +21,7 @@ const int done_playing_c = -1;
 const int num_notes_c = 6;
 const char* const notes_dir_c = "Notes/";
 const char* const default_note_filetype_c = ".ogg";
+const char* const note_file_name_c = "n";//n + number, of course
 
 
 //constructs the handler by reading in the song data from filename
@@ -36,7 +37,7 @@ Memory_handler::Memory_handler(int length)
     notes.resize(num_notes_c);
     for(int i = 0; i < num_notes_c; i++) {
         stringstream note_location;
-        note_location << notes_dir_c << "Note" 
+        note_location << notes_dir_c << note_file_name_c 
             << i+1 << default_note_filetype_c;
         notes[i] = std::make_shared<sf::Music>();
         if(!notes[i]->openFromFile(note_location.str())) {

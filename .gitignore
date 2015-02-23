@@ -1,5 +1,7 @@
 .DS_Store
 *.o
-Qt\ Menu/build-*/
+Qt\ Menu/build*/
+QT\ Build/*
 Source/build-game_board-Desktop_Qt_5_4_0_clang_64bit-Debug/
 Source/build-*/
+
