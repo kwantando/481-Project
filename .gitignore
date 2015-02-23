@@ -2,3 +2,4 @@
 .DS_Store
 *.o
 Qt\ Menu/build-*/
+QT\ Build/*
