@@ -14,7 +14,7 @@ int main()
     string demo_song_file{demo_song_file_c};
     //I know it seems redundant, but compiler will complain^^
     Song_info_parser song_parser{demo_info_file};
-    Memory_handler game_handler{demo_song_file, song_parser.get_beat_seq()};
+    Memory_handler game_handler{10};
     game_handler.run();
     return 0;
 }

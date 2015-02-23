@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2015-02-14T18:38:00
+# Project created by QtCreator 2015-02-16T18:36:01
 #
 #-------------------------------------------------
 
@@ -8,15 +8,16 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = Menu
+TARGET = game_board
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        board_widget.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += board_widget.h
 
-QMAKE_CXXFLAGS += -std=c++11
+DISTFILES += \
+    button_animation.qml
 
-#CONFIG-=app_bundle
+CONFIG += c++11

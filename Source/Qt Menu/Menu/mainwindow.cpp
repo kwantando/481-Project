@@ -10,7 +10,7 @@ MainWindow::MainWindow()
     button_info->setFont(font);
     button_info->setAlignment(Qt::AlignCenter);
 
-    grid = new QVBoxLayout;
+    grid = new QGridLayout;
     grid->addWidget(button_info);
 
     QPushButton *easy_button = new QPushButton("Easy");
@@ -27,12 +27,14 @@ MainWindow::MainWindow()
     connect(pattern_button, SIGNAL(clicked()), this, SLOT(pattern()));
     connect(back_button, SIGNAL(clicked()), this, SLOT(back()));
 
-    QSize size(100, 100);
-    easy_button->setMinimumSize(size);
-    medium_button->setMinimumSize(size);
-    hard_button->setMinimumSize(size);
-    song_button->setMinimumSize(size);
-    pattern_button->setMinimumSize(size);
+    QSize mode_size(100, 100);
+    easy_button->setMinimumSize(mode_size);
+    medium_button->setMinimumSize(mode_size);
+    hard_button->setMinimumSize(mode_size);
+
+    QSize diff_size(140, 100);
+    song_button->setMinimumSize(diff_size);
+    pattern_button->setMinimumSize(diff_size);
     back_button->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Fixed);
 
     diff_buttons = new QHBoxLayout;
@@ -55,6 +57,8 @@ MainWindow::MainWindow()
     grid->addWidget(mode_widget);
     grid->addWidget(back_button);
 
+    grid->setRowMinimumHeight(1, button_info->sizeHint().rheight());
+    grid->setRowMinimumHeight(3, back_button->sizeHint().rheight());
 
     QWidget *central = new QWidget;
     central->setLayout(grid);
@@ -67,15 +71,27 @@ MainWindow::MainWindow()
 void MainWindow::show_difficulty() {
     mode_widget->hide();
     button_info->setText("Select Difficulty");
+    grid->setRowMinimumHeight(1, 100);
+    grid->setRowMinimumHeight(2, 0);
     diff_widget->show();
-    back_button->setEnabled(false);
+    back_button->hide();
+    //back_button->setEnabled(false);
 }
 
 void MainWindow::show_mode() {
     diff_widget->hide();
     button_info->setText("Select Mode");
+    grid->setRowMinimumHeight(1, 0);
+    grid->setRowMinimumHeight(2, 100);
     mode_widget->show();
-    back_button->setEnabled(true);
+    back_button->show();
+    //back_button->setEnabled(true);
+}
+
+void MainWindow::show_gameplay() {
+    button_info->setText("Game Running");
+    mode_widget->hide();
+    back_button->hide();
 }
 
 void MainWindow::easy() {
@@ -92,9 +108,11 @@ void MainWindow::hard() {
 }
 void MainWindow::song() {
     mode = SONG;
+    show_gameplay();
 }
 void MainWindow::pattern() {
     mode = PATTERN;
+    show_gameplay();
 }
 
 void MainWindow::back() {

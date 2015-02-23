@@ -1,5 +1,6 @@
 #ifndef QDS_H
 #define QDS_H
+
 #if defined TARGET_OS_MAC || defined __linux__
 #include <unistd.h>
 #elif defined _WIN32 || defined _WIN64
