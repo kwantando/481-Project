@@ -32,6 +32,9 @@ public:
     //plays the note as a "correct" note
     void play_specified_note(int note, bool block);
 
+    //stops all other notes and plays the failure-boop. 
+    void play_fail_note();
+
 private:
     //runs the given sequence;
     //returns the number of beats the user gets correct
@@ -46,6 +49,7 @@ private:
     std::vector<int> full_sequence; 
     std::vector<int> cur_sequence;
     std::vector<std::shared_ptr<sf::Music>> notes;
+    std::shared_ptr<sf::Music> fail_note;
     sf::Music song_data;
 };
 
