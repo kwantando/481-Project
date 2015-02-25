@@ -3,9 +3,15 @@
 //#include <SFML/System.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
+#include <Qapplication>
+#include "board_widget.h"
 
-int main()
+int main(int argc, char *argv[])
 {
+
+    QApplication a(argc, argv);
+    Board_Widget w;
+    w.show();
 
 	sf::Music mus;
 	std::cout << mus.openFromFile("Victors.wav") << std::endl;

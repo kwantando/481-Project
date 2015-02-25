@@ -4,6 +4,8 @@
 #include "beat_sequence.h"
 #include "songinfoparser.h"
 #include "qdsleep.h"
+#include "game_board/board_widget.h"
+//#include <Qt/qwidget.h>
 
 using namespace sf;
 using namespace std;
@@ -173,8 +175,10 @@ void Controller::init_controller() {
 	sequence = convert_int_to_keypads(note_sequence);
 
 	// Play pattern notes.
+
+	Board_Widget board_w;
 	int note = 0;
-	while ((note = mem_hand->play_next_note()) != -1) {
+	while ((note = mem_hand->play_next_note()) != -1) {			// add light control code here.
 
 		cout << "Just played " << note + 1 << " note!" << endl;
 

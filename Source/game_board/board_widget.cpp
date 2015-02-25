@@ -1,7 +1,7 @@
 #include "board_widget.h"
 #include <iostream>
 
-static bool DEMO = true;
+static bool DEMO = false;
 
 Board_Widget::Board_Widget()
 {
@@ -47,6 +47,7 @@ Board_Widget::Board_Widget()
     if (DEMO) {
         demo();
     }
+    this->show();
 }
 
 // Receives input from the controller to light

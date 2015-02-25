@@ -1,4 +1,4 @@
-#include "board_widget.h"
+/*#include "board_widget.h"
 #include <QApplication>
 
 
@@ -10,3 +10,4 @@ int main(int argc, char *argv[])
 
     return a.exec();
 }
+*/
