@@ -46,14 +46,7 @@ private:
 	// This function initializes or reinitializes the
 	// controller to some basic state.
 	void init_controller();
-    //switches the button to no longer display
-    void switch_off_button(int note);
-    //switches the button to now display
-    void switch_on_button(int note);
-	// Redraws the window based on the sprite vector/their positions/colors.
-	void redraw_window();
 	
-
 	// Pointer to memory_handler for the song sequences.
 	Memory_handler* mem_hand;
 
