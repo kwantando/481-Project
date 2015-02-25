@@ -4,6 +4,7 @@
 #include "beat_sequence.h"
 #include "songinfoparser.h"
 #include "qdsleep.h"
+#include <stdexcept>
 
 using namespace sf;
 using namespace std;
@@ -12,6 +13,9 @@ using namespace std;
 bool Controller::was_pressed = false;
 
 static vector<keypads_e> convert_int_to_keypads(const vector<int>& vc);
+
+//returns the button_event equivalent of note and toggle
+Button_Event get_button(int note, bool toggle);
 
 static vector<keypads_e> convert_int_to_keypads(const vector<int>& vc) {
 
@@ -178,13 +182,64 @@ void Controller::init_controller() {
 	int note = 0;
     int old_button = 0;
 	while ((note = mem_hand->play_next_note()) != -1) {
-        display.trigger(switchOffButton(old_button));
-        display.trigger(switchOnButton(note));
-		cout << "Just played " << note + 1 << " note!" << endl;
+        switch_off_button(old_button);
+        switch_on_button(note);
+        cout << "Just played " << note + 1 << " note!" << endl;
         old_button = note;
 	}
 	qdsleep(250);
 
 	seq_it = 0;
 
+}
+
+Button_Event get_button(int note, bool toggle)
+{
+    if(toggle) {
+        switch(note) {
+            case 0:
+                return Button_Event::LIGHT_TOP_LEFT;
+            case 1:
+                return Button_Event::LIGHT_TOP_MIDDLE;
+            case 2:
+                return Button_Event::LIGHT_TOP_RIGHT;
+            case 3:
+                return Button_Event::LIGHT_BOTTOM_LEFT;
+            case 4:
+                return Button_Event::LIGHT_BOTTOM_MIDDLE;
+            case 5:
+                return Button_Event::LIGHT_BOTTOM_RIGHT;
+            default:
+                throw runtime_error{"Unrecognized note found."};
+        }
+    }
+    else {
+        switch(note) {
+            case 0:
+                return Button_Event::CLEAR_TOP_LEFT;
+            case 1:
+                return Button_Event::CLEAR_TOP_MIDDLE;
+            case 2:
+                return Button_Event::CLEAR_TOP_RIGHT;
+            case 3:
+                return Button_Event::CLEAR_BOTTOM_LEFT;
+            case 4:
+                return Button_Event::CLEAR_BOTTOM_MIDDLE;
+            case 5:
+                return Button_Event::CLEAR_BOTTOM_RIGHT;
+            default:
+                throw runtime_error{"Unrecognized note found."};
+        }
+    }
+
+}
+
+void Controller::switch_off_button(int note)
+{
+    display.trigger(get_button(note, false));
+}
+
+void Controller::switch_on_button(int note)
+{
+    display.trigger(get_button(note, true));
 }
