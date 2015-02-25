@@ -178,9 +178,8 @@ void Memory_handler::play_specified_note(int cur, bool block, Game_board& gb)
     if(cur > 0)
         gb.switch_off_button(cur_sequence[cur-1]);
     gb.switch_on_button(cur_note);
-	qdsleep(default_note_wait_c);
-    notes[cur_note]->stop();
-    //returns when note has finished playing
+	if (block) { qdsleep(default_note_wait_c); }
+
 }
 
 void Memory_handler::gen_sequence(int len)
