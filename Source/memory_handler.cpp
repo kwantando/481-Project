@@ -1,4 +1,5 @@
 #include "memory_handler.h"
+#include "qdsleep.h"
 #include <SFML/System.hpp>
 #include <stdexcept>
 #include <sstream>
@@ -7,6 +8,7 @@
 #include <utility>
 #include <cstdlib>
 #include <time.h>
+#include <functional>
 
 using std::runtime_error;
 using std::stringstream;
@@ -16,12 +18,17 @@ using std::cin;
 using std::string;
 using std::vector;
 using std::move;
+using std::make_shared;
+using std::mem_fn;
+using std::shared_ptr;
 
 const int done_playing_c = -1;
 const int num_notes_c = 6;
+const int default_note_wait_c = 250;
 const char* const notes_dir_c = "Notes/";
 const char* const default_note_filetype_c = ".ogg";
 const char* const note_file_name_c = "n";//n + number, of course
+const char* const fail_file_name_c = "fail";
 
 
 //constructs the handler by reading in the song data from filename
@@ -39,10 +46,17 @@ Memory_handler::Memory_handler(int length)
         stringstream note_location;
         note_location << notes_dir_c << note_file_name_c 
             << i+1 << default_note_filetype_c;
-        notes[i] = std::make_shared<sf::Music>();
+        notes[i] = make_shared<sf::Music>();
         if(!notes[i]->openFromFile(note_location.str())) {
             throw runtime_error{"Could not open: " + note_location.str()};
         }
+    }
+    fail_note = make_shared<sf::Music>();
+    stringstream fail_note_loc;
+    fail_note_loc << notes_dir_c << fail_file_name_c 
+        << default_note_filetype_c;
+    if(!fail_note->openFromFile(fail_note_loc.str())) {
+        throw runtime_error{"Could not open: " + fail_note_loc.str()};
     }
     gen_sequence(cur_seq_length);
 }
@@ -159,9 +173,8 @@ void Memory_handler::play_specified_note(int note, bool block)
     //    throw runtime_error{"play_correct_note passed note out of range"};
     //}
     notes[cur_sequence[note]]->play();
-	if (block) {
-		while (notes[cur_sequence[note]]->getStatus() == sf::SoundSource::Status::Playing);//do nothing
-	}
+	qdsleep(default_note_wait_c);
+    notes[cur_sequence[note]]->stop();
     //returns when note has finished playing
 }
 
@@ -181,4 +194,15 @@ void Memory_handler::next_sequence(bool move_up)
 	}
     cur_note = 0;
     gen_sequence(cur_seq_length);
+}
+
+//stops all other notes and plays the failure-boop.
+void Memory_handler::play_fail_note()
+{
+    for_each(notes.begin(), notes.end(), [](shared_ptr<sf::Music> note){
+        note->stop();
+    });
+    fail_note->play();
+    qdsleep(default_note_wait_c);
+    fail_note->stop();
 }

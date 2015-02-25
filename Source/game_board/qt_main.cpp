@@ -1,4 +1,5 @@
-/*#include "board_widget.h"
+/*
+#include "board_widget.h"
 #include <QApplication>
 
 
