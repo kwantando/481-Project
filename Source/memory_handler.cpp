@@ -20,6 +20,7 @@ using std::vector;
 using std::move;
 using std::make_shared;
 using std::mem_fn;
+using std::shared_ptr;
 
 const int done_playing_c = -1;
 const int num_notes_c = 6;
@@ -196,9 +197,11 @@ void Memory_handler::next_sequence(bool move_up)
 }
 
 //stops all other notes and plays the failure-boop.
-void play_fail_note()
+void Memory_handler::play_fail_note()
 {
-    for_each(notes.begin(), notes.end(), mem_fn(sf::Music::stop));
+    for_each(notes.begin(), notes.end(), [](shared_ptr<sf::Music> note){
+        note->stop();
+    });
     fail_note->play();
     qdsleep(default_note_wait_c);
     fail_note->stop();
