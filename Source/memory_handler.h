@@ -7,6 +7,8 @@
 
 static const int default_game_len_c = 20;
 
+class Game_board;
+
 class Memory_handler {
 
 public:
@@ -27,7 +29,7 @@ public:
     std::vector<int> get_current_sequence() { return cur_sequence; }
 
     //plays the next note waiting in the sequence
-    int play_next_note();
+    int play_next_note(Game_board& gb);
 
     //plays the note as a "correct" note
     void play_specified_note(int note, bool block);
@@ -45,6 +47,7 @@ private:
 
     int cur_seq_length;
     int cur_note;
+    int prev_note;
 
     std::vector<int> full_sequence; 
     std::vector<int> cur_sequence;

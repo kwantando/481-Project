@@ -15,7 +15,7 @@ $(PROG): $(OBJS)
 Controller.o: memory_handler.o songinfoparser.o beat_sequence.h Game_board.o qdsleep.o Controller.cpp Controller.h
 	$(LD) $(CFLAGS) Controller.cpp -o Controller.o
 
-memory_handler.o: qdsleep.o memory_handler.cpp memory_handler.h
+memory_handler.o: qdsleep.o memory_handler.cpp memory_handler.h Game_board.h
 	$(LD) $(CFLAGS) memory_handler.cpp -o memory_handler.o
 
 qdsleep.o: qdsleep.h qdsleep.cpp

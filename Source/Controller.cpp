@@ -162,12 +162,8 @@ void Controller::init_controller() {
 
 	// Play pattern notes.
 	int button = 0;
-    int old_button = 0;
-	while ((button = mem_hand->play_next_note()) != -1) {
-		g_board->switch_off_button(old_button);
-		g_board->switch_on_button(button);
+	while ((button = mem_hand->play_next_note(*g_board)) != -1) {
         cout << "Just played " << button + 1 << " note!" << endl;
-        old_button = button;
 	}
 	g_board->clear_buttons();
 	qdsleep(500);

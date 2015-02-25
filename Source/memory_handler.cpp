@@ -1,5 +1,6 @@
 #include "memory_handler.h"
 #include "qdsleep.h"
+#include "Game_board.h"
 #include <SFML/System.hpp>
 #include <stdexcept>
 #include <sstream>
@@ -34,7 +35,7 @@ const char* const fail_file_name_c = "fail";
 //constructs the handler by reading in the song data from filename
 //and then loading the chords for the song
 Memory_handler::Memory_handler(int length)
- : cur_seq_length(5), cur_note(0)
+ : cur_seq_length(5), cur_note(0), prev_note(0)
 {
     srand(time(NULL));
     full_sequence.resize(length);
@@ -155,12 +156,16 @@ void Memory_handler::run_sequence(const Beat_sequence& seq)
 }
 //plays the next note in the sequence, returning the note that was played(1-6)
 //returns -1 if the sequence is over
-int Memory_handler::play_next_note()
+int Memory_handler::play_next_note(Game_board& gb)
 {
     if(cur_note >= cur_sequence.size()) {
         notes[cur_sequence[cur_note - 1]]->stop();
         return done_playing_c;
     }
+    int next_note = cur_sequence[cur_note];
+    gb.switch_off_button(prev_note);
+    gb.switch_on_button(next_note);
+    prev_note = next_note;
     //if the next note is out of sequence size, means we've played out this sequence
     play_specified_note(cur_note, true);
     return cur_sequence[cur_note++];
