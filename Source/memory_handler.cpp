@@ -25,7 +25,7 @@ using std::shared_ptr;
 
 const int done_playing_c = -1;
 const int num_notes_c = 6;
-const int default_note_wait_c = 550;
+const int default_note_wait_c = 450;
 const char* const notes_dir_c = "Notes/";
 const char* const default_note_filetype_c = ".ogg";
 const char* const note_file_name_c = "n";//n + number, of course
@@ -35,7 +35,7 @@ const char* const fail_file_name_c = "fail";
 //constructs the handler by reading in the song data from filename
 //and then loading the chords for the song
 Memory_handler::Memory_handler(int length)
- : cur_seq_length(5), cur_note(0), prev_note(0)
+ : cur_seq_length(5), cur_note(0)
 {
     srand(time(NULL));
     full_sequence.resize(length);
@@ -162,24 +162,24 @@ int Memory_handler::play_next_note(Game_board& gb)
         notes[cur_sequence[cur_note - 1]]->stop();
         return done_playing_c;
     }
-    int next_note = cur_sequence[cur_note];
-    gb.switch_off_button(prev_note);
-    gb.switch_on_button(next_note);
-    prev_note = next_note;
     //if the next note is out of sequence size, means we've played out this sequence
-    play_specified_note(cur_note, true);
+    play_specified_note(cur_note, true, gb);
     return cur_sequence[cur_note++];
 }
 //plays the note passed to it in the -currently loaded- sequence
 //undefined behavior if no sequence is currently loaded
-void Memory_handler::play_specified_note(int note, bool block)
+void Memory_handler::play_specified_note(int cur, bool block, Game_board& gb)
 {
     //if(note < 0 || note >= num_notes_c) {
     //    throw runtime_error{"play_correct_note passed note out of range"};
     //}
-    notes[cur_sequence[note]]->play();
+    int cur_note = cur_sequence[cur];
+    notes[cur_note]->play();
+    if(cur > 0)
+        gb.switch_off_button(cur_sequence[cur-1]);
+    gb.switch_on_button(cur_note);
 	qdsleep(default_note_wait_c);
-    notes[cur_sequence[note]]->stop();
+    notes[cur_note]->stop();
     //returns when note has finished playing
 }
 

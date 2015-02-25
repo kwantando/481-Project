@@ -32,7 +32,7 @@ public:
     int play_next_note(Game_board& gb);
 
     //plays the note as a "correct" note
-    void play_specified_note(int note, bool block);
+    void play_specified_note(int note, bool block, Game_board& gb);
 
     //stops all other notes and plays the failure-boop. 
     void play_fail_note();
@@ -47,7 +47,6 @@ private:
 
     int cur_seq_length;
     int cur_note;
-    int prev_note;
 
     std::vector<int> full_sequence; 
     std::vector<int> cur_sequence;

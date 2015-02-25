@@ -11,11 +11,13 @@ using namespace sf;
 using namespace std;
 
 const int start_lives_c = 5;
+const int max_notes_c = 6;
 
 bool Controller::was_pressed = false;
 
 static vector<keypads_e> convert_int_to_keypads(const vector<int>& vc);
-
+//clears the board of any lit lights
+void clear_board(Game_board& g_board);
 
 
 static vector<keypads_e> convert_int_to_keypads(const vector<int>& vc) {
@@ -118,13 +120,14 @@ void Controller::command_switch(const sf::Event& event) {
 		if (static_cast<keypads_e>(event.key.code) == sequence[seq_it]) {
 
 			DEBUG_MSG("Correct input entered.");
-			mem_hand->play_specified_note(seq_it, false);
+			mem_hand->play_specified_note(seq_it, false, *g_board);
 			++seq_it;
 
 			if (seq_it >= sequence.size()) {
 
 				mem_hand->next_sequence(true);
 				DEBUG_MSG("PATTERN SUCCESSFULLY REPEATED! Upping difficulty...");
+				clear_board(*g_board);
 				init_controller();
 
 			}
@@ -170,4 +173,11 @@ void Controller::init_controller() {
 
 	seq_it = 0;
 
+}
+
+void clear_board(Game_board& g_board)
+{
+	for(int i = 0; i < max_notes_c; i++) {
+		g_board.switch_off_button(i);
+	}
 }
