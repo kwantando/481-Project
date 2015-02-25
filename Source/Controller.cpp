@@ -63,8 +63,52 @@ Controller::Controller(std::string music_filename, std::string data_filename,
                        int argc, char* argv[]) : 
 					   lives(start_lives_c) {
 
-	//Song_info_parser sparser(data_filename);
 	mem_hand = new Memory_handler();
+	event_window = new RenderWindow(VideoMode(150, 100),
+		                            "Event_Handler_Window");
+
+	if (!button_texture.loadFromFile("../Resources/button.png",
+		                             IntRect(0, 0, 100, 100))) {
+
+		throw exception("Failed to load the texture");
+
+	}
+
+	for (int i = 0; i < 6; ++i) {
+
+		button_sprites.push_back(Sprite(button_texture));
+
+		switch (i) {
+		case 0:
+			button_sprites[i].setPosition(Vector2f(0, 0));
+			note_colors.push_back(Color::Red);
+			break;
+		case 1:
+			button_sprites[i].setPosition(Vector2f(50, 0));
+			note_colors.push_back(Color::Green);
+			break;
+		case 2:
+			button_sprites[i].setPosition(Vector2f(100, 0));
+			note_colors.push_back(Color::Blue);
+			break;
+		case 3:
+			button_sprites[i].setPosition(Vector2f(0, 50));
+			note_colors.push_back(Color::Yellow);
+			break;
+		case 4:
+			button_sprites[i].setPosition(Vector2f(50, 50));
+			note_colors.push_back(Color::Magenta);
+			break;
+		case 5:
+			button_sprites[i].setPosition(Vector2f(100, 50));
+			note_colors.push_back(Color::Cyan);
+			break;
+		default:
+			break;
+		}
+
+
+	}
 
 
 	DEBUG_MSG("constructed successfully");
@@ -74,7 +118,9 @@ Controller::Controller(std::string music_filename, std::string data_filename,
 Controller::~Controller() {
 
 	delete mem_hand;
+	delete event_window;
 	DEBUG_MSG("destructed successfully");
+
 }
 
 // This function will do any preprocessing necessary before entering
@@ -82,54 +128,22 @@ Controller::~Controller() {
 // keyboard input.
 void Controller::start_reading_input() {
 
-	RenderWindow event_window(VideoMode(150,100), "Event_Handler_Window");
-	Texture texture;
-	if (!texture.loadFromFile("../Resources/button.png", IntRect(0, 0, 100, 100))) {
-
-		cout << "Failed to load a texture" << endl;
-
-	}
-
-	Sprite ball1(texture);
-	Sprite ball2(texture);
-	Sprite ball3(texture);
-	Sprite ball4(texture);
-	Sprite ball5(texture);
-	Sprite ball6(texture);
-
-	event_window.clear();
-	ball1.setPosition(Vector2f(0, 0));
-	event_window.draw(ball1);
-	ball2.setPosition(Vector2f(50, 0));
-	event_window.draw(ball2);
-	ball3.setPosition(Vector2f(100, 0));
-	event_window.draw(ball3);
-	ball4.setPosition(Vector2f(0, 50));
-	event_window.draw(ball4);
-	ball5.setPosition(Vector2f(50, 50));
-	event_window.draw(ball5);
-	ball6.setPosition(Vector2f(100, 50));
-	ball6.setColor(sf::Color(0, 255, 0)); // green
-	event_window.draw(ball6);
-	event_window.display();
+//	ball6.setColor(sf::Color(0, 255, 0)); // green
+//	event_window->display();
+	redraw_window();
 
 	init_controller();
 
 	Event event;
 	while (true) {
-		
-		event_window.clear();
-		// redraw
-		event_window.display();
 
-		if (event_window.waitEvent(event)) {	// block for initial event
+		if (event_window->waitEvent(event)) {	// block for initial event
 			Event tmp_ev;
-			while (event_window.pollEvent(tmp_ev));	// discard events in queue
+			while (event_window->pollEvent(tmp_ev));	// discard events in queue
 			// This essentially disables event stacking, which does not
 			// work well with the game type we have.
 			command_switch(event);
 		}
-		//event_window.pollEvent(event);
 
 	}
 
@@ -179,34 +193,6 @@ void Controller::command_switch(const sf::Event& event) {
 
 		}
 
-		/*
-		switch (event.key.code) {
-
-		case KEYPAD1:
-			DEBUG_MSG("keypad1 pressed.");
-			break;
-		case KEYPAD2:
-			DEBUG_MSG("keypad2 pressed.");
-			break;
-		case KEYPAD3:
-			DEBUG_MSG("keypad3 pressed.");
-			break;
-		case KEYPAD4:
-			DEBUG_MSG("keypad4 pressed.");
-			break;
-		case KEYPAD5:
-			DEBUG_MSG("keypad5 pressed.");
-			break;
-		case KEYPAD6:
-			DEBUG_MSG("keypad6 pressed.");
-			break;
-		default:
-
-			break;
-
-		}
-		*/
-
 		was_pressed = true;
 
 	}
@@ -224,12 +210,31 @@ void Controller::init_controller() {
 	int note = 0;
     int old_button = 0;
 	while ((note = mem_hand->play_next_note()) != -1) {
+		button_sprites[note].setColor(note_colors[note]);
+		button_sprites[old_button].setColor(Color::White);
+		redraw_window();
         cout << "Just played " << note + 1 << " note!" << endl;
         old_button = note;
 	}
+	button_sprites[old_button].setColor(Color::White);
+	redraw_window();
 	qdsleep(250);
 
 	seq_it = 0;
 
 }
 
+// Redraws the window based on the sprite vector/their positions/colors.
+void Controller::redraw_window() {
+
+	event_window->clear();
+
+	for (Sprite& spr : button_sprites) {
+
+		event_window->draw(spr);
+
+	}
+
+	event_window->display();
+	
+}

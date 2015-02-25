@@ -5,6 +5,7 @@
 #include <string>
 
 class Memory_handler;
+
 // Useful keyboard key constants.
 enum keypads_e {KEYPAD1 = sf::Keyboard::Up,
 				KEYPAD2 = sf::Keyboard::Left,
@@ -49,15 +50,28 @@ private:
     void switch_off_button(int note);
     //switches the button to now display
     void switch_on_button(int note);
+	// Redraws the window based on the sprite vector/their positions/colors.
+	void redraw_window();
+	
 
 	// Pointer to memory_handler for the song sequences.
 	Memory_handler* mem_hand;
 
+	// Pointer to event/output window for the game.
+	sf::RenderWindow* event_window;
+
+	// Textures
+	sf::Texture button_texture;
+
+	// Sprite container
+	std::vector<sf::Sprite> button_sprites;
+
+	// Note color container
+	std::vector<sf::Color> note_colors;
+
 	// Contains the sequence that is currently requested of the user.
 	std::vector<keypads_e> sequence;
 	std::vector<int> note_sequence;
-
-
 
 	// Invariant: This int iterator always points to the next expected sequence
 	// value, both in sequence and note_sequence.
