@@ -135,10 +135,10 @@ void Controller::command_switch(const sf::Event& event) {
 		}
 		else {
 
+			mem_hand->play_fail_note();
 			--lives;
 			if (lives <= 0) {
 
-				mem_hand->play_fail_note();
 				DEBUG_MSG("You lost!");
 				exit(0);
 
