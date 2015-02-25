@@ -1,14 +1,17 @@
 #include "Game_board.h"
+#include <stdexcept>
 
+using sf::Color;
+using sf::Vector2f;
 
 Game_board::Game_board(sf::RenderWindow* event_ptr) 
 {
-	event_ptr = event_window = new RenderWindow(VideoMode(625, 930),
+	event_ptr = event_window = new sf::RenderWindow(sf::VideoMode(625, 930),
 			                            "Event_Handler_Window");
 
 	if (!button_texture.loadFromFile("../Resources/button300.png",
-			                             IntRect(0, 0, 300, 300))) {
-		throw exception("Failed to load the texture");
+			                             sf::IntRect(0, 0, 300, 300))) {
+		throw std::runtime_error("Failed to load the texture");
 	}
 
 	init_buttons();
@@ -29,7 +32,7 @@ void Game_board::switch_off_button(int button)
 
 void Game_board::switch_on_button(int button)
 {
-	button_sprites[button].setColor(note_colors[note]);
+	button_sprites[button].setColor(note_colors[button]);
 	redraw_window();
 }
 
@@ -44,7 +47,7 @@ void Game_board::clear_buttons()
 void Game_board::init_buttons() 
 {
 	for (int i = 0; i < 6; ++i) {
-		button_sprites.push_back(Sprite(button_texture));
+		button_sprites.push_back(sf::Sprite(button_texture));
 
 		switch (i) {
 		case 0:
@@ -84,7 +87,7 @@ void Game_board::redraw_window()
 
 	event_window->clear();
 
-	for (Sprite& spr : button_sprites) {
+	for (sf::Sprite& spr : button_sprites) {
 
 		event_window->draw(spr);
 

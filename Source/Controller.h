@@ -5,7 +5,7 @@
 #include <string>
 
 class Memory_handler;
-
+class Game_board;
 // Useful keyboard key constants.
 enum keypads_e {KEYPAD1 = sf::Keyboard::Up,
 				KEYPAD2 = sf::Keyboard::Left,
@@ -15,8 +15,8 @@ enum keypads_e {KEYPAD1 = sf::Keyboard::Up,
 				KEYPAD6 = sf::Keyboard::Num6};
 
 // This class is designed as a main way to control the behavior of the game
-// based on user inputs from the keyboard.
-  
+// based on user inputs from the keyboard.  
+
 class Controller {
 
 public:

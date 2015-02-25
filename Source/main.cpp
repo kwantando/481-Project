@@ -13,9 +13,8 @@ int main(int argc, char* argv[])
 	Controller main_ctrl{ "Victors.wav",
                           "C:\\Users\\oleks\\Dropbox\\eecs481\\Project\\MainProjectRepo\\Source\\victors.txt" ,
                         argc, argv};
-    #elif defined TARGET_OS_MAC || defined __linux__
-    Controller main_ctrl{"Victors.wav", "victors.txt",
-                        argc, argv};
+    #else
+    Controller main_ctrl{"Victors.wav", "victors.txt", argc, argv};
     #endif
 	main_ctrl.start_reading_input();
 

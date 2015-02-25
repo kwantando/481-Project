@@ -35,4 +35,6 @@ private:
 	// Redraws the window based on the sprite vector/their positions/colors.
 	void redraw_window();
 
-}
+};
+
+#endif
