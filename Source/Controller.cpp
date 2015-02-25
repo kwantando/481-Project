@@ -64,52 +64,7 @@ Controller::Controller(std::string music_filename, std::string data_filename,
 					   lives(start_lives_c) {
 
 	mem_hand = new Memory_handler();
-	event_window = new RenderWindow(VideoMode(150, 100),
-		                            "Event_Handler_Window");
-
-	if (!button_texture.loadFromFile("../Resources/button.png",
-		                             IntRect(0, 0, 100, 100))) {
-
-		throw exception("Failed to load the texture");
-
-	}
-
-	for (int i = 0; i < 6; ++i) {
-
-		button_sprites.push_back(Sprite(button_texture));
-
-		switch (i) {
-		case 0:
-			button_sprites[i].setPosition(Vector2f(0, 0));
-			note_colors.push_back(Color::Red);
-			break;
-		case 1:
-			button_sprites[i].setPosition(Vector2f(50, 0));
-			note_colors.push_back(Color::Green);
-			break;
-		case 2:
-			button_sprites[i].setPosition(Vector2f(100, 0));
-			note_colors.push_back(Color::Blue);
-			break;
-		case 3:
-			button_sprites[i].setPosition(Vector2f(0, 50));
-			note_colors.push_back(Color::Yellow);
-			break;
-		case 4:
-			button_sprites[i].setPosition(Vector2f(50, 50));
-			note_colors.push_back(Color::Magenta);
-			break;
-		case 5:
-			button_sprites[i].setPosition(Vector2f(100, 50));
-			note_colors.push_back(Color::Cyan);
-			break;
-		default:
-			break;
-		}
-
-
-	}
-
+	g_board = new Game_board(event_window);
 
 	DEBUG_MSG("constructed successfully");
 }
@@ -118,7 +73,7 @@ Controller::Controller(std::string music_filename, std::string data_filename,
 Controller::~Controller() {
 
 	delete mem_hand;
-	delete event_window;
+	delete g_board;
 	DEBUG_MSG("destructed successfully");
 
 }
@@ -130,8 +85,6 @@ void Controller::start_reading_input() {
 
 //	ball6.setColor(sf::Color(0, 255, 0)); // green
 //	event_window->display();
-	redraw_window();
-
 	init_controller();
 
 	Event event;
@@ -207,34 +160,17 @@ void Controller::init_controller() {
 	sequence = convert_int_to_keypads(note_sequence);
 
 	// Play pattern notes.
-	int note = 0;
+	int button = 0;
     int old_button = 0;
-	while ((note = mem_hand->play_next_note()) != -1) {
-		button_sprites[note].setColor(note_colors[note]);
-		button_sprites[old_button].setColor(Color::White);
-		redraw_window();
-        cout << "Just played " << note + 1 << " note!" << endl;
-        old_button = note;
+	while ((button = mem_hand->play_next_note()) != -1) {
+		g_board->switch_off_button(old_button);
+		g_board->switch_on_button(button);
+        cout << "Just played " << button + 1 << " note!" << endl;
+        old_button = button;
 	}
-	button_sprites[old_button].setColor(Color::White);
-	redraw_window();
+	g_board->clear_buttons();
 	qdsleep(250);
 
 	seq_it = 0;
 
-}
-
-// Redraws the window based on the sprite vector/their positions/colors.
-void Controller::redraw_window() {
-
-	event_window->clear();
-
-	for (Sprite& spr : button_sprites) {
-
-		event_window->draw(spr);
-
-	}
-
-	event_window->display();
-	
 }
