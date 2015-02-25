@@ -3,8 +3,6 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
-#include <QApplication>
-#include "board_widget.h"
 
 class Memory_handler;
 // Useful keyboard key constants.
@@ -59,9 +57,6 @@ private:
 	std::vector<keypads_e> sequence;
 	std::vector<int> note_sequence;
 
-    //holds the actual graphical representation of notes as played
-    QApplication qapp;
-    Board_Widget display;
 
 
 	// Invariant: This int iterator always points to the next expected sequence

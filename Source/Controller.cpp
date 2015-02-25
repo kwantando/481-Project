@@ -15,8 +15,7 @@ bool Controller::was_pressed = false;
 
 static vector<keypads_e> convert_int_to_keypads(const vector<int>& vc);
 
-//returns the button_event equivalent of note and toggle
-Button_Event get_button(int note, bool toggle);
+
 
 static vector<keypads_e> convert_int_to_keypads(const vector<int>& vc) {
 
@@ -61,13 +60,12 @@ static vector<keypads_e> convert_int_to_keypads(const vector<int>& vc) {
 // This constructor creates a game controller based on the given music_filename.
 // It will create a new song object that will be buffered from that filename.
 Controller::Controller(std::string music_filename, std::string data_filename,
-                       int argc, char* argv[]) : qapp(argc, argv),
+                       int argc, char* argv[]) : 
 					   lives(start_lives_c) {
 
 	//Song_info_parser sparser(data_filename);
 	mem_hand = new Memory_handler();
 
-    display.show();
 
 	DEBUG_MSG("constructed successfully");
 }
@@ -193,8 +191,6 @@ void Controller::init_controller() {
 	int note = 0;
     int old_button = 0;
 	while ((note = mem_hand->play_next_note()) != -1) {
-        switch_off_button(old_button);
-        switch_on_button(note);
         cout << "Just played " << note + 1 << " note!" << endl;
         old_button = note;
 	}
@@ -204,53 +200,3 @@ void Controller::init_controller() {
 
 }
 
-Button_Event get_button(int note, bool toggle)
-{
-    if(toggle) {
-        switch(note) {
-            case 0:
-                return Button_Event::LIGHT_TOP_LEFT;
-            case 1:
-                return Button_Event::LIGHT_TOP_MIDDLE;
-            case 2:
-                return Button_Event::LIGHT_TOP_RIGHT;
-            case 3:
-                return Button_Event::LIGHT_BOTTOM_LEFT;
-            case 4:
-                return Button_Event::LIGHT_BOTTOM_MIDDLE;
-            case 5:
-                return Button_Event::LIGHT_BOTTOM_RIGHT;
-            default:
-                throw runtime_error{"Unrecognized note found."};
-        }
-    }
-    else {
-        switch(note) {
-            case 0:
-                return Button_Event::CLEAR_TOP_LEFT;
-            case 1:
-                return Button_Event::CLEAR_TOP_MIDDLE;
-            case 2:
-                return Button_Event::CLEAR_TOP_RIGHT;
-            case 3:
-                return Button_Event::CLEAR_BOTTOM_LEFT;
-            case 4:
-                return Button_Event::CLEAR_BOTTOM_MIDDLE;
-            case 5:
-                return Button_Event::CLEAR_BOTTOM_RIGHT;
-            default:
-                throw runtime_error{"Unrecognized note found."};
-        }
-    }
-
-}
-
-void Controller::switch_off_button(int note)
-{
-    display.trigger(get_button(note, false));
-}
-
-void Controller::switch_on_button(int note)
-{
-    display.trigger(get_button(note, true));
-}

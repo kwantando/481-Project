@@ -373,7 +373,7 @@
 			"file": "Source/Controller.cpp",
 			"settings":
 			{
-				"buffer_size": 3647,
+				"buffer_size": 5694,
 				"line_ending": "Unix"
 			}
 		},
@@ -441,7 +441,7 @@
 			"file": "Source/Controller.h",
 			"settings":
 			{
-				"buffer_size": 1808,
+				"buffer_size": 2272,
 				"line_ending": "Unix"
 			}
 		}
@@ -827,8 +827,8 @@
 						"selection":
 						[
 							[
-								5561,
-								5638
+								5562,
+								5562
 							]
 						],
 						"settings":
@@ -841,8 +841,8 @@
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": 34.0,
-						"translation.y": 2363.0,
+						"translation.x": 0.0,
+						"translation.y": 2408.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -868,6 +868,8 @@
 						"settings":
 						{
 							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
 							"syntax": "Packages/C++/C.tmLanguage"
 						},
 						"translation.x": 0.0,
@@ -915,7 +917,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3647,
+						"buffer_size": 5694,
 						"regions":
 						{
 						},
@@ -1179,7 +1181,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1808,
+						"buffer_size": 2272,
 						"regions":
 						{
 						},
