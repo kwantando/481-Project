@@ -170,7 +170,7 @@ void Controller::init_controller() {
         old_button = button;
 	}
 	g_board->clear_buttons();
-	qdsleep(250);
+	qdsleep(500);
 
 	seq_it = 0;
 

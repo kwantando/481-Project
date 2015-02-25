@@ -5,7 +5,7 @@
 
 class Game_board {
 public:
-	Game_board(sf::RenderWindow* event);
+	Game_board(sf::RenderWindow*& event);
 	~Game_board();
 
 	//switches the button to no color

@@ -4,7 +4,7 @@
 using sf::Color;
 using sf::Vector2f;
 
-Game_board::Game_board(sf::RenderWindow* event_ptr) 
+Game_board::Game_board(sf::RenderWindow*& event_ptr) 
 {
 	event_ptr = event_window = new sf::RenderWindow(sf::VideoMode(930, 625),
 			                            "Event_Handler_Window");
