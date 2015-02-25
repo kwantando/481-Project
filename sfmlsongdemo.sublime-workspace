@@ -373,7 +373,7 @@
 			"file": "Source/Controller.cpp",
 			"settings":
 			{
-				"buffer_size": 5694,
+				"buffer_size": 3652,
 				"line_ending": "Unix"
 			}
 		},
@@ -386,10 +386,7 @@
 			}
 		},
 		{
-			"contents": "#include \"song.h\"\n#include \"Controller.h\"\n#include <SFML/System.hpp>\n#include <iostream>\n#include <fstream>\n#include <utility>\n#include <memory>\n#include <cstdlib>\n#include <exception>\n#include <cctype>\n\n\nconst char* const default_song_data_file_c = \"victors.txt\";\nconst char* const default_song_file_c = \"Victors.wav\";\nconst char easy_difficulty_c = 'E';\nconst char med_difficulty_c = 'M';\nconst char hard_difficulty_c = 'H';\n\nusing namespace std;\n//\nint main()\n{\n    ifstream songreader {default_library_file_c};\n    int num_songs;\n    vector<std::shared_ptr<Song>> songs;\n    songreader >> num_songs; \n    songs.resize(num_songs);\n    for(int i = 0; i < num_songs; i++) {\n        songs[i] = shared_ptr<Song>(new Song{songreader});\n    }\n    //the following isn't done maintainable, but this is meant\n    //as a proof of concept\n    char read_data;\n    int song_num;\n    cout << \"Please pick song 1-3.\\n\";\n    cin >> song_num;\n    song_num -= 1;\n    if(!cin) {\n        throw runtime_error{\"Error: Please give song in int format.\"};\n    }\n    cout << \"Okay. Please pick (E)asy, (M)edium, or (H)ard.\\n\";\n    while(true) {\n        cin >> read_data;\n        read_data = toupper(read_data);\n        if(read_data == easy_difficulty_c) {\n            songs[song_num]->adjust_bpm(0.125);\n        }\n        else if(read_data == med_difficulty_c) {\n            songs[song_num]->adjust_bpm(0.25);\n        }\n        else if(read_data == hard_difficulty_c) {\n            songs[song_num]->adjust_bpm(0.5);\n        }\n        else {\n            cout << \"Please select either Easy, Medium, or Hard with E, M, or H.\\n\";\n            continue;\n        }\n        break;\n    }\n    double beats_period = 1.0/ (songs[song_num]->get_bpm() / 60);\n    double next_beat = beats_period;\n    int success_beats = 0, failure_beats = 0;\n    songs[song_num]->play();\n    while(songs[song_num]->is_playing()) {\n        double cur_time = songs[song_num]->get_time().asSeconds();\n        if(cur_time >= next_beat) {\n            cerr << \"boop: \" << cur_time << \"\\n\";\n            next_beat += beats_period;\n        }\n        //if(cin.get() == 'q')\n        //    return 0;\n    }\n    cout << \"Song is over.\\n\";\n    return 0;\n}\n",
 			"file": "Source/song_demo.cpp",
-			"file_size": 2187,
-			"file_write_time": 130687584640000000,
 			"settings":
 			{
 				"buffer_size": 2187,
@@ -441,7 +438,7 @@
 			"file": "Source/Controller.h",
 			"settings":
 			{
-				"buffer_size": 2272,
+				"buffer_size": 2065,
 				"line_ending": "Unix"
 			}
 		}
@@ -629,7 +626,7 @@
 	],
 	"find":
 	{
-		"height": 35.0
+		"height": 23.0
 	},
 	"find_in_files":
 	{
@@ -745,7 +742,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 12,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -777,7 +774,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -811,7 +808,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -827,8 +824,8 @@
 						"selection":
 						[
 							[
-								5562,
-								5562
+								6194,
+								6194
 							]
 						],
 						"settings":
@@ -842,7 +839,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2408.0,
+						"translation.y": 2737.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -876,7 +873,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
@@ -908,7 +905,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
@@ -917,15 +914,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5694,
+						"buffer_size": 3652,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3555,
-								3555
+								0,
+								0
 							]
 						],
 						"settings":
@@ -940,7 +937,7 @@
 						"translation.y": 2078.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
@@ -973,7 +970,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
@@ -1077,7 +1074,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
@@ -1110,7 +1107,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
@@ -1141,7 +1138,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
@@ -1172,7 +1169,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 11,
 					"type": "text"
 				},
 				{
@@ -1181,7 +1178,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2272,
+						"buffer_size": 2065,
 						"regions":
 						{
 						},
@@ -1204,7 +1201,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 11,
+					"stack_index": 12,
 					"type": "text"
 				}
 			]

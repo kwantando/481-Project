@@ -6,10 +6,10 @@ using sf::Vector2f;
 
 Game_board::Game_board(sf::RenderWindow* event_ptr) 
 {
-	event_ptr = event_window = new sf::RenderWindow(sf::VideoMode(625, 930),
+	event_ptr = event_window = new sf::RenderWindow(sf::VideoMode(930, 625),
 			                            "Event_Handler_Window");
 
-	if (!button_texture.loadFromFile("../Resources/button300.png",
+	if (!button_texture.loadFromFile("button300.png",
 			                             sf::IntRect(0, 0, 300, 300))) {
 		throw std::runtime_error("Failed to load the texture");
 	}
