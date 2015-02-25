@@ -82,13 +82,46 @@ Controller::~Controller() {
 // keyboard input.
 void Controller::start_reading_input() {
 
-	Window event_window(VideoMode(5,5), "Event_Handler_Window");
+	RenderWindow event_window(VideoMode(150,100), "Event_Handler_Window");
+	Texture texture;
+	if (!texture.loadFromFile("../Resources/button.png", IntRect(0, 0, 100, 100))) {
+
+		cout << "Failed to load a texture" << endl;
+
+	}
+
+	Sprite ball1(texture);
+	Sprite ball2(texture);
+	Sprite ball3(texture);
+	Sprite ball4(texture);
+	Sprite ball5(texture);
+	Sprite ball6(texture);
+
+	event_window.clear();
+	ball1.setPosition(Vector2f(0, 0));
+	event_window.draw(ball1);
+	ball2.setPosition(Vector2f(50, 0));
+	event_window.draw(ball2);
+	ball3.setPosition(Vector2f(100, 0));
+	event_window.draw(ball3);
+	ball4.setPosition(Vector2f(0, 50));
+	event_window.draw(ball4);
+	ball5.setPosition(Vector2f(50, 50));
+	event_window.draw(ball5);
+	ball6.setPosition(Vector2f(100, 50));
+	ball6.setColor(sf::Color(0, 255, 0)); // green
+	event_window.draw(ball6);
+	event_window.display();
 
 	init_controller();
 
 	Event event;
 	while (true) {
 		
+		event_window.clear();
+		// redraw
+		event_window.display();
+
 		if (event_window.waitEvent(event)) {	// block for initial event
 			Event tmp_ev;
 			while (event_window.pollEvent(tmp_ev));	// discard events in queue
