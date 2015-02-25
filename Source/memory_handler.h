@@ -36,6 +36,8 @@ public:
 
     //stops all other notes and plays the failure-boop. 
     void play_fail_note();
+    //stops all other notes and plays the success-boop.
+    void play_success_note();
 
 private:
     //runs the given sequence;
@@ -52,6 +54,7 @@ private:
     std::vector<int> cur_sequence;
     std::vector<std::shared_ptr<sf::Music>> notes;
     std::shared_ptr<sf::Music> fail_note;
+    std::shared_ptr<sf::Music> success_note;
     sf::Music song_data;
 };
 
