@@ -7,11 +7,11 @@
 class Memory_handler;
 class Game_board;
 // Useful keyboard key constants.
-enum keypads_e {KEYPAD1 = sf::Keyboard::Up,
-				KEYPAD2 = sf::Keyboard::Left,
-				KEYPAD3 = sf::Keyboard::Right,
-				KEYPAD4 = sf::Keyboard::Down,
-				KEYPAD5 = sf::Keyboard::Space,
+enum keypads_e {KEYPAD1 = sf::Keyboard::Num1,
+				KEYPAD2 = sf::Keyboard::Num2,
+				KEYPAD3 = sf::Keyboard::Num3,
+				KEYPAD4 = sf::Keyboard::Num4,
+				KEYPAD5 = sf::Keyboard::Num5,
 				KEYPAD6 = sf::Keyboard::Num6};
 
 // This class is designed as a main way to control the behavior of the game
