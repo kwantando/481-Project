@@ -46,28 +46,14 @@ private:
 	// This function initializes or reinitializes the
 	// controller to some basic state.
 	void init_controller();
-    //switches the button to no longer display
-    void switch_off_button(int note);
-    //switches the button to now display
-    void switch_on_button(int note);
-	// Redraws the window based on the sprite vector/their positions/colors.
-	void redraw_window();
 	
-
 	// Pointer to memory_handler for the song sequences.
 	Memory_handler* mem_hand;
 
-	// Pointer to event/output window for the game.
+	Game_board* g_board;
+
+	// Pointer to event/output window for the game
 	sf::RenderWindow* event_window;
-
-	// Textures
-	sf::Texture button_texture;
-
-	// Sprite container
-	std::vector<sf::Sprite> button_sprites;
-
-	// Note color container
-	std::vector<sf::Color> note_colors;
 
 	// Contains the sequence that is currently requested of the user.
 	std::vector<keypads_e> sequence;
