@@ -11,13 +11,27 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = game_board
 TEMPLATE = app
 
+INCLUDEPATH += /usr/local/include
 
-SOURCES += main.cpp\
-        board_widget.cpp
+LIBS += -L "/usr/local/lib" -lsfml-audio -lsfml-system -lsfml-graphics -lsfml-window
 
-HEADERS  += board_widget.h
+SOURCES +=\
+        board_widget.cpp \
+    ../Controller.cpp \
+    ../main.cpp \
+    ../memory_handler.cpp \
+    ../songinfoparser.cpp \
+    ../qdsleep.cpp \
+    qt_main.cpp
+
+HEADERS  += board_widget.h \
+    ../beat_sequence.h \
+    ../Controller.h \
+    ../memory_handler.h \
+    ../songinfoparser.h \
+    ../qdsleep.h
 
 DISTFILES += \
     button_animation.qml
 
-CONFIG += c++11
+CONFIG += c++11 lsfml-audio lsfml-system lsfml-graphics lsfml-window

@@ -4,6 +4,26 @@
 		"selected_items":
 		[
 			[
+				"fail_note",
+				"fail_note_loc"
+			],
+			[
+				"defa",
+				"default_note_filetype_c"
+			],
+			[
+				"fail",
+				"fail_file_name_c"
+			],
+			[
+				"notes",
+				"notes_dir_c"
+			],
+			[
+				"default_",
+				"default_note_wait_c"
+			],
+			[
 				"note",
 				"num_notes_c"
 			],
@@ -73,10 +93,6 @@
 			],
 			[
 				"default",
-				"default_threads_c"
-			],
-			[
-				"defa",
 				"default_threads_c"
 			],
 			[
@@ -332,9 +348,17 @@
 			"file": "Source/memory_handler.cpp",
 			"settings":
 			{
-				"buffer_size": 5593,
+				"buffer_size": 6527,
 				"line_ending": "Unix",
 				"name": "#include \"memory_handler.h\""
+			}
+		},
+		{
+			"file": "Source/qdsleep.cpp",
+			"settings":
+			{
+				"buffer_size": 294,
+				"line_ending": "Unix"
 			}
 		},
 		{
@@ -349,7 +373,7 @@
 			"file": "Source/Controller.cpp",
 			"settings":
 			{
-				"buffer_size": 2515,
+				"buffer_size": 3647,
 				"line_ending": "Unix"
 			}
 		},
@@ -393,7 +417,7 @@
 			"file": "Source/memory_handler.h",
 			"settings":
 			{
-				"buffer_size": 1513,
+				"buffer_size": 1661,
 				"line_ending": "Unix"
 			}
 		},
@@ -401,7 +425,7 @@
 			"file": "Source/qdsleep.h",
 			"settings":
 			{
-				"buffer_size": 420,
+				"buffer_size": 58,
 				"line_ending": "Unix"
 			}
 		},
@@ -417,7 +441,7 @@
 			"file": "Source/Controller.h",
 			"settings":
 			{
-				"buffer_size": 1397,
+				"buffer_size": 1808,
 				"line_ending": "Unix"
 			}
 		}
@@ -425,7 +449,7 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 67.0,
+		"height": 392.0,
 		"selected_items":
 		[
 			[
@@ -465,7 +489,7 @@
 				"Preferences: Settings - Default"
 			]
 		],
-		"width": 467.0
+		"width": 443.0
 	},
 	"console":
 	{
@@ -620,6 +644,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"qdsleep",
 			"notes",
 			"vector",
 			"beat_locations",
@@ -689,7 +714,7 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -720,7 +745,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 12,
 					"type": "text"
 				},
 				{
@@ -752,7 +777,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
@@ -786,7 +811,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
@@ -795,15 +820,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5593,
+						"buffer_size": 6527,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5499,
-								5499
+								5561,
+								5638
 							]
 						],
 						"settings":
@@ -816,15 +841,44 @@
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
+						"translation.x": 34.0,
+						"translation.y": 2363.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "Source/qdsleep.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 294,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								294,
+								294
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"syntax": "Packages/C++/C.tmLanguage"
+						},
 						"translation.x": 0.0,
-						"translation.y": 1663.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 5,
 					"file": "Source/memory_demo.cpp",
 					"semi_transient": false,
 					"settings":
@@ -836,38 +890,40 @@
 						"selection":
 						[
 							[
-								480,
-								480
+								372,
+								372
 							]
 						],
 						"settings":
 						{
 							"auto_name": "",
 							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
 							"syntax": "Packages/C++ Starting Kit/C++.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 6,
 					"file": "Source/Controller.cpp",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2515,
+						"buffer_size": 3647,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								3555,
+								3555
 							]
 						],
 						"settings":
@@ -879,14 +935,14 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2078.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 12,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 7,
 					"file": "Source/song.cpp",
 					"semi_transient": false,
 					"settings":
@@ -915,11 +971,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 11,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 7,
+					"buffer": 8,
 					"file": "Source/song_demo.cpp",
 					"semi_transient": false,
 					"settings":
@@ -948,17 +1004,17 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 13,
 					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 3,
+			"selected": 2,
 			"sheets":
 			[
 				{
-					"buffer": 8,
+					"buffer": 9,
 					"file": "Source/song.h",
 					"semi_transient": false,
 					"settings":
@@ -987,11 +1043,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 13,
+					"stack_index": 14,
 					"type": "text"
 				},
 				{
-					"buffer": 9,
+					"buffer": 10,
 					"file": "Source/songinfoparser.h",
 					"semi_transient": false,
 					"settings":
@@ -1019,24 +1075,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
-					"buffer": 10,
+					"buffer": 11,
 					"file": "Source/memory_handler.h",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1513,
+						"buffer_size": 1661,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								24,
-								24
+								1100,
+								1100
 							]
 						],
 						"settings":
@@ -1052,40 +1108,42 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 11,
+					"buffer": 12,
 					"file": "Source/qdsleep.h",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 420,
+						"buffer_size": 58,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								213,
-								213
+								52,
+								58
 							]
 						],
 						"settings":
 						{
 							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
 							"syntax": "Packages/C++/C.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 12,
+					"buffer": 13,
 					"file": "Source/beat_sequence.h",
 					"semi_transient": false,
 					"settings":
@@ -1112,24 +1170,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
-					"buffer": 13,
+					"buffer": 14,
 					"file": "Source/Controller.h",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1397,
+						"buffer_size": 1808,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								769,
-								769
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1144,7 +1202,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 11,
 					"type": "text"
 				}
 			]
