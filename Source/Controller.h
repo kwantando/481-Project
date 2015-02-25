@@ -64,6 +64,10 @@ private:
 	// value, both in sequence and note_sequence.
 	int seq_it;
 
+	// Holds the lives that the user has left in this instance
+	// of the game.
+	int lives;
+
 };
 
 #endif

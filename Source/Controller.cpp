@@ -8,6 +8,7 @@
 using namespace sf;
 using namespace std;
 
+const int start_lives_c = 5;
 
 bool Controller::was_pressed = false;
 
@@ -56,7 +57,8 @@ static vector<keypads_e> convert_int_to_keypads(const vector<int>& vc) {
 // This constructor creates a game controller based on the given music_filename.
 // It will create a new song object that will be buffered from that filename.
 Controller::Controller(std::string music_filename, std::string data_filename,
-                       int argc, char* argv[]) : qapp(argc, argv) {
+                       int argc, char* argv[]) : qapp(argc, argv),
+					   lives(start_lives_c) {
 
 	//Song_info_parser sparser(data_filename);
 	mem_hand = new Memory_handler();
@@ -126,6 +128,15 @@ void Controller::command_switch(const sf::Event& event) {
 
 		}
 		else {
+
+			--lives;
+			if (lives <= 0) {
+
+				mem_hand->play_fail_note();
+				DEBUG_MSG("You lost!");
+				exit(0);
+
+			}
 
 			mem_hand->next_sequence(false);
 			DEBUG_MSG("WRONG PATTERN INPUT! Resetting...");
