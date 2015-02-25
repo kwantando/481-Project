@@ -57,11 +57,13 @@ static vector<keypads_e> convert_int_to_keypads(const vector<int>& vc) {
 
 // This constructor creates a game controller based on the given music_filename.
 // It will create a new song object that will be buffered from that filename.
-Controller::Controller(std::string music_filename, std::string data_filename){
+Controller::Controller(std::string music_filename, std::string data_filename,
+                       int argc, char* argv[]) : qapp(argc, argv) {
 
 	//Song_info_parser sparser(data_filename);
 	mem_hand = new Memory_handler();
 
+    display.show();
 
 	DEBUG_MSG("constructed successfully");
 }
@@ -178,10 +180,12 @@ void Controller::init_controller() {
 
 	Board_Widget board_w;
 	int note = 0;
-	while ((note = mem_hand->play_next_note()) != -1) {			// add light control code here.
-
+    int old_button = 0;
+	while ((note = mem_hand->play_next_note()) != -1) {
+        display.trigger(switchOffButton(old_button));
+        display.trigger(switchOnButton(note));
 		cout << "Just played " << note + 1 << " note!" << endl;
-
+        old_button = note;
 	}
 	qdsleep(250);
 

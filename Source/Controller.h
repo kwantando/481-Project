@@ -3,6 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <QApplication>
+#include "board_widget.h"
 
 class Memory_handler;
 // Useful keyboard key constants.
@@ -21,7 +23,8 @@ class Controller {
 public:
 	// This constructor creates a game controller based on the given music_filename.
 	// It will create a new song object that will be buffered from that filename.
-	Controller(std::string music_filename, std::string data_filename);
+    Controller(std::string music_filename, std::string data_filename,
+               int argc, char* argv[]);
 
 	// Clears dynamic memory.
 	~Controller();
@@ -51,6 +54,11 @@ private:
 	// Contains the sequence that is currently requested of the user.
 	std::vector<keypads_e> sequence;
 	std::vector<int> note_sequence;
+
+    //holds the actual graphical representation of notes as played
+    QApplication qapp;
+    Board_Widget display;
+
 
 	// Invariant: This int iterator always points to the next expected sequence
 	// value, both in sequence and note_sequence.

@@ -1,7 +1,8 @@
 #include "board_widget.h"
 #include <iostream>
 
-static bool DEMO = false;
+static const bool DEMO = false;
+
 
 Board_Widget::Board_Widget()
 {
