@@ -20,7 +20,7 @@ using std::move;
 
 const int done_playing_c = -1;
 const int num_notes_c = 6;
-const int default_note_wait_c = 250;
+const int default_note_wait_c = 350;
 const char* const notes_dir_c = "Notes/";
 const char* const default_note_filetype_c = ".ogg";
 const char* const note_file_name_c = "n";//n + number, of course
