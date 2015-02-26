@@ -120,8 +120,10 @@ void Controller::command_switch(const sf::Event& event) {
 			if (seq_it >= sequence.size()) {
 
 				mem_hand->next_sequence(true);
+				mem_hand->play_success_note();
+				qdsleep(750);
 				DEBUG_MSG("PATTERN SUCCESSFULLY REPEATED! Upping difficulty...");
-				g_board->clear_board();
+				g_board->clear_buttons();
 				init_controller();
 
 			}
@@ -130,6 +132,7 @@ void Controller::command_switch(const sf::Event& event) {
 		else {
 
 			mem_hand->play_fail_note();
+			g_board->clear_buttons();
 			--lives;
 			if (lives <= 0) {
 
