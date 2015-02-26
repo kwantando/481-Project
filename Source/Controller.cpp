@@ -83,9 +83,6 @@ Controller::~Controller() {
 // an infinite loop that reads and processes user's commands based on
 // keyboard input.
 void Controller::start_reading_input() {
-
-//	ball6.setColor(sf::Color(0, 255, 0)); // green
-//	event_window->display();
 	init_controller();
 
 	Event event;
@@ -155,7 +152,6 @@ void Controller::command_switch(const sf::Event& event) {
 
 void Controller::init_controller() {
 
-
 	// Generate pattern and place it into the member vector.
 	note_sequence = mem_hand->get_current_sequence();
 	sequence = convert_int_to_keypads(note_sequence);
@@ -169,5 +165,11 @@ void Controller::init_controller() {
 	qdsleep(500);
 
 	seq_it = 0;
+
+}
+
+void Controller::reset_controller() {
+
+	
 
 }
