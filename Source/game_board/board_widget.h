@@ -31,6 +31,10 @@ public:
     Board_Widget();
     void trigger(Button_Event event);
     void demo();
+
+signals:
+    void light();
+    void extinguish();
 private slots:
     // for controller signals
     void trigger_Top_L();

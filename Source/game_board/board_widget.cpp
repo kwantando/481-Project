@@ -1,7 +1,7 @@
 #include "board_widget.h"
 #include <iostream>
 
-static const bool DEMO = false;
+static const bool DEMO = true;
 
 
 Board_Widget::Board_Widget()
@@ -13,19 +13,28 @@ Board_Widget::Board_Widget()
     bottom_middle = new QPushButton("T");
     bottom_right = new QPushButton("Y");
 
+    /*
     top_left->setShortcut(Qt::Key_Q);
     top_middle->setShortcut(Qt::Key_W);
     top_right->setShortcut(Qt::Key_E);
     bottom_left->setShortcut(Qt::Key_R);
     bottom_middle->setShortcut(Qt::Key_T);
     bottom_right->setShortcut(Qt::Key_Y);
+    */
 
-    connect(top_left, SIGNAL(clicked()), this, SLOT(top_L()));
-    connect(top_middle, SIGNAL(clicked()), this, SLOT(top_M()));
-    connect(top_right, SIGNAL(clicked()), this, SLOT(top_R()));
-    connect(bottom_left, SIGNAL(clicked()), this, SLOT(bottom_L()));
-    connect(bottom_middle, SIGNAL(clicked()), this, SLOT(bottom_M()));
-    connect(bottom_right, SIGNAL(clicked()), this, SLOT(bottom_R()));
+    connect(top_left, SIGNAL(light()), this, SLOT(trigger_Top_L()));
+    connect(top_middle, SIGNAL(light()), this, SLOT(trigger_Top_M()));
+    connect(top_right, SIGNAL(light()), this, SLOT(trigger_Top_R()));
+    connect(bottom_left, SIGNAL(light()), this, SLOT(trigger_Bottom_L()));
+    connect(bottom_middle, SIGNAL(light()), this, SLOT(trigger_Bottom_M()));
+    connect(bottom_right, SIGNAL(light()), this, SLOT(trigger_Bottom_R()));
+
+    connect(top_left, SIGNAL(extinguish()), this, SLOT(top_L()));
+    connect(top_middle, SIGNAL(extinguish()), this, SLOT(top_M()));
+    connect(top_right, SIGNAL(extinguish()), this, SLOT(top_R()));
+    connect(bottom_left, SIGNAL(extinguish()), this, SLOT(bottom_L()));
+    connect(bottom_middle, SIGNAL(extinguish()), this, SLOT(bottom_M()));
+    connect(bottom_right, SIGNAL(extinguish()), this, SLOT(bottom_R()));
 
     QGridLayout *button_grid = new QGridLayout;
 
@@ -48,7 +57,6 @@ Board_Widget::Board_Widget()
     if (DEMO) {
         demo();
     }
-    this->show();
 }
 
 // Receives input from the controller to light
@@ -98,27 +106,27 @@ void Board_Widget::trigger(Button_Event butt_pos) {
 }
 
 void Board_Widget::trigger_Top_L() {
-    top_left->setStyleSheet("background-color: orange");
+   // top_left->setStyleSheet("background-color: orange");
 }
 
 void Board_Widget::trigger_Top_M() {
-    top_middle->setStyleSheet("background-color: yellow");
+   // top_middle->setStyleSheet("background-color: yellow");
 }
 
 void Board_Widget::trigger_Top_R() {
-    top_right->setStyleSheet("background-color: green");
+   // top_right->setStyleSheet("background-color: green");
 }
 
 void Board_Widget::trigger_Bottom_L() {
-    bottom_left->setStyleSheet("background-color: blue");
+ //   bottom_left->setStyleSheet("background-color: blue");
 }
 
 void Board_Widget::trigger_Bottom_M() {
-    bottom_middle->setStyleSheet("background-color: indigo");
+ //   bottom_middle->setStyleSheet("background-color: indigo");
 }
 
 void Board_Widget::trigger_Bottom_R() {
-    bottom_right->setStyleSheet("background-color: violet");
+    //bottom_right->setStyleSheet("background-color: violet");
 }
 
 void Board_Widget::top_L() {
