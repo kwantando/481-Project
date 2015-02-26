@@ -32,10 +32,12 @@ public:
     int play_next_note(Game_board& gb);
 
     //plays the note as a "correct" note
-    void play_specified_note(int note, bool block);
+    void play_specified_note(int note, bool block, Game_board& gb);
 
     //stops all other notes and plays the failure-boop. 
     void play_fail_note();
+    //stops all other notes and plays the success-boop.
+    void play_success_note();
 
 private:
     //runs the given sequence;
@@ -47,12 +49,12 @@ private:
 
     int cur_seq_length;
     int cur_note;
-    int prev_note;
 
     std::vector<int> full_sequence; 
     std::vector<int> cur_sequence;
     std::vector<std::shared_ptr<sf::Music>> notes;
     std::shared_ptr<sf::Music> fail_note;
+    std::shared_ptr<sf::Music> success_note;
     sf::Music song_data;
 };
 
