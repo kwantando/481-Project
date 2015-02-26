@@ -34,6 +34,8 @@ public:
     //plays the note as a "correct" note
     void play_specified_note(int note, bool block, Game_board& gb);
 
+	void stop_notes();
+
     //stops all other notes and plays the failure-boop. 
     void play_fail_note();
     //stops all other notes and plays the success-boop.
