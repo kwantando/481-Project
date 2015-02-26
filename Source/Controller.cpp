@@ -111,7 +111,13 @@ void Controller::command_switch(const sf::Event& event) {
 
 	else if ((event.type == Event::KeyPressed) && !was_pressed) {
 
-		if (static_cast<keypads_e>(event.key.code) == sequence[seq_it]) {
+		if (event.key.code == Keyboard::R) {
+
+			reset_controller();
+
+		}
+
+		else if (static_cast<keypads_e>(event.key.code) == sequence[seq_it]) {
 
 			DEBUG_MSG("Correct input entered.");
 			mem_hand->play_specified_note(seq_it, false, *g_board);
@@ -137,7 +143,7 @@ void Controller::command_switch(const sf::Event& event) {
 			if (lives <= 0) {
 
 				DEBUG_MSG("You lost!");
-				exit(0);
+				reset_controller();
 
 			}
 
@@ -173,6 +179,10 @@ void Controller::init_controller() {
 
 void Controller::reset_controller() {
 
-	
+	delete mem_hand;
+	mem_hand = new Memory_handler();
+	DEBUG_MSG("Controller reset.");
+	init_controller();
+
 
 }
