@@ -37,19 +37,19 @@ signals:
     void extinguish();
 private slots:
     // for controller signals
-    void trigger_Top_L();
-    void trigger_Top_M();
-    void trigger_Top_R();
-    void trigger_Bottom_L();
-    void trigger_Bottom_M();
-    void trigger_Bottom_R();
+    QPushButton* trigger_Top_L();
+    QPushButton* trigger_Top_M();
+    QPushButton* trigger_Top_R();
+    QPushButton* trigger_Bottom_L();
+    QPushButton* trigger_Bottom_M();
+    QPushButton* trigger_Bottom_R();
     // for user responses
-    void top_L();
-    void top_M();
-    void top_R();
-    void bottom_L();
-    void bottom_M();
-    void bottom_R();
+    QPushButton* top_L();
+    QPushButton* top_M();
+    QPushButton* top_R();
+    QPushButton* bottom_L();
+    QPushButton* bottom_M();
+    QPushButton* bottom_R();
 private:
     void fail();
     QPushButton *top_left;

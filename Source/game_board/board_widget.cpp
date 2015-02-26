@@ -62,101 +62,118 @@ Board_Widget::Board_Widget()
 // Receives input from the controller to light
 // up one of the buttons.
 void Board_Widget::trigger(Button_Event butt_pos) {
+    QPushButton* button;
     switch(butt_pos) {
         case LIGHT_TOP_LEFT:
-            trigger_Top_L();
+            button = trigger_Top_L();
             break;
         case LIGHT_TOP_MIDDLE:
-            trigger_Top_M();
+            button = trigger_Top_M();
             break;
         case LIGHT_TOP_RIGHT:
-            trigger_Top_R();
+            button = trigger_Top_R();
             break;
         case LIGHT_BOTTOM_LEFT:
-            trigger_Bottom_L();
+            button = trigger_Bottom_L();
             break;
         case LIGHT_BOTTOM_MIDDLE:
-            trigger_Bottom_M();
+            button = trigger_Bottom_M();
             break;
         case LIGHT_BOTTOM_RIGHT:
-            trigger_Bottom_R();
+            button = trigger_Bottom_R();
             break;
         case CLEAR_TOP_LEFT:
-            top_L();
+            button = top_L();
             break;
         case CLEAR_TOP_MIDDLE:
-            top_M();
+            button = top_M();
             break;
         case CLEAR_TOP_RIGHT:
-            top_R();
+            button = top_R();
             break;
         case CLEAR_BOTTOM_LEFT:
-            bottom_L();
+            button = bottom_L();
             break;
         case CLEAR_BOTTOM_MIDDLE:
-            bottom_M();
+            button = bottom_M();
             break;
         case CLEAR_BOTTOM_RIGHT:
-            bottom_R();
+            button = bottom_R();
             break;
         case FAIL:
         default:
             fail();
     }
+    button->style()->unpolish(button);
+    button->style()->polish(button);
+    button->update();
+
 }
 
-void Board_Widget::trigger_Top_L() {
-   // top_left->setStyleSheet("background-color: orange");
+QPushButton* Board_Widget::trigger_Top_L() {
+    top_left->setStyleSheet("background-color: orange");
+    return top_left;
 }
 
-void Board_Widget::trigger_Top_M() {
-   // top_middle->setStyleSheet("background-color: yellow");
+QPushButton* Board_Widget::trigger_Top_M() {
+    top_middle->setStyleSheet("background-color: yellow");
+    return top_middle;
 }
 
-void Board_Widget::trigger_Top_R() {
-   // top_right->setStyleSheet("background-color: green");
+QPushButton* Board_Widget::trigger_Top_R() {
+    top_right->setStyleSheet("background-color: green");
+    return top_right;
 }
 
-void Board_Widget::trigger_Bottom_L() {
- //   bottom_left->setStyleSheet("background-color: blue");
+QPushButton* Board_Widget::trigger_Bottom_L() {
+    bottom_left->setStyleSheet("background-color: blue");
+    return bottom_left;
 }
 
-void Board_Widget::trigger_Bottom_M() {
- //   bottom_middle->setStyleSheet("background-color: indigo");
+QPushButton* Board_Widget::trigger_Bottom_M() {
+    bottom_middle->setStyleSheet("background-color: indigo");
+    return bottom_middle;
 }
 
-void Board_Widget::trigger_Bottom_R() {
-    //bottom_right->setStyleSheet("background-color: violet");
+QPushButton* Board_Widget::trigger_Bottom_R() {
+    bottom_right->setStyleSheet("background-color: violet");
+    return bottom_right;
 }
 
-void Board_Widget::top_L() {
+QPushButton* Board_Widget::top_L() {
     top_left->setStyleSheet("");
     if (DEMO) demo();
+    return top_left;
 }
 
-void Board_Widget::top_M() {
+QPushButton* Board_Widget::top_M() {
     top_middle->setStyleSheet("");
     if (DEMO) demo();
+    return top_middle;
 }
 
-void Board_Widget::top_R() {
+QPushButton* Board_Widget::top_R() {
     top_right->setStyleSheet("");
     if (DEMO) demo();
+    return top_right;
 }
 
-void Board_Widget::bottom_L() {
+QPushButton* Board_Widget::bottom_L() {
     bottom_left->setStyleSheet("");
     if (DEMO) demo();
+    return bottom_left;
 }
 
-void Board_Widget::bottom_M() {
+QPushButton* Board_Widget::bottom_M() {
     bottom_middle->setStyleSheet("");
     if (DEMO) demo();
+    return bottom_middle;
 }
 
-void Board_Widget::bottom_R() {
+QPushButton* Board_Widget::bottom_R() {
     bottom_right->setStyleSheet("");
     if (DEMO) demo();
+    return bottom_right;
 }
 
 void Board_Widget::fail() {

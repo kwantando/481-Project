@@ -3,21 +3,20 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
-#include <QApplication>
-#include "board_widget.h"
 
 class Memory_handler;
+class Game_board;
 // Useful keyboard key constants.
-enum keypads_e {KEYPAD1 = sf::Keyboard::Up,
-				KEYPAD2 = sf::Keyboard::Left,
-				KEYPAD3 = sf::Keyboard::Right,
-				KEYPAD4 = sf::Keyboard::Down,
-				KEYPAD5 = sf::Keyboard::Space,
+enum keypads_e {KEYPAD1 = sf::Keyboard::Num1,
+				KEYPAD2 = sf::Keyboard::Num2,
+				KEYPAD3 = sf::Keyboard::Num3,
+				KEYPAD4 = sf::Keyboard::Num4,
+				KEYPAD5 = sf::Keyboard::Num5,
 				KEYPAD6 = sf::Keyboard::Num6};
 
 // This class is designed as a main way to control the behavior of the game
-// based on user inputs from the keyboard.
-  
+// based on user inputs from the keyboard.  
+
 class Controller {
 
 public:
@@ -47,22 +46,25 @@ private:
 	// This function initializes or reinitializes the
 	// controller to some basic state.
 	void init_controller();
-    //switches the button to no longer display
-    void switch_off_button(int note);
-    //switches the button to now display
-    void switch_on_button(int note);
 
+
+	// This function resets the game to a state as if it had just started i.e.
+	// - resets pattern vector
+	// - reset sequence iteration counter
+	// - reset lives
+	void reset_controller();
+	
 	// Pointer to memory_handler for the song sequences.
 	Memory_handler* mem_hand;
+
+	Game_board* g_board;
+
+	// Pointer to event/output window for the game
+	sf::RenderWindow* event_window;
 
 	// Contains the sequence that is currently requested of the user.
 	std::vector<keypads_e> sequence;
 	std::vector<int> note_sequence;
-
-    //holds the actual graphical representation of notes as played
-    QApplication qapp;
-    Board_Widget display;
-
 
 	// Invariant: This int iterator always points to the next expected sequence
 	// value, both in sequence and note_sequence.

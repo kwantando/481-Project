@@ -1,5 +1,6 @@
 #include "memory_handler.h"
 #include "qdsleep.h"
+#include "Game_board.h"
 #include <SFML/System.hpp>
 #include <stdexcept>
 #include <sstream>
@@ -24,11 +25,12 @@ using std::shared_ptr;
 
 const int done_playing_c = -1;
 const int num_notes_c = 6;
-const int default_note_wait_c = 350;
+const int default_note_wait_c = 300;
 const char* const notes_dir_c = "Notes/";
 const char* const default_note_filetype_c = ".ogg";
 const char* const note_file_name_c = "n";//n + number, of course
 const char* const fail_file_name_c = "fail";
+const char* const success_file_name_c = "success";
 
 
 //constructs the handler by reading in the song data from filename
@@ -57,6 +59,13 @@ Memory_handler::Memory_handler(int length)
         << default_note_filetype_c;
     if(!fail_note->openFromFile(fail_note_loc.str())) {
         throw runtime_error{"Could not open: " + fail_note_loc.str()};
+    }
+    success_note = make_shared<sf::Music>();
+    stringstream success_note_loc;
+    success_note_loc << notes_dir_c << success_file_name_c
+        << ".wav";
+    if(!success_note->openFromFile(success_note_loc.str())) {
+        throw runtime_error{"Could not open: " + success_note_loc.str()};
     }
     gen_sequence(cur_seq_length);
 }
@@ -155,27 +164,33 @@ void Memory_handler::run_sequence(const Beat_sequence& seq)
 }
 //plays the next note in the sequence, returning the note that was played(1-6)
 //returns -1 if the sequence is over
-int Memory_handler::play_next_note()
+int Memory_handler::play_next_note(Game_board& gb)
 {
     if(cur_note >= cur_sequence.size()) {
         notes[cur_sequence[cur_note - 1]]->stop();
         return done_playing_c;
     }
     //if the next note is out of sequence size, means we've played out this sequence
-    play_specified_note(cur_note, true);
+    play_specified_note(cur_note, true, gb);
     return cur_sequence[cur_note++];
 }
 //plays the note passed to it in the -currently loaded- sequence
 //undefined behavior if no sequence is currently loaded
-void Memory_handler::play_specified_note(int note, bool block)
+void Memory_handler::play_specified_note(int cur, bool block, Game_board& gb)
 {
     //if(note < 0 || note >= num_notes_c) {
     //    throw runtime_error{"play_correct_note passed note out of range"};
     //}
-    notes[cur_sequence[note]]->play();
-	qdsleep(default_note_wait_c);
-    notes[cur_sequence[note]]->stop();
-    //returns when note has finished playing
+    int cur_note = cur_sequence[cur];
+    notes[cur_note]->play();
+    if(cur > 0)
+        gb.switch_off_button(cur_sequence[cur-1]);
+
+	qdsleep(150);
+    gb.switch_on_button(cur_note);
+	if (block) { qdsleep(default_note_wait_c); }
+    stop_notes();
+
 }
 
 void Memory_handler::gen_sequence(int len)
@@ -199,10 +214,23 @@ void Memory_handler::next_sequence(bool move_up)
 //stops all other notes and plays the failure-boop.
 void Memory_handler::play_fail_note()
 {
-    for_each(notes.begin(), notes.end(), [](shared_ptr<sf::Music> note){
-        note->stop();
-    });
+    stop_notes();
     fail_note->play();
     qdsleep(default_note_wait_c);
     fail_note->stop();
+}
+
+void Memory_handler::stop_notes()
+{
+    for_each(notes.begin(), notes.end(), [](shared_ptr<sf::Music> note){
+        note->stop();
+    });
+}
+
+void Memory_handler::play_success_note()
+{
+    stop_notes();
+    success_note->play();
+    qdsleep(default_note_wait_c);
+    success_note->stop();
 }

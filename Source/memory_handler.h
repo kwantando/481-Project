@@ -7,6 +7,8 @@
 
 static const int default_game_len_c = 20;
 
+class Game_board;
+
 class Memory_handler {
 
 public:
@@ -27,13 +29,17 @@ public:
     std::vector<int> get_current_sequence() { return cur_sequence; }
 
     //plays the next note waiting in the sequence
-    int play_next_note();
+    int play_next_note(Game_board& gb);
 
     //plays the note as a "correct" note
-    void play_specified_note(int note, bool block);
+    void play_specified_note(int note, bool block, Game_board& gb);
+
+	void stop_notes();
 
     //stops all other notes and plays the failure-boop. 
     void play_fail_note();
+    //stops all other notes and plays the success-boop.
+    void play_success_note();
 
 private:
     //runs the given sequence;
@@ -50,6 +56,7 @@ private:
     std::vector<int> cur_sequence;
     std::vector<std::shared_ptr<sf::Music>> notes;
     std::shared_ptr<sf::Music> fail_note;
+    std::shared_ptr<sf::Music> success_note;
     sf::Music song_data;
 };
 

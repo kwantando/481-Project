@@ -3,6 +3,7 @@
 #include "memory_handler.h"
 #include "beat_sequence.h"
 #include "songinfoparser.h"
+#include "Game_board.h"
 #include "qdsleep.h"
 #include <stdexcept>
 
@@ -10,13 +11,11 @@ using namespace sf;
 using namespace std;
 
 const int start_lives_c = 5;
+const int max_notes_c = 6;
 
 bool Controller::was_pressed = false;
 
 static vector<keypads_e> convert_int_to_keypads(const vector<int>& vc);
-
-//returns the button_event equivalent of note and toggle
-Button_Event get_button(int note, bool toggle);
 
 static vector<keypads_e> convert_int_to_keypads(const vector<int>& vc) {
 
@@ -61,13 +60,11 @@ static vector<keypads_e> convert_int_to_keypads(const vector<int>& vc) {
 // This constructor creates a game controller based on the given music_filename.
 // It will create a new song object that will be buffered from that filename.
 Controller::Controller(std::string music_filename, std::string data_filename,
-                       int argc, char* argv[]) : qapp(argc, argv),
+                       int argc, char* argv[]) : 
                        lives(start_lives_c) {
 
-    //Song_info_parser sparser(data_filename);
     mem_hand = new Memory_handler();
-
-    display.show();
+    g_board = new Game_board(event_window);
 
     DEBUG_MSG("constructed successfully");
 }
@@ -76,29 +73,27 @@ Controller::Controller(std::string music_filename, std::string data_filename,
 Controller::~Controller() {
 
     delete mem_hand;
+    delete g_board;
     DEBUG_MSG("destructed successfully");
+
 }
 
 // This function will do any preprocessing necessary before entering
 // an infinite loop that reads and processes user's commands based on
 // keyboard input.
 void Controller::start_reading_input() {
-
-    Window event_window(VideoMode(5,5), "Event_Handler_Window");
-
     init_controller();
 
     Event event;
     while (true) {
 
-        if (event_window.waitEvent(event)) {	// block for initial event
+        if (event_window->waitEvent(event)) {   // block for initial event
             Event tmp_ev;
-            while (event_window.pollEvent(tmp_ev));	// discard events in queue
+            while (event_window->pollEvent(tmp_ev));    // discard events in queue
             // This essentially disables event stacking, which does not
             // work well with the game type we have.
             command_switch(event);
         }
-        //event_window.pollEvent(event);
 
     }
 
@@ -116,16 +111,25 @@ void Controller::command_switch(const sf::Event& event) {
 
     else if ((event.type == Event::KeyPressed) && !was_pressed) {
 
-        if (static_cast<keypads_e>(event.key.code) == sequence[seq_it]) {
+        if (event.key.code == Keyboard::R) {
+
+            reset_controller();
+
+        }
+
+        else if (static_cast<keypads_e>(event.key.code) == sequence[seq_it]) {
 
             DEBUG_MSG("Correct input entered.");
-            mem_hand->play_specified_note(seq_it, false);
+            mem_hand->play_specified_note(seq_it, false, *g_board);
             ++seq_it;
 
             if (seq_it >= sequence.size()) {
 
                 mem_hand->next_sequence(true);
+                mem_hand->play_success_note();
+                qdsleep(750);
                 DEBUG_MSG("PATTERN SUCCESSFULLY REPEATED! Upping difficulty...");
+                g_board->clear_buttons();
                 init_controller();
 
             }
@@ -133,12 +137,13 @@ void Controller::command_switch(const sf::Event& event) {
         }
         else {
 
+            mem_hand->play_fail_note();
+            g_board->clear_buttons();
             --lives;
             if (lives <= 0) {
 
-                mem_hand->play_fail_note();
                 DEBUG_MSG("You lost!");
-                exit(0);
+                reset_controller();
 
             }
 
@@ -148,34 +153,6 @@ void Controller::command_switch(const sf::Event& event) {
 
         }
 
-        /*
-        switch (event.key.code) {
-
-        case KEYPAD1:
-            DEBUG_MSG("keypad1 pressed.");
-            break;
-        case KEYPAD2:
-            DEBUG_MSG("keypad2 pressed.");
-            break;
-        case KEYPAD3:
-            DEBUG_MSG("keypad3 pressed.");
-            break;
-        case KEYPAD4:
-            DEBUG_MSG("keypad4 pressed.");
-            break;
-        case KEYPAD5:
-            DEBUG_MSG("keypad5 pressed.");
-            break;
-        case KEYPAD6:
-            DEBUG_MSG("keypad6 pressed.");
-            break;
-        default:
-
-            break;
-
-        }
-        */
-
         was_pressed = true;
 
     }
@@ -184,73 +161,28 @@ void Controller::command_switch(const sf::Event& event) {
 
 void Controller::init_controller() {
 
-
     // Generate pattern and place it into the member vector.
     note_sequence = mem_hand->get_current_sequence();
     sequence = convert_int_to_keypads(note_sequence);
 
     // Play pattern notes.
-    int note = 0;
-    int old_button = 0;
-    while ((note = mem_hand->play_next_note()) != -1) {
-        switch_off_button(old_button);
-        switch_on_button(note);
-        cout << "Just played " << note + 1 << " note!" << endl;
-        old_button = note;
+    int button = 0;
+    while ((button = mem_hand->play_next_note(*g_board)) != -1) {
+        cout << "Just played " << button + 1 << " note!" << endl;
     }
-    qdsleep(250);
+    g_board->clear_buttons();
+    qdsleep(500);
 
     seq_it = 0;
 
 }
 
-Button_Event get_button(int note, bool toggle)
-{
-    if(toggle) {
-        switch(note) {
-            case 0:
-                return Button_Event::LIGHT_TOP_LEFT;
-            case 1:
-                return Button_Event::LIGHT_TOP_MIDDLE;
-            case 2:
-                return Button_Event::LIGHT_TOP_RIGHT;
-            case 3:
-                return Button_Event::LIGHT_BOTTOM_LEFT;
-            case 4:
-                return Button_Event::LIGHT_BOTTOM_MIDDLE;
-            case 5:
-                return Button_Event::LIGHT_BOTTOM_RIGHT;
-            default:
-                throw runtime_error{"Unrecognized note found."};
-        }
-    }
-    else {
-        switch(note) {
-            case 0:
-                return Button_Event::CLEAR_TOP_LEFT;
-            case 1:
-                return Button_Event::CLEAR_TOP_MIDDLE;
-            case 2:
-                return Button_Event::CLEAR_TOP_RIGHT;
-            case 3:
-                return Button_Event::CLEAR_BOTTOM_LEFT;
-            case 4:
-                return Button_Event::CLEAR_BOTTOM_MIDDLE;
-            case 5:
-                return Button_Event::CLEAR_BOTTOM_RIGHT;
-            default:
-                throw runtime_error{"Unrecognized note found."};
-        }
-    }
+void Controller::reset_controller() {
 
-}
+    delete mem_hand;
+    mem_hand = new Memory_handler();
+    DEBUG_MSG("Controller reset.");
+    init_controller();
 
-void Controller::switch_off_button(int note)
-{
-    display.trigger(get_button(note, false));
-}
 
-void Controller::switch_on_button(int note)
-{
-    display.trigger(get_button(note, true));
 }
