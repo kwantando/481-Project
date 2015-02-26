@@ -26,7 +26,7 @@ songinfoparser.o: songinfoparser.cpp songinfoparser.h
 
 Game_board.o: Game_board.cpp Game_board.h
 	$(LD) $(CFLAGS) Game_board.cpp -o Game_board.o
-main.o: Controller.cpp Controller.h
+main.o: Controller.cpp Controller.h main.cpp
 	$(LD) $(CFLAGS) main.cpp -o main.o
 
 clean:

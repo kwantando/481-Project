@@ -6,7 +6,7 @@
 
 int main(int argc, char* argv[])
 {
-
+    sf::Shader::isAvailable();
 	sf::Music mus;
 	std::cout << mus.openFromFile("Victors.wav") << std::endl;
     #if defined _WIN32 || defined _WIN64

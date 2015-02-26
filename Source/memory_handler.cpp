@@ -189,6 +189,7 @@ void Memory_handler::play_specified_note(int cur, bool block, Game_board& gb)
 	qdsleep(150);
     gb.switch_on_button(cur_note);
 	if (block) { qdsleep(default_note_wait_c); }
+    stop_notes();
 
 }
 
