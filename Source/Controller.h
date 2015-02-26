@@ -46,6 +46,13 @@ private:
 	// This function initializes or reinitializes the
 	// controller to some basic state.
 	void init_controller();
+
+
+	// This function resets the game to a state as if it had just started i.e.
+	// - resets pattern vector
+	// - reset sequence iteration counter
+	// - reset lives
+	void reset_controller();
 	
 	// Pointer to memory_handler for the song sequences.
 	Memory_handler* mem_hand;

@@ -16,9 +16,6 @@ const int max_notes_c = 6;
 bool Controller::was_pressed = false;
 
 static vector<keypads_e> convert_int_to_keypads(const vector<int>& vc);
-//clears the board of any lit lights
-void clear_board(Game_board& g_board);
-
 
 static vector<keypads_e> convert_int_to_keypads(const vector<int>& vc) {
 
@@ -85,9 +82,6 @@ Controller::~Controller() {
 // an infinite loop that reads and processes user's commands based on
 // keyboard input.
 void Controller::start_reading_input() {
-
-//	ball6.setColor(sf::Color(0, 255, 0)); // green
-//	event_window->display();
 	init_controller();
 
 	Event event;
@@ -127,7 +121,7 @@ void Controller::command_switch(const sf::Event& event) {
 
 				mem_hand->next_sequence(true);
 				DEBUG_MSG("PATTERN SUCCESSFULLY REPEATED! Upping difficulty...");
-				clear_board(*g_board);
+				g_board->clear_board();
 				init_controller();
 
 			}
@@ -158,7 +152,6 @@ void Controller::command_switch(const sf::Event& event) {
 
 void Controller::init_controller() {
 
-
 	// Generate pattern and place it into the member vector.
 	note_sequence = mem_hand->get_current_sequence();
 	sequence = convert_int_to_keypads(note_sequence);
@@ -175,9 +168,8 @@ void Controller::init_controller() {
 
 }
 
-void clear_board(Game_board& g_board)
-{
-	for(int i = 0; i < max_notes_c; i++) {
-		g_board.switch_off_button(i);
-	}
+void Controller::reset_controller() {
+
+	
+
 }
