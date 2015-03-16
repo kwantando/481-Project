@@ -181,6 +181,7 @@ void Memory_handler::play_specified_note(int cur, bool block, Game_board& gb)
     //if(note < 0 || note >= num_notes_c) {
     //    throw runtime_error{"play_correct_note passed note out of range"};
     //}
+    stop_notes();//ensure no notes are running before starting new one
     int cur_note = cur_sequence[cur];
     notes[cur_note]->play();
     if(cur > 0)

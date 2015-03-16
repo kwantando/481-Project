@@ -1,0 +1,14 @@
+A   0
+B   1
+C   2
+D   3
+E   4
+F   4
+G   5
+Ab  6
+Bb  7
+Cb  8
+Db  9
+Eb  10
+Fb  10
+Gb  11
