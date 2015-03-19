@@ -11,7 +11,6 @@ using namespace sf;
 using namespace std;
 
 const int start_lives_c = 5;
-const int max_notes_c = 6;
 
 bool Controller::was_pressed = false;
 

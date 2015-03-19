@@ -41,6 +41,10 @@ public:
     //stops all other notes and plays the success-boop.
     void play_success_note();
 
+    ~Memory_handler() { stop_notes(); }
+
+    Memory_handler(const Memory_handler&) = delete;
+
 private:
     //runs the given sequence;
     //returns the number of beats the user gets correct
@@ -57,7 +61,7 @@ private:
     std::vector<std::shared_ptr<sf::Music>> notes;
     std::shared_ptr<sf::Music> fail_note;
     std::shared_ptr<sf::Music> success_note;
-    sf::Music song_data;
+    //sf::Music song_data;
 };
 
 #endif
