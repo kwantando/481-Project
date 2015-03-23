@@ -16,15 +16,6 @@ public:
     //and then loading the chords for the song
     Memory_handler(int length = default_game_len_c);
 
-    //runs the memory handler demo by running each beat sequence,
-    //pausing for input, displaying "Right!\n" for each correct beat, 
-    //"Wrong!\n" for each wrong beat.
-    //When a sequence plays, displays the accompanying beats
-    //(or beat equivalents)
-    void run();
-    //sets current sequence to the next one; increments seq
-	void next_sequence(bool move_up);
-
     //returns the next sequence in line
     std::vector<int> get_current_sequence() { return cur_sequence; }
 
@@ -35,6 +26,8 @@ public:
     void play_specified_note(int note, bool block, Game_board& gb);
 
 	void stop_notes();
+
+    void next_sequence(bool move_up);
 
     //stops all other notes and plays the failure-boop. 
     void play_fail_note();

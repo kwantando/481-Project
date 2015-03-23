@@ -15,7 +15,6 @@ using std::map;
 const char* const note_info_file_c = "note_info.txt";
 const char* const midi_file_note_info_c = "midi_info.txt";
 
-const char* const error_message_c = "Unexpected input found in file.";
 
 Song_info_parser::Song_info_parser(const string& filename)
 {
