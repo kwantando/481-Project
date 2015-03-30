@@ -18,6 +18,8 @@ public:
 
     std::vector<Note>& get_notes() { return notes; }
 
+    int get_bpm() { return bpm; }
+
 
 private:
 
@@ -26,6 +28,7 @@ private:
     void initialize_midi_to_note_map();
     std::map<int, int> midi_to_note;
     std::vector<Note> notes;
+    int bpm;
 };
 
 #endif

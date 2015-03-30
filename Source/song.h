@@ -39,14 +39,21 @@ public:
     void stop();
     //returns the current pad that is expected to be played
     int get_expected_note();
+
 private:
+    int note_freq;
+    sf::Clock timer;
     Difficulty diff;
     sf::Music song_data;
     int cur_note;
     std::vector<Note> notes;
     //initializes notes by including them with the given freq
     //ie. 2 means every other note
-    void initialize_notes(Song_info_parser& info, int freq);
+    void initialize_notes(Song_info_parser& info);
+    //returns the expected frequency of notes for current difficulty
+    //and the given raw bpm
+    int determine_note_freq(int bpm);
+    
 };
 
 #endif

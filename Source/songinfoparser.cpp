@@ -23,6 +23,11 @@ Song_info_parser::Song_info_parser(const string& filename)
     if(!parser) {
         throw runtime_error{"Could not open file: " + filename};
     }
+    int bpm;
+    parser >> bpm; 
+    if(!parser) {
+        throw runtime_error{"First line not integer for bpm. Aborting.\n"};
+    }
     int note, ts;
     while(parser >> ts >> note) {
         notes.push_back(Note(ts, midi_to_note[note]));

@@ -7,31 +7,22 @@
 using std::ifstream;
 using std::string;
 using std::vector;
+using std::runtime_error;
 
-const int easy_note_freq_c = 5;
-const int med_note_freq_c = 3;
+const int easy_note_freq_c = 6;
+const int med_note_freq_c = 4;
 const int hard_note_freq_c = 2;
-
+//Constructs the Song object by opening the song file from the song file name given,
+//Accessing the info Song_info_parser already gathered vis-a-vis this song,
+//and then initializing internal data structures based on the difficulty given.
 Song::Song(const std::string& song_file_name, Song_info_parser& info, Difficulty difficulty) :
 diff(difficulty), cur_note(0)
 {
     if(!song_data.openFromFile(song_file_name)) {
-        throw std::runtime_error{"Can't open file: " + song_file_name};
+        throw runtime_error{"Can't open file: " + song_file_name};
     }
-    switch(diff)  {
-        case Difficulty::EASY:
-            initialize_notes(info, easy_note_freq_c);
-            break;
-        case Difficulty::MEDIUM:
-            initialize_notes(info, med_note_freq_c);
-            break;
-        case Difficulty::HARD:
-            initialize_notes(info, hard_note_freq_c);
-            break;
-        default:
-            throw std::runtime_error{"Unrecognized enum in Song ctor."};
-            break;
-    }
+    note_freq = determine_note_freq(info.get_bpm());
+    initialize_notes(info);
 }
 
 bool Song::is_playing()
@@ -54,12 +45,14 @@ void Song::stop()
     song_data.stop();
 }
 
-void Song::initialize_notes(Song_info_parser& info, int freq)
+void Song::initialize_notes(Song_info_parser& info)
 {
     vector<Note>& raw_notes = info.get_notes();
+    int window_counter = 0;
     for(size_t i = 0; i < raw_notes.size(); i++) {
-        if(i%freq == 0) {
+        if(raw_notes[i].timestamp >= (note_freq * window_counter)) {
             notes.push_back(raw_notes[i]);
+            window_counter++;
         }
     }
 }
@@ -76,3 +69,19 @@ int Song::get_expected_note()
     }
 }
 
+int Song::determine_note_freq(int bpm) 
+{
+    double beat_freq = bpm / 60.0;//f.e., 120 bpm = 2 beats/sec
+    beat_freq = 1000 / beat_freq;
+    switch(diff)  {
+        case Difficulty::EASY:
+            return beat_freq * easy_note_freq_c;
+        case Difficulty::MEDIUM:
+            return beat_freq * med_note_freq_c;
+        case Difficulty::HARD:
+            return beat_freq * hard_note_freq_c;
+        default:
+            throw runtime_error{"Unrecognized enum given to Song."};
+            break;
+    }
+}
