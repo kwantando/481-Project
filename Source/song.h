@@ -26,6 +26,8 @@ public:
     Song(const std::string& song_file_name, Song_info_parser& info,
         Difficulty difficulty);
 
+    Song(const char* const song_file_name, Song_info_parser& info, Difficulty difficulty);
+
     sf::Time get_time() { return song_data.getPlayingOffset(); }
 
     int get_time_ms() { return song_data.getPlayingOffset().asMilliseconds(); }

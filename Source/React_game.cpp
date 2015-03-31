@@ -25,16 +25,16 @@ static keypads_e note_to_keypad(int note) {
 	case 5:
 		return KEYPAD6;
 	default:
-		throw exception("cant convert");
+		throw runtime_error{"cant convert"};
 	}
 
 }
 
 React_game::React_game(Game_board* g_board_) :
-song_handle(new Song("beverlyhillscop.wav", Song_info_parser("bhc.txt"), EASY)),
 g_board(g_board_), next_note(0)
 {
-
+	Song_info_parser parser{"bhc.txt"};
+	song_handle = make_shared<Song>("beverlyhillscop.wav", parser, EASY);
 }
 
 void React_game::init_game() {

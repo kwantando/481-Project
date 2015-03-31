@@ -25,6 +25,12 @@ diff(difficulty), cur_note(0)
     initialize_notes(info);
 }
 
+Song::Song(const char* const song_file_name, Song_info_parser& info, Difficulty difficulty) :
+Song(string{song_file_name}, info, difficulty)
+{
+
+}
+
 bool Song::is_playing()
 {
     return song_data.getStatus() == sf::SoundSource::Status::Playing;
@@ -48,12 +54,13 @@ void Song::stop()
 void Song::initialize_notes(Song_info_parser& info)
 {
     vector<Note>& raw_notes = info.get_notes();
-    int window_counter = 0;
+    int window = -1 * note_freq;//make it so initial guard is just 0
+    //(yes this is a workaround, shut up :()
     for(size_t i = 0; i < raw_notes.size(); i++) {
-        if(raw_notes[i].timestamp >= (note_freq * window_counter)) {
+        if(raw_notes[i].timestamp >= (note_freq + window)) {
             notes.push_back(raw_notes[i]);
-            window_counter++;
-        }
+            window = raw_notes[i].timestamp;
+        } 
     }
 }
 
