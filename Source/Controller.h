@@ -1,18 +1,14 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
+#include "Utility.h"
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <memory>
 
 class Memory_handler;
 class Game_board;
-// Useful keyboard key constants.
-enum keypads_e {KEYPAD1 = sf::Keyboard::Num1,
-				KEYPAD2 = sf::Keyboard::Num2,
-				KEYPAD3 = sf::Keyboard::Num3,
-				KEYPAD4 = sf::Keyboard::Num4,
-				KEYPAD5 = sf::Keyboard::Num5,
-				KEYPAD6 = sf::Keyboard::Num6};
+class Game;
 
 // This class is designed as a main way to control the behavior of the game
 // based on user inputs from the keyboard.  
@@ -22,8 +18,7 @@ class Controller {
 public:
 	// This constructor creates a game controller based on the given music_filename.
 	// It will create a new song object that will be buffered from that filename.
-    Controller(std::string music_filename, std::string data_filename,
-               int argc, char* argv[]);
+    Controller(std::string game_mode);
 
 	// Clears dynamic memory.
 	~Controller();
@@ -34,45 +29,15 @@ public:
 	void start_reading_input();
 
 private:
-
-	// This is a latch variable that ensures each key press only produces 
-	// one execution of the corresponding action.
-	static bool was_pressed;
-
-	// This is the switch used to process various keyboard events. It is meant
-	// to be called from the main while loop in start_reading_input() function.
-	void command_switch(const sf::Event&);
-
-	// This function initializes or reinitializes the
-	// controller to some basic state.
-	void init_controller();
-
-
-	// This function resets the game to a state as if it had just started i.e.
-	// - resets pattern vector
-	// - reset sequence iteration counter
-	// - reset lives
-	void reset_controller();
 	
-	// Pointer to memory_handler for the song sequences.
-	Memory_handler* mem_hand;
-
+	// Pointer to the game board.
 	Game_board* g_board;
 
 	// Pointer to event/output window for the game
 	sf::RenderWindow* event_window;
 
-	// Contains the sequence that is currently requested of the user.
-	std::vector<keypads_e> sequence;
-	std::vector<int> note_sequence;
-
-	// Invariant: This int iterator always points to the next expected sequence
-	// value, both in sequence and note_sequence.
-	int seq_it;
-
-	// Holds the lives that the user has left in this instance
-	// of the game.
-	int lives;
+	// Pointer to the current game that the controller is overseeing.
+	std::shared_ptr<Game> curr_game;
 
 };
 

@@ -36,7 +36,7 @@ const char* const success_file_name_c = "success";
 //constructs the handler by reading in the song data from filename
 //and then loading the chords for the song
 Memory_handler::Memory_handler(int length)
- : cur_seq_length(5), cur_note(0)
+ : cur_seq_length(2), cur_note(0)
 {
     srand(time(NULL));
     full_sequence.resize(length);
@@ -95,10 +95,10 @@ void Memory_handler::play_specified_note(int cur, bool block, Game_board& gb)
     if(cur > 0)
         gb.switch_off_button(cur_sequence[cur-1]);
 
-	qdsleep(150);
+	qdsleep(200);
     gb.switch_on_button(cur_note);
 	if (block) { qdsleep(default_note_wait_c); }
-    stop_notes();
+    //stop_notes();
 
 }
 
