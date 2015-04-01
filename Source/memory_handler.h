@@ -1,6 +1,5 @@
 #ifndef MEMORY_HANDLER_H
 #define MEMORY_HANDLER_H
-#include "beat_sequence.h"
 #include <SFML/Audio.hpp>
 #include <string>
 #include <memory>
@@ -39,9 +38,6 @@ public:
     Memory_handler(const Memory_handler&) = delete;
 
 private:
-    //runs the given sequence;
-    //returns the number of beats the user gets correct
-    void run_sequence(const Beat_sequence& seq);
     //generates the cur_sequence to the given length
     //or to the size of full_sequence, whichever is less
     void gen_sequence(int len);

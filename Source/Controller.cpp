@@ -1,7 +1,6 @@
 #include "Debug_msg.h"
 #include "Controller.h"
 #include "memory_handler.h"
-#include "beat_sequence.h"
 #include "songinfoparser.h"
 #include "Game_board.h"
 #include "qdsleep.h"
