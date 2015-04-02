@@ -419,7 +419,7 @@
 			"file": "Source/Controller.cpp",
 			"settings":
 			{
-				"buffer_size": 1641,
+				"buffer_size": 1614,
 				"line_ending": "Unix"
 			}
 		},
@@ -440,10 +440,7 @@
 			}
 		},
 		{
-			"contents": "#include \"song.h\"\n#include <fstream>\n#include <string>\n#include <cstdlib>\n#include <stdexcept>\n\nusing std::ifstream;\nusing std::string;\nusing std::vector;\nusing std::runtime_error;\n\nconst int easy_note_freq_c = 6;\nconst int med_note_freq_c = 4;\nconst int hard_note_freq_c = 2;\n//Constructs the Song object by opening the song file from the song file name given,\n//Accessing the info Song_info_parser already gathered vis-a-vis this song,\n//and then initializing internal data structures based on the difficulty given.\nSong::Song(const std::string& song_file_name, Song_info_parser& info, Difficulty difficulty) :\ndiff(difficulty), cur_note(0)\n{\n    if(!song_data.openFromFile(song_file_name)) {\n        throw runtime_error{\"Can't open file: \" + song_file_name};\n    }\n    note_freq = determine_note_freq(info.get_bpm());\n    initialize_notes(info);\n}\n\nSong::Song(const char* const song_file_name, Song_info_parser& info, Difficulty difficulty) :\nSong(string{song_file_name}, info, difficulty)\n{\n\n}\n\nbool Song::is_playing()\n{\n    return song_data.getStatus() == sf::SoundSource::Status::Playing;\n}\n\nvoid Song::play()\n{\n    song_data.play();\n}\n\nvoid Song::pause()\n{\n    song_data.pause();\n}\n\nvoid Song::stop()\n{\n    song_data.stop();\n}\n\nvoid Song::initialize_notes(Song_info_parser& info)\n{\n    vector<Note>& raw_notes = info.get_notes();\n    int window = -1 * note_freq;//make it so initial guard is just 0\n    //(yes this is a workaround, shut up :( )\n    for(size_t i = 0; i < raw_notes.size(); i++) {\n        if(raw_notes[i].timestamp >= (note_freq + window)) {\n            notes.push_back(raw_notes[i]);\n            window = raw_notes[i].timestamp;\n        } \n    }\n}\n\nint Song::get_expected_note()\n{\n    if(!is_playing()) return song_over_c;\n    if(notes[cur_note].timestamp <= get_time_ms()) {\n        int val_to_return = notes[cur_note].pad;\n        ++cur_note;\n        return val_to_return;\n    } else {\n        return not_new_note_c;\n    }\n}\n\nint Song::determine_note_freq(int bpm) \n{\n    double beat_freq = bpm / 60.0;//f.e., 120 bpm = 2 beats/sec\n    beat_freq = 1000 / beat_freq;\n    switch(diff)  {\n        case Difficulty::EASY:\n            return beat_freq * easy_note_freq_c;\n        case Difficulty::MEDIUM:\n            return beat_freq * med_note_freq_c;\n        case Difficulty::HARD:\n            return beat_freq * hard_note_freq_c;\n        default:\n            throw runtime_error{\"Unrecognized enum given to Song.\"};\n            break;\n    }\n}\n",
 			"file": "Source/song.cpp",
-			"file_size": 2464,
-			"file_write_time": 130722844900000000,
 			"settings":
 			{
 				"buffer_size": 2465,
@@ -478,34 +475,10 @@
 			}
 		},
 		{
-			"file": "Source/memory_handler.h",
-			"settings":
-			{
-				"buffer_size": 1621,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "Source/qdsleep.h",
 			"settings":
 			{
 				"buffer_size": 267,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "Source/beat_sequence.h",
-			"settings":
-			{
-				"buffer_size": 173,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "Source/Controller.h",
-			"settings":
-			{
-				"buffer_size": 1029,
 				"line_ending": "Unix"
 			}
 		},
@@ -521,7 +494,23 @@
 			"file": "Source/Makefile",
 			"settings":
 			{
-				"buffer_size": 1467,
+				"buffer_size": 1451,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Source/memory_handler.h",
+			"settings":
+			{
+				"buffer_size": 1458,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Source/Controller.h",
+			"settings":
+			{
+				"buffer_size": 1029,
 				"line_ending": "Unix"
 			}
 		},
@@ -628,6 +617,8 @@
 	},
 	"file_history":
 	[
+		"/Users/beamed/Documents/EECS481/SongDemo/Source/beat_sequence.h",
+		"/Users/beamed/Documents/EECS481/SongDemo/Source/Game.cpp",
 		"/Users/beamed/Documents/EECS481/SongDemo/Source/1980s.txt",
 		"/Users/beamed/Documents/EECS481/SongDemo/Source/help.txt",
 		"/Users/beamed/Documents/EECS481/SongDemo/Source/victors.txt",
@@ -769,6 +760,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"beat_sequence",
+			"run_sequence",
+			"beat_sequence",
 			"C",
 			"reset_controller",
 			"init_",
@@ -848,7 +842,7 @@
 	"groups":
 	[
 		{
-			"selected": 10,
+			"selected": 12,
 			"sheets":
 			[
 				{
@@ -882,7 +876,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 11,
 					"type": "text"
 				},
 				{
@@ -914,7 +908,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 12,
+					"stack_index": 17,
 					"type": "text"
 				},
 				{
@@ -946,7 +940,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 11,
+					"stack_index": 16,
 					"type": "text"
 				},
 				{
@@ -978,7 +972,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 16,
+					"stack_index": 18,
 					"type": "text"
 				},
 				{
@@ -994,8 +988,8 @@
 						"selection":
 						[
 							[
-								0,
-								0
+								1508,
+								1511
 							]
 						],
 						"settings":
@@ -1008,11 +1002,11 @@
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": 0.0,
-						"translation.y": 1463.0,
+						"translation.x": 3.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 13,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
@@ -1075,7 +1069,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 18,
+					"stack_index": 20,
 					"type": "text"
 				},
 				{
@@ -1084,15 +1078,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1641,
+						"buffer_size": 1614,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								122,
+								122
 							]
 						],
 						"settings":
@@ -1104,8 +1098,8 @@
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": 8.0,
-						"translation.y": 203.0,
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 5,
@@ -1140,7 +1134,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 17,
+					"stack_index": 19,
 					"type": "text"
 				},
 				{
@@ -1173,7 +1167,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 15,
 					"type": "text"
 				},
 				{
@@ -1189,8 +1183,8 @@
 						"selection":
 						[
 							[
-								1450,
-								1450
+								848,
+								848
 							]
 						],
 						"settings":
@@ -1203,10 +1197,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 21.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -1237,7 +1231,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
@@ -1253,8 +1247,8 @@
 						"selection":
 						[
 							[
-								637,
-								637
+								305,
+								323
 							]
 						],
 						"settings":
@@ -1265,11 +1259,11 @@
 							"syntax": "Packages/C++/C++.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
-						"translation.x": 99.0,
-						"translation.y": 97.0,
+						"translation.x": 0.0,
+						"translation.y": 758.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -1302,44 +1296,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 14,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
 					"buffer": 14,
-					"file": "Source/memory_handler.h",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1621,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								988,
-								988
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/C++ Starting Kit/C++.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 188.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
-					"type": "text"
-				},
-				{
-					"buffer": 15,
 					"file": "Source/qdsleep.h",
 					"semi_transient": false,
 					"settings":
@@ -1366,74 +1327,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 19,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 16,
-					"file": "Source/beat_sequence.h",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 173,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								161,
-								161
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/C++ Starting Kit/C++.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 20,
-					"type": "text"
-				},
-				{
-					"buffer": 17,
-					"file": "Source/Controller.h",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1029,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/C++ Starting Kit/C++.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 22,
-					"type": "text"
-				},
-				{
-					"buffer": 18,
+					"buffer": 15,
 					"file": "Source/Game_board.h",
 					"semi_transient": false,
 					"settings":
@@ -1461,24 +1359,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 23,
+					"stack_index": 22,
 					"type": "text"
 				},
 				{
-					"buffer": 19,
+					"buffer": 16,
 					"file": "Source/Makefile",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1467,
+						"buffer_size": 1451,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1029,
-								1029
+								495,
+								495
 							]
 						],
 						"settings":
@@ -1492,17 +1390,82 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 15,
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
-					"buffer": 20,
+					"buffer": 17,
+					"file": "Source/memory_handler.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1458,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								49,
+								49
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/C++ Starting Kit/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 18,
+					"file": "Source/Controller.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1029,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/C++ Starting Kit/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 7.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 19,
 					"file": "Source/song.h",
 					"semi_transient": false,
 					"settings":
@@ -1528,14 +1491,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 210.0,
-						"translation.y": 32.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
-					"buffer": 21,
+					"buffer": 20,
 					"file": "Source/React_game.h",
 					"semi_transient": false,
 					"settings":
@@ -1547,8 +1510,8 @@
 						"selection":
 						[
 							[
-								0,
-								0
+								295,
+								295
 							]
 						],
 						"settings":
@@ -1563,11 +1526,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 12,
 					"type": "text"
 				},
 				{
-					"buffer": 22,
+					"buffer": 21,
 					"file": "Source/Note.h",
 					"semi_transient": false,
 					"settings":
@@ -1594,11 +1557,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 13,
 					"type": "text"
 				},
 				{
-					"buffer": 23,
+					"buffer": 22,
 					"file": "Source/songinfoparser.h",
 					"semi_transient": false,
 					"settings":
@@ -1628,7 +1591,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 14,
 					"type": "text"
 				}
 			]
