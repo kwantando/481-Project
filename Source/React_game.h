@@ -30,9 +30,11 @@ public:
 	~React_game();
 
 private:
+	sf::Clock button_timer;
 	std::shared_ptr<Song> song_handle;
 	Game_board* g_board;
 	int next_note;
+	bool already_responded;
 
 };
 
