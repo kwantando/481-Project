@@ -13,7 +13,7 @@ class React_game : public Game {
 
 public:
 	// Initializes the reaction game with a given game board.
-	React_game(std::shared_ptr<Game_board> g_board, 
+	React_game(std::shared_ptr<Game_board> g_board, Difficulty diff,
 		       std::string song_text_notes_fname,
 			   std::string song_fname);
 	// Starts playing the song.

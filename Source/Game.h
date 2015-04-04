@@ -1,6 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include "Utility.h"
 #include <SFML/Graphics.hpp>
 
 class Game_board;
@@ -8,7 +9,7 @@ class Game_board;
 class Game {
 
 public:
-	Game();
+	Game(Difficulty diff_);
 	virtual void init_game() = 0;
 	virtual void mid_game_processing() = 0;
 	virtual void reset() = 0;
@@ -36,10 +37,13 @@ protected:
 	void dec_score() { --score; }
 	void reset_score() { score = 0; }
 
+	Difficulty get_difficulty() { return diff; }
+
 private:
 	bool pressed_lock;
 	int lives;
 	int score;
+	Difficulty diff;
 };
 
 #endif

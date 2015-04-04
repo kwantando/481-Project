@@ -2,7 +2,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include <list>
-#include "utility.h"
+#include "Utility.h"
 
 enum key_pressed {
 	UP,

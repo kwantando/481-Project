@@ -165,3 +165,4 @@ void Main_menu::render(std::vector< std::pair<std::string, bool> > *menu_items) 
 	}
 	window->display();
 }
+

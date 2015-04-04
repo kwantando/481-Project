@@ -72,7 +72,7 @@ void play_fail_note()
     	fail_note = make_shared<sf::Music>();
 	   	stringstream fail_note_loc;
 	    fail_note_loc << notes_dir_c << fail_file_name_c
-	        << ".wav";
+	        << ".ogg";
 	    if(!fail_note->openFromFile(fail_note_loc.str())) {
 	        throw runtime_error{"Could not open: " + fail_note_loc.str()};
 	    }

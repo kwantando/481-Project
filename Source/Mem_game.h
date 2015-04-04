@@ -12,7 +12,7 @@ class Game_board;
 class Mem_game : public Game {
 
 public:
-	Mem_game(std::shared_ptr<Game_board> g_board_);
+	Mem_game(std::shared_ptr<Game_board> g_board_, Difficulty diff);
 	void init_game() override;
 	void mid_game_processing() override {}
 	void reset() override;
