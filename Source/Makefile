@@ -4,7 +4,7 @@ CFLAGS = -c -g -std=c++11 -pedantic-errors -Wall
 LFLAGS = -g
 LIBS = -lsfml-audio -lsfml-system -lsfml-graphics -lsfml-window
 
-OBJS = Controller.o Game_board.o songinfoparser.o Memory_handler.o main.o Song.o Game.o Mem_game.o React_game.o Utility.o
+OBJS = Controller.o Game_board.o songinfoparser.o Memory_handler.o main.o Song.o Game.o Mem_game.o React_game.o Utility.o Main_menu.o
 PROG = mem_demo
 
 default: $(PROG)
@@ -12,7 +12,7 @@ default: $(PROG)
 $(PROG): $(OBJS)
 	$(LD) $(LFLAGS) $(OBJS) $(LIBS) -o $(PROG)
 
-Controller.o: Memory_handler.o songinfoparser.o Game_board.o qdsleep.o Controller.cpp Controller.h
+Controller.o: Memory_handler.o songinfoparser.o Game_board.o qdsleep.o Controller.cpp Controller.h Main_menu.o
 	$(LD) $(CFLAGS) Controller.cpp -o Controller.o
 
 Memory_handler.o: qdsleep.o Memory_handler.cpp Memory_handler.h Game_board.h
@@ -36,6 +36,9 @@ React_game.o: React_game.cpp React_game.h
 	$(LD) $(CFLAGS) React_game.cpp -o React_game.o
 Utility.o: Utility.cpp Utility.h
 	$(LD) $(CFLAGS) Utility.cpp -o Utility.o
+
+Main_menu.o: Main_menu.cpp Main_menu.h
+	$(LD) $(CFLAGS) Main_menu.cpp -o Main_menu.o
 
 clean:
 	rm -f *.o
