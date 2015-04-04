@@ -89,18 +89,31 @@ void Main_menu::move(std::vector< std::pair<std::string, bool> > *menu_items,
 Mode Main_menu::get_mode() {
 	for (auto i : *mode) {
 		if (i.second) {
-			return translate_mode(i.first);
+			if (i.first == "Pattern") {
+				return PATTERN;
+			}
+			if (i.first == "Song") {
+				return SONG;
+			}
 		}
 	}
+	std::cerr << "Warning, get_mode returned default value\n";
 	return PATTERN;
 }
 
 Difficulty Main_menu::get_difficulty() {
 	for (auto i : *difficulty) {
 		if (i.second) {
-			return translate_difficulty(i.first);
+			if (i.first == "Easy") {
+				return EASY;
+			} if (i.first == "Medium") {
+				return MEDIUM;
+			} if (i.first == "Hard") {
+				return HARD;
+			}
 		}
 	}
+	std::cerr << "Warning, get_difficulty returned default value\n";
 	return EASY;
 }
 
@@ -145,24 +158,4 @@ void Main_menu::render(std::vector< std::pair<std::string, bool> > *menu_items) 
 		border_inc += text_size*2;
 	}
 	window->display();
-}
-
-Difficulty translate_difficulty(std::string difficulty) {
-	if (difficulty == "Easy") {
-		return EASY;
-	} if (difficulty == "Medium") {
-		return MEDIUM;
-	} if (difficulty == "Hard") {
-		return HARD;
-	}
-	return EASY;
-}
-
-Mode translate_mode(std::string mode) {
-	if (mode == "Pattern") {
-		return PATTERN;
-	if (mode == "Song") {
-		return SONG;
-	}
-	return PATTERN;
 }

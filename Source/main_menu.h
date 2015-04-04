@@ -31,6 +31,4 @@ private:
 	void render_mode();
 	void render_difficulty();
 	void render(std::vector< std::pair<std::string, bool> > *menu_items);
-	Difficulty translate_difficulty(std::string difficulty);
-	Mode translate_mode(std::string mode);
 };
