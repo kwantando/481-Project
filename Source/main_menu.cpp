@@ -92,6 +92,7 @@ Mode Main_menu::get_mode() {
 			return translate_mode(i.first);
 		}
 	}
+	return PATTERN;
 }
 
 Difficulty Main_menu::get_difficulty() {
@@ -100,6 +101,7 @@ Difficulty Main_menu::get_difficulty() {
 			return translate_difficulty(i.first);
 		}
 	}
+	return EASY;
 }
 
 void Main_menu::render_difficulty() {
@@ -148,17 +150,19 @@ void Main_menu::render(std::vector< std::pair<std::string, bool> > *menu_items) 
 Difficulty translate_difficulty(std::string difficulty) {
 	if (difficulty == "Easy") {
 		return EASY;
-	} else if (difficulty == "Medium") {
+	} if (difficulty == "Medium") {
 		return MEDIUM;
-	} else if (difficulty == "Hard") {
+	} if (difficulty == "Hard") {
 		return HARD;
 	}
+	return EASY;
 }
 
 Mode translate_mode(std::string mode) {
 	if (mode == "Pattern") {
 		return PATTERN;
-	} else if (mode == "Song") {
+	if (mode == "Song") {
 		return SONG;
 	}
+	return PATTERN;
 }
