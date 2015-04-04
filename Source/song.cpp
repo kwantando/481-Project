@@ -55,7 +55,7 @@ void Song::initialize_notes(Song_info_parser& info)
 {
     vector<Note>& raw_notes = info.get_notes();
     int window = -1 * note_freq;//make it so initial guard is just 0
-    //(yes this is a workaround, shut up :()
+    //(yes this is a workaround, shut up :( )
     for(size_t i = 0; i < raw_notes.size(); i++) {
         if(raw_notes[i].timestamp >= (note_freq + window)) {
             notes.push_back(raw_notes[i]);

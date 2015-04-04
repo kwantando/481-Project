@@ -3,6 +3,7 @@
 #include "songinfoparser.h"
 #include "song.h"
 #include "Utility.h"
+#include "qdsleep.h"
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
@@ -31,10 +32,10 @@ static keypads_e note_to_keypad(int note) {
 }
 
 React_game::React_game(Game_board* g_board_) :
-g_board(g_board_), next_note(0)
+g_board(g_board_), next_note(0), already_responded(false)
 {
 	Song_info_parser parser{"bhc.txt"};
-	song_handle = make_shared<Song>("beverlyhillscop.wav", parser, EASY);
+	song_handle = make_shared<Song>("beverlyhillscop.wav", parser, MEDIUM);
 }
 
 void React_game::init_game() {
@@ -50,11 +51,16 @@ void React_game::mid_game_processing() {
 		return;
 	}
 
-	if (next_note_val != not_new_note_c) {
+	if (button_timer.getElapsedTime() > milliseconds(500)) {
 		g_board->switch_off_button(next_note);
+	}
+
+	if (next_note_val != not_new_note_c) {
 		g_board->switch_on_button(next_note_val);
+		button_timer.restart();
 		next_note = next_note_val;
 		cout << "Next note = " << next_note + 1 << endl;
+		already_responded = false;
 	}
 
 }
@@ -78,17 +84,27 @@ void React_game::command_switch(const Event& event) {
 			respond_to_incorrect_input();
 		}
 
+		cout << "Your score now: " << get_score() << endl;
+
 		set_pressed(true);
 	}
 
 }
 void React_game::respond_to_correct_input() {
 
+	if (already_responded) {
+		respond_to_incorrect_input();
+		return;
+	}
+
 	cout << "Entered correct note!" << endl;
+	inc_score();
+	already_responded = true;
 
 }
 void React_game::respond_to_incorrect_input() {
 
+	dec_score();
 	cout << "Entered bad note!" << endl;
 
 }

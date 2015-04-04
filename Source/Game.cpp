@@ -5,12 +5,8 @@ using namespace sf;
 
 const int init_lives = 5;
 
-Game::Game() : lives(init_lives) {
+Game::Game() : lives(init_lives), score(0) {
 
-
-}
-
-Game::~Game() {
 
 }
 

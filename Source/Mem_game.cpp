@@ -35,7 +35,9 @@ void Mem_game::init_game() {
 		cout << "Just played " << button + 1 << " note!" << endl;
 	}
 	g_board->clear_buttons();
-	qdsleep(500);
+	Clock waiter_clock;
+	while (waiter_clock.getElapsedTime() < milliseconds(500));
+	//qdsleep(500);
 
 	seq_it = 0;
 
@@ -47,6 +49,7 @@ void Mem_game::mid_game_processing() {
 void Mem_game::reset() {
 
 	reset_lives();
+	reset_score();
 	mem_handle.reset(new Memory_handler());
 	DEBUG_MSG("Controller reset.");
 	init_game();
@@ -65,6 +68,8 @@ void Mem_game::command_switch(const Event& event) {
 			respond_to_incorrect_input();
 		}
 
+		cout << "Score now: " << get_score() << endl;
+
 		set_pressed(true);
 	}
 
@@ -78,9 +83,11 @@ void Mem_game::respond_to_correct_input() {
 
 	if (seq_it >= sequence.size()) {
 
+		inc_score();
 		mem_handle->next_sequence(true);
 		mem_handle->play_success_note();
-		qdsleep(750);
+		Clock waiter_clock;
+		while (waiter_clock.getElapsedTime() < milliseconds(750));
 		DEBUG_MSG("PATTERN SUCCESSFULLY REPEATED! Upping difficulty...");
 		g_board->clear_buttons();
 		init_game();
@@ -94,6 +101,7 @@ void Mem_game::respond_to_incorrect_input() {
 	mem_handle->play_fail_note();
 	g_board->clear_buttons();
 	dec_lives();
+	dec_score();
 	if (get_lives() <= 0) {
 
 		DEBUG_MSG("You lost!");

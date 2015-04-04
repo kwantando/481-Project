@@ -1,7 +1,6 @@
 #include "Debug_msg.h"
 #include "Controller.h"
 #include "memory_handler.h"
-#include "beat_sequence.h"
 #include "songinfoparser.h"
 #include "Game_board.h"
 #include "qdsleep.h"
@@ -50,8 +49,8 @@ void Controller::start_reading_input() {
 		curr_game->mid_game_processing();
 		if (event_window->pollEvent(event)) {
         //if (event_window->waitEvent(event)) {   // block for initial event
-            Event tmp_ev;
-            while (event_window->pollEvent(tmp_ev));    // discard events in queue
+            //Event tmp_ev;
+            //while (event_window->pollEvent(tmp_ev));    // discard events in queue
             // This essentially disables event stacking, which does not
             // work well with the game type we have.
             curr_game->command_switch(event);
