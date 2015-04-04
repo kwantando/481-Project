@@ -29,9 +29,9 @@ public:
     void next_sequence(bool move_up);
 
     //stops all other notes and plays the failure-boop. 
-    void play_fail_note();
+    void alert_fail_note();
     //stops all other notes and plays the success-boop.
-    void play_success_note();
+    void alert_success_note();
 
     ~Memory_handler() { stop_notes(); }
 

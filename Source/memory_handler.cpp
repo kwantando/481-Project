@@ -104,7 +104,7 @@ void Memory_handler::next_sequence(bool move_up)
 }
 
 //stops all other notes and plays the failure-boop.
-void Memory_handler::play_fail_note()
+void Memory_handler::alert_fail_note()
 {
     stop_notes();
     play_fail_note();
@@ -117,7 +117,7 @@ void Memory_handler::stop_notes()
     });
 }
 
-void Memory_handler::play_success_note()
+void Memory_handler::alert_success_note()
 {
     stop_notes();
     play_success_note();
