@@ -7,12 +7,7 @@
 #include <vector>
 #include "songinfoparser.h"
 #include "Note.h"
-
-enum Difficulty {
-    EASY,
-    MEDIUM,
-    HARD
-};
+#include "Utility.h"
 
 const int not_new_note_c = -1;
 const int song_over_c = -2;
@@ -44,7 +39,6 @@ public:
 
 private:
     int note_freq;
-    sf::Clock timer;
     Difficulty diff;
     sf::Music song_data;
     int cur_note;

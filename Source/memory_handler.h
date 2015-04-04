@@ -48,8 +48,6 @@ private:
     std::vector<int> full_sequence; 
     std::vector<int> cur_sequence;
     std::vector<std::shared_ptr<sf::Music>> notes;
-    std::shared_ptr<sf::Music> fail_note;
-    std::shared_ptr<sf::Music> success_note;
     //sf::Music song_data;
 };
 
