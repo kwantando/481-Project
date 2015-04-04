@@ -13,6 +13,17 @@ enum keypads_e {
 	KEYPAD6 = sf::Keyboard::Num6
 };
 
+enum Difficulty {
+    EASY,
+    MEDIUM,
+    HARD
+};
+
+enum Mode {
+	SONG,
+	PATTERN
+};
+
 std::vector<keypads_e> convert_int_to_keypads(const std::vector<int>& vc);
 
 
