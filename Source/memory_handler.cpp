@@ -1,6 +1,7 @@
 #include "memory_handler.h"
 #include "qdsleep.h"
 #include "Game_board.h"
+#include "Utility.h"
 #include <SFML/System.hpp>
 #include <stdexcept>
 #include <sstream>
@@ -25,12 +26,8 @@ using std::shared_ptr;
 
 const int done_playing_c = -1;
 const int num_notes_c = 6;
-const int default_note_wait_c = 300;
-const char* const notes_dir_c = "Notes/";
 const char* const default_note_filetype_c = ".ogg";
 const char* const note_file_name_c = "n";//n + number, of course
-const char* const fail_file_name_c = "fail";
-const char* const success_file_name_c = "success";
 
 
 //constructs the handler by reading in the song data from filename
@@ -52,20 +49,6 @@ Memory_handler::Memory_handler(int length)
         if(!notes[i]->openFromFile(note_location.str())) {
             throw runtime_error{"Could not open: " + note_location.str()};
         }
-    }
-    fail_note = make_shared<sf::Music>();
-    stringstream fail_note_loc;
-    fail_note_loc << notes_dir_c << fail_file_name_c 
-        << default_note_filetype_c;
-    if(!fail_note->openFromFile(fail_note_loc.str())) {
-        throw runtime_error{"Could not open: " + fail_note_loc.str()};
-    }
-    success_note = make_shared<sf::Music>();
-    stringstream success_note_loc;
-    success_note_loc << notes_dir_c << success_file_name_c
-        << ".wav";
-    if(!success_note->openFromFile(success_note_loc.str())) {
-        throw runtime_error{"Could not open: " + success_note_loc.str()};
     }
     gen_sequence(cur_seq_length);
 }
@@ -121,12 +104,10 @@ void Memory_handler::next_sequence(bool move_up)
 }
 
 //stops all other notes and plays the failure-boop.
-void Memory_handler::play_fail_note()
+void Memory_handler::alert_fail_note()
 {
     stop_notes();
-    fail_note->play();
-    qdsleep(default_note_wait_c);
-    fail_note->stop();
+    play_fail_note();
 }
 
 void Memory_handler::stop_notes()
@@ -136,10 +117,8 @@ void Memory_handler::stop_notes()
     });
 }
 
-void Memory_handler::play_success_note()
+void Memory_handler::alert_success_note()
 {
     stop_notes();
-    success_note->play();
-    qdsleep(default_note_wait_c);
-    success_note->stop();
+    play_success_note();
 }

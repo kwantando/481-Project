@@ -12,12 +12,11 @@ class Game_board;
 class Mem_game : public Game {
 
 public:
-	Mem_game(Game_board* g_board_);
-	~Mem_game();
+	Mem_game(std::shared_ptr<Game_board> g_board_);
 	void init_game() override;
-	void mid_game_processing() override;
+	void mid_game_processing() override {}
 	void reset() override;
-	void command_switch(const sf::Event&) override;
+	Command_response command_switch(const sf::Event&) override;
 	void respond_to_correct_input() override;
 	void respond_to_incorrect_input() override;
 
@@ -26,7 +25,7 @@ private:
 
 	std::vector<keypads_e> sequence;
 	std::vector<int> note_sequence;
-	Game_board* g_board;
+	std::shared_ptr<Game_board> g_board;
 
 	int seq_it;
 };

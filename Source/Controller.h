@@ -10,18 +10,18 @@ class Memory_handler;
 class Game_board;
 class Game;
 
-// This class is designed as a main way to control the behavior of the game
-// based on user inputs from the keyboard.  
+// This class is used as a way to query and dispatch events to the game
+// logic classes.
 
 class Controller {
 
 public:
-	// This constructor creates a game controller based on the given music_filename.
-	// It will create a new song object that will be buffered from that filename.
-    Controller(std::string game_mode);
-
-	// Clears dynamic memory.
-	~Controller();
+	// Create a controller for a game defined by game_mode 
+	// ("reaction" or "memory")
+	// Optionally takes the song's text file name and song file name,
+	// which are needed for the reaction game mode.
+    Controller(std::string game_mode,
+		std::string song_text_fname = "", std::string song_fname = "");
 
 	// This function will do any preprocessing necessary before entering
 	// an infinite loop that reads and processes user's commands based on
@@ -31,7 +31,7 @@ public:
 private:
 	
 	// Pointer to the game board.
-	Game_board* g_board;
+	std::shared_ptr<Game_board> g_board;
 
 	// Pointer to event/output window for the game
 	sf::RenderWindow* event_window;

@@ -29,9 +29,9 @@ public:
     void next_sequence(bool move_up);
 
     //stops all other notes and plays the failure-boop. 
-    void play_fail_note();
+    void alert_fail_note();
     //stops all other notes and plays the success-boop.
-    void play_success_note();
+    void alert_success_note();
 
     ~Memory_handler() { stop_notes(); }
 
@@ -48,8 +48,6 @@ private:
     std::vector<int> full_sequence; 
     std::vector<int> cur_sequence;
     std::vector<std::shared_ptr<sf::Music>> notes;
-    std::shared_ptr<sf::Music> fail_note;
-    std::shared_ptr<sf::Music> success_note;
     //sf::Music song_data;
 };
 
