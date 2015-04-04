@@ -5,6 +5,8 @@
 #include "Utility.h"
 #include "qdsleep.h"
 #include <iostream>
+#include <string>
+#include <memory>
 #include <SFML/Graphics.hpp>
 
 using namespace sf;
@@ -31,11 +33,12 @@ static keypads_e note_to_keypad(int note) {
 
 }
 
-React_game::React_game(Game_board* g_board_) :
-g_board(g_board_), next_note(0), already_responded(false)
+React_game::React_game(shared_ptr<Game_board> g_board_, string song_notes_text_fname, string song_fname) :
+g_board(g_board_), next_note(0), already_responded(true), text_file_name(song_notes_text_fname),
+song_file_name(song_fname)
 {
-	Song_info_parser parser{"bhc.txt"};
-	song_handle = make_shared<Song>("beverlyhillscop.wav", parser, MEDIUM);
+	Song_info_parser parser{song_notes_text_fname};
+	song_handle = make_shared<Song>(song_fname, parser, HARD);
 }
 
 void React_game::init_game() {
@@ -56,6 +59,13 @@ void React_game::mid_game_processing() {
 	}
 
 	if (next_note_val != not_new_note_c) {
+		if (!already_responded) {
+			cout << "You missed a note!" << endl;
+			dec_score();
+			dec_lives();
+			cout << "New lives = " << get_lives() << endl;
+			cout << "New score = " << get_score() << endl;
+		}
 		g_board->switch_on_button(next_note_val);
 		button_timer.restart();
 		next_note = next_note_val;
@@ -66,28 +76,44 @@ void React_game::mid_game_processing() {
 }
 void React_game::reset() {
 
+	song_handle->stop();
+	Song_info_parser parser{ text_file_name };
+	song_handle = make_shared<Song>(song_file_name, parser, MEDIUM);
+	cout << "Resetting!" << endl;
+	reset_lives();
+	reset_score();
+	already_responded = true;
+	Clock reset_timer;
+	while (reset_timer.getElapsedTime() < milliseconds(500));
+	init_game();
 
 }
-void React_game::command_switch(const Event& event) {
 
-	Game::command_switch(event);
+Game::Command_response React_game::command_switch(const Event& event) {
+
+	Command_response rsp = Game::command_switch(event);
+
+	if (rsp == Command_response::RESET || rsp == Command_response::EXIT) {
+		return rsp;
+	}
 
 	if ((event.type == Event::KeyPressed) && !was_pressed()) {
+
 		keypads_e next_keypad = note_to_keypad(next_note);
 		keypads_e keypad_pressed = static_cast<keypads_e>(event.key.code);
-		//cout << "Pressed: " << keypad_pressed << endl;
-		//cout << "Wanted : " << next_keypad << endl;
+
 		if (next_keypad == keypad_pressed) {
 			respond_to_correct_input();
 		}
 		else {
 			respond_to_incorrect_input();
 		}
-
 		cout << "Your score now: " << get_score() << endl;
 
 		set_pressed(true);
 	}
+
+	return Command_response::NO_RESPONSE;
 
 }
 void React_game::respond_to_correct_input() {
@@ -106,10 +132,5 @@ void React_game::respond_to_incorrect_input() {
 
 	dec_score();
 	cout << "Entered bad note!" << endl;
-
-}
-
-React_game::~React_game() {
-
 
 }

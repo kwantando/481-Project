@@ -12,14 +12,10 @@ using namespace sf;
 
 const int default_start_len_c = 20;
 
-Mem_game::Mem_game(Game_board* g_board_) :
+Mem_game::Mem_game(shared_ptr<Game_board> g_board_) :
 mem_handle(new Memory_handler(20)),
 g_board(g_board_)
 {
-
-}
-
-Mem_game::~Mem_game() {
 
 }
 
@@ -37,15 +33,11 @@ void Mem_game::init_game() {
 	g_board->clear_buttons();
 	Clock waiter_clock;
 	while (waiter_clock.getElapsedTime() < milliseconds(500));
-	//qdsleep(500);
 
 	seq_it = 0;
 
 }
-void Mem_game::mid_game_processing() {
 
-
-}
 void Mem_game::reset() {
 
 	reset_lives();
@@ -55,9 +47,14 @@ void Mem_game::reset() {
 	init_game();
 
 }
-void Mem_game::command_switch(const Event& event) {
 
-	Game::command_switch(event);
+Game::Command_response Mem_game::command_switch(const Event& event) {
+
+	Command_response rsp = Game::command_switch(event);
+
+	if (rsp == Command_response::RESET || rsp == Command_response::EXIT) {
+		return rsp;
+	}
 
 	if ((event.type == Event::KeyPressed) && !was_pressed()) {
 
@@ -68,10 +65,10 @@ void Mem_game::command_switch(const Event& event) {
 			respond_to_incorrect_input();
 		}
 
-		cout << "Score now: " << get_score() << endl;
-
 		set_pressed(true);
 	}
+
+	return Command_response::NO_RESPONSE;
 
 }
 
@@ -88,6 +85,7 @@ void Mem_game::respond_to_correct_input() {
 		mem_handle->play_success_note();
 		Clock waiter_clock;
 		while (waiter_clock.getElapsedTime() < milliseconds(750));
+		cout << "Score now: " << get_score() << endl;
 		DEBUG_MSG("PATTERN SUCCESSFULLY REPEATED! Upping difficulty...");
 		g_board->clear_buttons();
 		init_game();

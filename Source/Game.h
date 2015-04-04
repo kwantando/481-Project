@@ -12,7 +12,12 @@ public:
 	virtual void init_game() = 0;
 	virtual void mid_game_processing() = 0;
 	virtual void reset() = 0;
-	virtual void command_switch(const sf::Event&);
+	enum class Command_response {
+		NO_RESPONSE,
+		RESET,
+		EXIT
+	};
+	virtual Command_response command_switch(const sf::Event&);
 	virtual void respond_to_correct_input() = 0;
 	virtual void respond_to_incorrect_input() = 0;
 

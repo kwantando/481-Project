@@ -8,33 +8,23 @@
 #include "Mem_game.h"
 #include "React_game.h"
 #include <stdexcept>
+#include <string>
 
 using namespace sf;
 using namespace std;
 
 // This constructor creates a game controller based on the given music_filename.
-// It will create a new song object that will be buffered from that filename.
-Controller::Controller(string game_mode) {
-
-	g_board = new Game_board(event_window);	// initializes event_window
+Controller::Controller(string game_mode, string song_text_fname /* = "" */, string song_filename /* = "" */) : 
+g_board(new Game_board(event_window)){
 
 	if (game_mode == "memory") {
 		curr_game.reset(new Mem_game(g_board));
 	}
 	else if (game_mode == "reaction") {
-		curr_game.reset(new React_game(g_board));
+		curr_game.reset(new React_game(g_board, song_text_fname, song_filename));
 	}
 
     DEBUG_MSG("constructed successfully");
-}
-
-// Clears dynamic memory.
-Controller::~Controller() {
-
-    //delete mem_hand;
-    delete g_board;
-    DEBUG_MSG("destructed successfully");
-
 }
 
 // This function will do any preprocessing necessary before entering
@@ -53,7 +43,11 @@ void Controller::start_reading_input() {
             //while (event_window->pollEvent(tmp_ev));    // discard events in queue
             // This essentially disables event stacking, which does not
             // work well with the game type we have.
-            curr_game->command_switch(event);
+			if (curr_game->command_switch(event) == Game::Command_response::EXIT) {
+
+				return;
+
+			}
         }
 
     }
