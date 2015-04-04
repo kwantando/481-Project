@@ -5,9 +5,9 @@
 
 Main_menu::Main_menu() : window_height(600), window_width(800), text_size(56) {
 	mode = new std::vector< std::pair<std::string, bool> >
-				 {{"Song", true}, {"Pattern", false}};
+				 {{"Song", true}, {"Pattern", false}, {"Quit", false}};
 	difficulty = new std::vector< std::pair<std::string, bool> >
-				 {{"Easy", true}, {"Medium", false}, {"Hard", false}};
+				 {{"Easy", true}, {"Medium", false}, {"Hard", false}, {"Back", false}};
 	// The capital L tells SFML to use wide literal strings so the
 	// accented i should render correctly
 	window = new sf::RenderWindow(sf::VideoMode(window_width, window_height),L"MelodiMemorí");
@@ -95,6 +95,10 @@ Mode Main_menu::get_mode() {
 			if (i.first == "Song") {
 				return SONG;
 			}
+			if (i.first == "Quit") {
+				cerr << "User ended program\n";
+				exit(0);
+			}
 		}
 	}
 	std::cerr << "Warning, get_mode returned default value\n";
@@ -110,6 +114,8 @@ Difficulty Main_menu::get_difficulty() {
 				return MEDIUM;
 			} if (i.first == "Hard") {
 				return HARD;
+			} if (i.first == "Back") {
+				render_mode();
 			}
 		}
 	}
