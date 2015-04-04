@@ -20,7 +20,7 @@ public:
 	// ("reaction" or "memory")
 	// Optionally takes the song's text file name and song file name,
 	// which are needed for the reaction game mode.
-    Controller(std::string game_mode,
+    Controller(Mode game_mode, Difficulty difficulty,
 		std::string song_text_fname = "", std::string song_fname = "");
 
 	// This function will do any preprocessing necessary before entering

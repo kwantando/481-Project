@@ -12,8 +12,9 @@ using namespace sf;
 
 const int default_start_len_c = 20;
 
-Mem_game::Mem_game(shared_ptr<Game_board> g_board_) :
-mem_handle(new Memory_handler(20)),
+Mem_game::Mem_game(shared_ptr<Game_board> g_board_, Difficulty diff) :
+Game(diff),
+mem_handle(new Memory_handler(default_start_len_c)),
 g_board(g_board_)
 {
 
@@ -63,12 +64,13 @@ Game::Command_response Mem_game::command_switch(const Event& event) {
 		}
 		else {
 			respond_to_incorrect_input();
+			rsp = Command_response::RESET;
 		}
 
 		set_pressed(true);
 	}
 
-	return Command_response::NO_RESPONSE;
+	return rsp;
 
 }
 
@@ -82,7 +84,7 @@ void Mem_game::respond_to_correct_input() {
 
 		inc_score();
 		mem_handle->next_sequence(true);
-		mem_handle->play_success_note();
+		mem_handle->alert_success_note();
 		Clock waiter_clock;
 		while (waiter_clock.getElapsedTime() < milliseconds(750));
 		cout << "Score now: " << get_score() << endl;
@@ -96,7 +98,7 @@ void Mem_game::respond_to_correct_input() {
 
 void Mem_game::respond_to_incorrect_input() {
 
-	mem_handle->play_fail_note();
+	mem_handle->alert_fail_note();
 	g_board->clear_buttons();
 	dec_lives();
 	dec_score();

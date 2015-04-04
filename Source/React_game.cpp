@@ -33,12 +33,14 @@ static keypads_e note_to_keypad(int note) {
 
 }
 
-React_game::React_game(shared_ptr<Game_board> g_board_, string song_notes_text_fname, string song_fname) :
+React_game::React_game(shared_ptr<Game_board> g_board_, Difficulty diff,
+string song_notes_text_fname, string song_fname) :
+Game(diff),
 g_board(g_board_), next_note(0), already_responded(true), text_file_name(song_notes_text_fname),
 song_file_name(song_fname)
 {
 	Song_info_parser parser{song_notes_text_fname};
-	song_handle = make_shared<Song>(song_fname, parser, HARD);
+	song_handle = make_shared<Song>(song_fname, parser, diff);
 }
 
 void React_game::init_game() {
@@ -78,7 +80,7 @@ void React_game::reset() {
 
 	song_handle->stop();
 	Song_info_parser parser{ text_file_name };
-	song_handle = make_shared<Song>(song_file_name, parser, MEDIUM);
+	song_handle = make_shared<Song>(song_file_name, parser, get_difficulty());
 	cout << "Resetting!" << endl;
 	reset_lives();
 	reset_score();
