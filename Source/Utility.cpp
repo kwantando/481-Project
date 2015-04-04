@@ -3,6 +3,7 @@
 #include <memory>
 #include <SFML/Audio.hpp>
 #include <SFML/System.hpp>
+#include <sstream>
 using namespace std;
 
 const char* const fail_file_name_c = "fail";
@@ -69,7 +70,7 @@ void play_fail_note()
     static shared_ptr<sf::Music> fail_note;
     if(fail_note == nullptr) {
     	fail_note = make_shared<sf::Music>();
-	   	stringstream success_note_loc;
+	   	stringstream fail_note_loc;
 	    fail_note_loc << notes_dir_c << fail_file_name_c
 	        << ".wav";
 	    if(!fail_note->openFromFile(fail_note_loc.str())) {
