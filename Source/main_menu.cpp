@@ -147,7 +147,7 @@ void Main_menu::render(std::vector< std::pair<std::string, bool> > *menu_items) 
 	window->display();
 }
 
-Difficulty translate_difficulty(std::string difficulty) {
+Difficulty Main_menu::translate_difficulty(std::string difficulty) {
 	if (difficulty == "Easy") {
 		return EASY;
 	} if (difficulty == "Medium") {
@@ -158,9 +158,10 @@ Difficulty translate_difficulty(std::string difficulty) {
 	return EASY;
 }
 
-Mode translate_mode(std::string mode) {
+Mode Main_menu::translate_mode(std::string mode) {
 	if (mode == "Pattern") {
 		return PATTERN;
+	}
 	if (mode == "Song") {
 		return SONG;
 	}
