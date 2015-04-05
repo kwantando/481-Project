@@ -31,4 +31,5 @@ private:
 	void render_mode();
 	void render_difficulty();
 	void render(std::vector< std::pair<std::string, bool> > *menu_items);
+	void return_key();
 };

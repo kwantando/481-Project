@@ -5,9 +5,9 @@
 
 Main_menu::Main_menu() : window_height(600), window_width(800), text_size(56) {
 	mode = new std::vector< std::pair<std::string, bool> >
-				 {{"Song", true}, {"Pattern", false}};
+				 {{"Song", true}, {"Pattern", false}, {"Quit", false}};
 	difficulty = new std::vector< std::pair<std::string, bool> >
-				 {{"Easy", true}, {"Medium", false}, {"Hard", false}};
+				 {{"Easy", true}, {"Medium", false}, {"Hard", false}, {"Back", false}};
 	// The capital L tells SFML to use wide literal strings so the
 	// accented i should render correctly
 	window = new sf::RenderWindow(sf::VideoMode(window_width, window_height),L"MelodiMemorí");
@@ -48,11 +48,29 @@ void Main_menu::key_event(sf::Event event) {
 			move(mode_screen_active ? mode : difficulty, DOWN);
 			break;
 		case sf::Keyboard::Return:
-			mode_screen_active ? render_difficulty() : window->close();
+			return_key();
+			//mode_screen_active ? (mode->back().second ? window->close() : render_difficulty()) : 
+			//(difficulty_screen_active ? (difficulty->back().second ? render_mode() : window->close))window->close();
 			break;
 		default:
 			// do nothing if some other key is pressed
 			break;
+	}
+}
+
+void Main_menu::return_key() {
+	if (mode_screen_active) {
+		if (mode->back().second) {
+			window->close();
+		} else {
+			render_difficulty();
+		}
+	} else if (difficulty_screen_active) {
+		if (difficulty->back().second) {
+			render_mode();
+		} else {
+			window->close();
+		}
 	}
 }
 
@@ -95,6 +113,10 @@ Mode Main_menu::get_mode() {
 			if (i.first == "Song") {
 				return SONG;
 			}
+			if (i.first == "Quit") {
+				std::cerr << "User ended program\n";
+				exit(0);
+			}
 		}
 	}
 	std::cerr << "Warning, get_mode returned default value\n";
@@ -110,6 +132,8 @@ Difficulty Main_menu::get_difficulty() {
 				return MEDIUM;
 			} if (i.first == "Hard") {
 				return HARD;
+			} if (i.first == "Back") {
+				render_mode();
 			}
 		}
 	}

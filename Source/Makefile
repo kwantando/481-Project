@@ -5,17 +5,17 @@ LFLAGS = -g
 LIBS = -lsfml-audio -lsfml-system -lsfml-graphics -lsfml-window
 
 OBJS = Controller.o Game_board.o songinfoparser.o Memory_handler.o main.o Song.o Game.o Mem_game.o React_game.o Utility.o Main_menu.o
-PROG = mem_demo
+PROG = melodimemori
 
 default: $(PROG)
 
 $(PROG): $(OBJS)
 	$(LD) $(LFLAGS) $(OBJS) $(LIBS) -o $(PROG)
 
-Controller.o: Memory_handler.o songinfoparser.o Game_board.o qdsleep.o Controller.cpp Controller.h Main_menu.o
+Controller.o: Memory_handler.o songinfoparser.o Game_board.o Controller.cpp Controller.h Main_menu.o Utility.o
 	$(LD) $(CFLAGS) Controller.cpp -o Controller.o
 
-Memory_handler.o: qdsleep.o Memory_handler.cpp Memory_handler.h Game_board.h
+Memory_handler.o: Utility.o Memory_handler.cpp Memory_handler.h Game_board.h
 	$(LD) $(CFLAGS) Memory_handler.cpp -o Memory_handler.o
 
 songinfoparser.o: songinfoparser.cpp songinfoparser.h Note.h 
