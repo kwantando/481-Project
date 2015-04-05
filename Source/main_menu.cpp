@@ -48,11 +48,29 @@ void Main_menu::key_event(sf::Event event) {
 			move(mode_screen_active ? mode : difficulty, DOWN);
 			break;
 		case sf::Keyboard::Return:
-			mode_screen_active ? render_difficulty() : window->close();
+			return_key();
+			//mode_screen_active ? (mode->back().second ? window->close() : render_difficulty()) : 
+			//(difficulty_screen_active ? (difficulty->back().second ? render_mode() : window->close))window->close();
 			break;
 		default:
 			// do nothing if some other key is pressed
 			break;
+	}
+}
+
+void Main_menu::return_key() {
+	if (mode_screen_active) {
+		if (mode->back().second) {
+			window->close();
+		} else {
+			render_difficulty();
+		}
+	} else if (difficulty_screen_active) {
+		if (difficulty->back().second) {
+			render_mode();
+		} else {
+			window->close();
+		}
 	}
 }
 
@@ -96,7 +114,7 @@ Mode Main_menu::get_mode() {
 				return SONG;
 			}
 			if (i.first == "Quit") {
-				cerr << "User ended program\n";
+				std::cerr << "User ended program\n";
 				exit(0);
 			}
 		}
