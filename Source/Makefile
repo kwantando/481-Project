@@ -5,7 +5,7 @@ LFLAGS = -g
 LIBS = -lsfml-audio -lsfml-system -lsfml-graphics -lsfml-window
 
 OBJS = Controller.o Game_board.o songinfoparser.o Memory_handler.o main.o Song.o Game.o Mem_game.o React_game.o Utility.o Main_menu.o
-PROG = mem_demo
+PROG = melodimemori
 
 default: $(PROG)
 
