@@ -4,7 +4,7 @@ CFLAGS = -c -g -std=c++11 -pedantic-errors -Wall
 LFLAGS = -g
 LIBS = -lsfml-audio -lsfml-system -lsfml-graphics -lsfml-window
 
-OBJS = Controller.o Game_board.o songinfoparser.o Memory_handler.o main.o Song.o Game.o Mem_game.o React_game.o Utility.o Main_menu.o
+OBJS = Controller.o Game_board.o songinfoparser.o Memory_handler.o main.o Song.o Game.o Mem_game.o React_game.o Utility.o Main_menu.o Light_cont.o
 PROG = melodimemori
 
 default: $(PROG)
@@ -12,7 +12,7 @@ default: $(PROG)
 $(PROG): $(OBJS)
 	$(LD) $(LFLAGS) $(OBJS) $(LIBS) -o $(PROG)
 
-Controller.o: Memory_handler.o songinfoparser.o Game_board.o Controller.cpp Controller.h Main_menu.o Utility.o
+Controller.o: Memory_handler.o songinfoparser.o Game_board.o Controller.cpp Controller.h Main_menu.o Utility.o Light_cont.o
 	$(LD) $(CFLAGS) Controller.cpp -o Controller.o
 
 Memory_handler.o: Utility.o Memory_handler.cpp Memory_handler.h Game_board.h
@@ -39,6 +39,9 @@ Utility.o: Utility.cpp Utility.h
 
 Main_menu.o: Main_menu.cpp Main_menu.h
 	$(LD) $(CFLAGS) Main_menu.cpp -o Main_menu.o
+
+Light_cont.o: Light_cont.cpp Light_cont.h
+	$(LD) $(CFLAGS) Light_cont.cpp -o Light_cont.o
 
 clean:
 	rm -f *.o

@@ -8,7 +8,7 @@
 
 Light_cont::Light_cont(std::string port)
 {
-	file = fopen(port.c_str(),'w');
+	file = fopen(port.c_str(),"w");
 }
 
 Light_cont::~Light_cont()
@@ -16,7 +16,7 @@ Light_cont::~Light_cont()
 	fclose(file);
 }
 
-Light_cont::activate(char pad_a_f)
+void Light_cont::activate(int pad_a_f)
 {
 	switch(pad_a_f){
 		case '1':
@@ -37,7 +37,7 @@ Light_cont::activate(char pad_a_f)
 	return;
 }
 
-Light_cont::deactivate(char pad_a_f)
+void Light_cont::deactivate(int pad_a_f)
 {
 		switch(pad_a_f){
 		case '1':
