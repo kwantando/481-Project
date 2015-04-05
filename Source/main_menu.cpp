@@ -3,19 +3,34 @@
 #include <iterator>
 #include "main_menu.h"
 
+// Prints debug messages when set to true.
+static const bool DEBUG = true;
+
+// You can change the window size here in initialization section, along with
+// the text size. Text may or may not be appropriately spaced after changing
+// window_height, window_width and text_size. It looks best at 600*800 with
+// a text size of 56. All units in the initialization section are pizels.
 Main_menu::Main_menu() : window_height(600), window_width(800), text_size(56) {
+	// Each vector holds pairs of strings and bools. The bool says whether or
+	// not the string is currently highlighted on screen.
+	// Exactly one bool must be true in every vector at initialization.
 	mode = new std::vector< std::pair<std::string, bool> >
 				 {{"Song", true}, {"Pattern", false}, {"Quit", false}};
 	difficulty = new std::vector< std::pair<std::string, bool> >
-				 {{"Easy", true}, {"Medium", false}, {"Hard", false}, {"Back", false}};
-	// The capital L tells SFML to use wide literal strings so the
-	// accented i should render correctly
-	window = new sf::RenderWindow(sf::VideoMode(window_width, window_height),L"MelodiMemorí");
+				 {{"Easy", true}, {"Medium", false}, {"Hard", false},
+				  {"Back", false}};
 	
+	// The capital L tells SFML to use wide literal strings so the
+	// accented i should render correctly in the title bar (on macs, it does)
+	window = new sf::RenderWindow(sf::VideoMode(window_width, window_height),
+								  L"MelodiMemorí");
+	
+	// This is the first screen presented to the user
 	render_mode();
 
+	// Event loop that handles user input.
+	sf::Event event;
 	while(window->isOpen()) {
-		sf::Event event;
 		while (window->pollEvent(event)) {
 			switch (event.type) {
 				case sf::Event::Closed:
@@ -38,6 +53,7 @@ Main_menu::~Main_menu() {
 }
 
 void Main_menu::key_event(sf::Event event) {
+	if (DEBUG) std::cout << "key_event() called\n";
 	switch (event.key.code) {
 		case sf::Keyboard::Up:
 		case sf::Keyboard::Left:
@@ -49,8 +65,6 @@ void Main_menu::key_event(sf::Event event) {
 			break;
 		case sf::Keyboard::Return:
 			return_key();
-			//mode_screen_active ? (mode->back().second ? window->close() : render_difficulty()) : 
-			//(difficulty_screen_active ? (difficulty->back().second ? render_mode() : window->close))window->close();
 			break;
 		default:
 			// do nothing if some other key is pressed
@@ -59,6 +73,9 @@ void Main_menu::key_event(sf::Event event) {
 }
 
 void Main_menu::return_key() {
+	if (DEBUG) std::cout << "return_key() called\n";
+	// The last item in a vector is either the quit button
+	// or the back button. Hence checking *->back().second
 	if (mode_screen_active) {
 		if (mode->back().second) {
 			window->close();
@@ -75,7 +92,8 @@ void Main_menu::return_key() {
 }
 
 void Main_menu::move(std::vector< std::pair<std::string, bool> > *menu_items,
-					 key_pressed direction) {
+					 Key_pressed direction) {
+	if (DEBUG) std::cout << "move() called\n";
 	if (menu_items->size() > 1) {
 		for (auto i = menu_items->begin(); i != menu_items->end(); i++) {
 			if (i->second == true) {
@@ -105,6 +123,7 @@ void Main_menu::move(std::vector< std::pair<std::string, bool> > *menu_items,
 }
 
 Mode Main_menu::get_mode() {
+	if (DEBUG) std::cout << "get_mode() called\n";
 	for (auto i : *mode) {
 		if (i.second) {
 			if (i.first == "Pattern") {
@@ -142,18 +161,22 @@ Difficulty Main_menu::get_difficulty() {
 }
 
 void Main_menu::render_difficulty() {
+	if (DEBUG) std::cout << "render_difficulty() called\n";
 	mode_screen_active = false;
 	difficulty_screen_active = true;
 	render(difficulty);
 }
 
 void Main_menu::render_mode() {
+	if (DEBUG) std::cout << "render_mode() called\n";
 	mode_screen_active = true;
 	difficulty_screen_active = false;
 	render(mode);
 }
 
 void Main_menu::render(std::vector< std::pair<std::string, bool> > *menu_items) {
+	if (DEBUG) std::cout << "render() called\n";
+
 	window->clear(sf::Color::Black);
 	sf::Font font;
 	if (!font.loadFromFile("arial.ttf")) {
