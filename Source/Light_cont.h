@@ -1,5 +1,7 @@
-#ifdef LIGHT_CONT_H
+#ifndef LIGHT_CONT_H
 #define LIGHT_CONT_H
+
+#include <string>
 
 enum Pads{
 	TOP_LEFT,
@@ -13,14 +15,14 @@ enum Pads{
 class Light_cont
 {
 public:
-	Light_cont();
+	Light_cont(std::string port);
 	~Light_cont();
-	activate(char pad_a_f);
-	deactivate(char pad_a_f);
+	void activate(int pad_a_f);
+	void deactivate(int pad_a_f);
 
 private:
 	FILE *file;
-}
+};
 
 
 #endif

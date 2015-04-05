@@ -1,6 +1,7 @@
 #ifndef GAME_BOARD_H
 #define GAME_BOARD_H
 
+#include "Light_cont.h"
 #include <SFML/Graphics.hpp>
 
 class Game_board {
@@ -28,6 +29,9 @@ private:
 
 	// Note color container
 	std::vector<sf::Color> note_colors;
+
+	// This controls the lights on the game board.
+	Light_cont light_controller;
 
 	// Sets up buttons in correct places.
 	void init_buttons();

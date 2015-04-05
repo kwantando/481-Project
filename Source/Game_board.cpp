@@ -1,10 +1,12 @@
 #include "Game_board.h"
+#include "Light_cont.h"
 #include <stdexcept>
 
 using sf::Color;
 using sf::Vector2f;
 
-Game_board::Game_board(sf::RenderWindow*& event_ptr) 
+Game_board::Game_board(sf::RenderWindow*& event_ptr) :
+light_controller("/dev/tty.usbmodemfd121")
 {
 	event_ptr = event_window = new sf::RenderWindow(sf::VideoMode(930, 625),
 			                            "Event_Handler_Window");
@@ -27,12 +29,14 @@ Game_board::~Game_board()
 void Game_board::switch_off_button(int button)
 {
 	button_sprites[button].setColor(Color::White);
+	light_controller.deactivate(button);
 	redraw_window();
 }
 
 void Game_board::switch_on_button(int button)
 {
 	button_sprites[button].setColor(note_colors[button]);
+	light_controller.activate(button);
 	redraw_window();
 }
 
@@ -40,6 +44,7 @@ void Game_board::clear_buttons()
 {	
 	for (int i = 0; i < 6; ++i) {
 		button_sprites[i].setColor(Color::White);
+		light_controller.deactivate(i);
 	}
 	redraw_window();
 }
