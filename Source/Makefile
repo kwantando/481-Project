@@ -12,10 +12,10 @@ default: $(PROG)
 $(PROG): $(OBJS)
 	$(LD) $(LFLAGS) $(OBJS) $(LIBS) -o $(PROG)
 
-Controller.o: Memory_handler.o songinfoparser.o Game_board.o Controller.cpp Controller.h Main_menu.o
+Controller.o: Memory_handler.o songinfoparser.o Game_board.o Controller.cpp Controller.h Main_menu.o Utility.o
 	$(LD) $(CFLAGS) Controller.cpp -o Controller.o
 
-Memory_handler.o: qdsleep.o Memory_handler.cpp Memory_handler.h Game_board.h
+Memory_handler.o: Utility.o Memory_handler.cpp Memory_handler.h Game_board.h
 	$(LD) $(CFLAGS) Memory_handler.cpp -o Memory_handler.o
 
 songinfoparser.o: songinfoparser.cpp songinfoparser.h Note.h 

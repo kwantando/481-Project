@@ -3,7 +3,6 @@
 #include "songinfoparser.h"
 #include "song.h"
 #include "Utility.h"
-#include "qdsleep.h"
 #include <iostream>
 #include <string>
 #include <memory>
