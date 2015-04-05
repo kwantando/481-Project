@@ -4,7 +4,7 @@
 #include "main_menu.h"
 
 // Prints debug messages when set to true.
-static const bool DEBUG = true;
+static const bool DEBUG = false;
 
 // You can change the window size here in initialization section, along with
 // the text size. Text may or may not be appropriately spaced after changing
@@ -151,8 +151,6 @@ Difficulty Main_menu::get_difficulty() {
 				return MEDIUM;
 			} if (i.first == "Hard") {
 				return HARD;
-			} if (i.first == "Back") {
-				render_mode();
 			}
 		}
 	}
