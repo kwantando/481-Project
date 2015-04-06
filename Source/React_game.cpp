@@ -6,11 +6,13 @@
 #include <iostream>
 #include <string>
 #include <memory>
+#include <cstdlib>
 #include <SFML/Graphics.hpp>
 
 using namespace sf;
 using namespace std;
 
+// Simply converts an integer note to the corresponding keypad.
 static keypads_e note_to_keypad(int note) {
 
 	switch (note) {
@@ -32,6 +34,8 @@ static keypads_e note_to_keypad(int note) {
 
 }
 
+// Initializes the reaction game with a given game board,
+// difficulty, and song information.
 React_game::React_game(shared_ptr<Game_board> g_board_, Difficulty diff,
 string song_notes_text_fname, string song_fname) :
 Game(diff),
@@ -42,39 +46,43 @@ song_file_name(song_fname)
 	song_handle = make_shared<Song>(song_fname, parser, diff);
 }
 
+// Starts playing the song.
 void React_game::init_game() {
 
 	song_handle->play();
 
 }
+
+// Tries to fetch the information on the next note, and
+// updates the requested note if new info is available.
 void React_game::mid_game_processing() {
 
 	int next_note_val = song_handle->get_expected_note();
 
 	if (next_note_val == song_over_c) {
+		next_note = song_over_c;
 		return;
 	}
 
-	if (button_timer.getElapsedTime() > milliseconds(500)) {
-		g_board->switch_off_button(next_note);
-	}
-
 	if (next_note_val != not_new_note_c) {
+		//next_note_val = rand() % 6;
 		if (!already_responded) {
 			cout << "You missed a note!" << endl;
 			dec_score();
 			dec_lives();
 			cout << "New lives = " << get_lives() << endl;
 			cout << "New score = " << get_score() << endl;
+			g_board->switch_off_button(next_note);
 		}
 		g_board->switch_on_button(next_note_val);
-		button_timer.restart();
 		next_note = next_note_val;
 		cout << "Next note = " << next_note + 1 << endl;
 		already_responded = false;
 	}
 
 }
+
+// Resets the react_game mode
 void React_game::reset() {
 
 	song_handle->stop();
@@ -90,12 +98,31 @@ void React_game::reset() {
 
 }
 
+// Checks whether the user entered any unusual commands, whether the game is
+// won/lost, and then checks the user's input to see whether it is correct
+// according to what we are expecting right now.
 Game::Command_response React_game::command_switch(const Event& event) {
 
 	Command_response rsp = Game::command_switch(event);
 
 	if (rsp == Command_response::RESET || rsp == Command_response::EXIT) {
 		return rsp;
+	}
+
+	if (get_lives() > 0 && next_note == song_over_c) {
+		play_success_note();
+		cout << "You won!\nFinal Score: " << get_score() << endl;
+		Clock success_note_timer;
+		while (success_note_timer.getElapsedTime() < milliseconds(500));
+		return Command_response::EXIT;
+	}
+	else if (get_lives() <= 0) {
+		song_handle->stop();
+		play_fail_note();
+		cout << "You lost!\nFinal Score: " << get_score() << endl;
+		Clock fail_timer;
+		while (fail_timer.getElapsedTime() < milliseconds(500));
+		return Command_response::EXIT;
 	}
 
 	if ((event.type == Event::KeyPressed) && !was_pressed()) {
@@ -117,8 +144,12 @@ Game::Command_response React_game::command_switch(const Event& event) {
 	return Command_response::NO_RESPONSE;
 
 }
+
+// Responds to correct input.
 void React_game::respond_to_correct_input() {
 
+	// If the user already responded to this request, then this is actuall
+	// an incorrect input. Treat it accordingly.
 	if (already_responded) {
 		respond_to_incorrect_input();
 		return;
@@ -127,11 +158,17 @@ void React_game::respond_to_correct_input() {
 	cout << "Entered correct note!" << endl;
 	inc_score();
 	already_responded = true;
-
+	g_board->switch_off_button(next_note);
+	
 }
+
+// Responds to incorrect input.
 void React_game::respond_to_incorrect_input() {
 
 	dec_score();
+	dec_lives();
 	cout << "Entered bad note!" << endl;
+	cout << "Lives = " << get_lives() << endl;
+	play_fail_note();
 
 }

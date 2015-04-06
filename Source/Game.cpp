@@ -6,12 +6,20 @@ using namespace sf;
 
 const int init_lives = 5;
 
+// Creates a new game with the given difficulty.
 Game::Game(Difficulty diff_) : lives(init_lives), score(0), diff(diff_) {}
 
+// Resets the lives for a game.
 void Game::reset_lives() {
 	lives = init_lives;
 }
 
+// This function holds the game logic and how it relates to
+// user inputs (that are received as a sf::Event.)
+// In this class, it is responsible for key locking/unlocking,
+// and interpreting when a quit or reset has been entered.
+// Returns a Command_response, which can be checked by the
+// client to modify the flow of control.
 Game::Command_response Game::command_switch(const Event& event) {
 
 	if (event.type == Event::KeyReleased) {

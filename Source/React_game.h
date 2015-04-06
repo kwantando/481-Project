@@ -9,10 +9,15 @@
 class Game_board;
 class Song;
 
+// React_game is a Game that plays the given song in the background and
+// requests the user to quickly press keypads as they light up in
+// tandem with the song.
+
 class React_game : public Game {
 
 public:
-	// Initializes the reaction game with a given game board.
+	// Initializes the reaction game with a given game board,
+	// difficulty, and song information.
 	React_game(std::shared_ptr<Game_board> g_board, Difficulty diff,
 		       std::string song_text_notes_fname,
 			   std::string song_fname);
@@ -23,7 +28,9 @@ public:
 	void mid_game_processing() override;
 	// Resets the react_game mode
 	void reset() override;
-	// Processes events given to it -- looks for key events specifically.
+	// Checks whether the user entered any unusual commands, whether the game is
+	// won/lost, and then checks the user's input to see whether it is correct
+	// according to what we are expecting right now.
 	Command_response command_switch(const sf::Event&) override;
 	// Reacts to successful input.
 	void respond_to_correct_input() override;
@@ -31,11 +38,17 @@ public:
 	void respond_to_incorrect_input() override;
 
 private:
-	sf::Clock button_timer;
+	// This holds the song_handle that is responsible for music control
+	// and note requests.
 	std::shared_ptr<Song> song_handle;
+	// This game mode uses a game_board.
 	std::shared_ptr<Game_board> g_board;
+	// Holds the next note that we want user to input.
 	int next_note;
+	// Lock to ensure that multiple presses of currently requested
+	// note are penalized.
 	bool already_responded;
+	// These hold song information.
 	std::string text_file_name;
 	std::string song_file_name;
 

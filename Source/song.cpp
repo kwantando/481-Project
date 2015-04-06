@@ -67,7 +67,7 @@ void Song::initialize_notes(Song_info_parser& info)
 int Song::get_expected_note()
 {
     if(!is_playing()) return song_over_c;
-    if(notes[cur_note].timestamp <= get_time_ms()) {
+    if(cur_note < notes.size() && notes[cur_note].timestamp <= get_time_ms()) {
         int val_to_return = notes[cur_note].pad;
         ++cur_note;
         return val_to_return;
