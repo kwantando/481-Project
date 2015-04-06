@@ -20,7 +20,7 @@
 Light_cont::Light_cont(std::string port)
 {
 	int baud = B9600;
-	fd = serialport_init("/dev/cu.usbmodemfd121", baud);
+	fd = serialport_init(port.c_str(), baud);
 }
 
 Light_cont::~Light_cont()
