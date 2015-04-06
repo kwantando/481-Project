@@ -1,4 +1,0 @@
-3
-{Vivaldi's Winter} {120} {vivwinter.ogg} 
-{Moonlight Symphony 2nd Movement} {120} {moonlight2nd.ogg}
-{Mountain King} {100} {mking.ogg}
