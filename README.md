@@ -1,5 +1,5 @@
 # 481-Project
-MelodiMemori is a cross-platform gaming device, designed to help seniors and recovering patients in the ICU.
+MelodiMemori is a cross-platform gaming device, designed to help recovering patients in the ICU.
 To run this on your local device, follow the following steps:
 
 
