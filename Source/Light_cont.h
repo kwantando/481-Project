@@ -3,15 +3,6 @@
 
 #include <string>
 
-enum Pads{
-	TOP_LEFT,
-	TOP_MID,
-	TOP_RIGHT,
-	BOT_LEFT,
-	BOT_MID,
-	BOT_RIGHT
-};
-
 class Light_cont
 {
 public:
@@ -21,7 +12,7 @@ public:
 	void deactivate(int pad_a_f);
 
 private:
-	FILE *file;
+	int fd; //file descriptor for serial communication with Arduino
 };
 
 

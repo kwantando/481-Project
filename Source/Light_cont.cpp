@@ -1,4 +1,5 @@
 #include "Light_cont.h"
+#include "Arduino_cont.h"
 #include <string>
 
 /* Derek's Machine, for example
@@ -8,52 +9,69 @@
 
 Light_cont::Light_cont(std::string port)
 {
-	file = fopen(port.c_str(),"w");
+	int baud = B9600;
+	fd = serialport_init("/dev/cu.usbmodemfd121", baud);
 }
 
 Light_cont::~Light_cont()
 {
-	fclose(file);
+	close(fd);
 }
 
 void Light_cont::activate(int pad_a_f)
 {
+	char to_write = 'a';
 	switch(pad_a_f){
 		case 1:
-			fprintf(file, "a");
+			to_write = 'a';
+			//fprintf(file, "a");
 		case 2:
-			fprintf(file, "b");
+			to_write = 'b';
+			//fprintf(file, "b");
 		case 3:
-			fprintf(file, "c");
+			to_write = 'c';
+			//fprintf(file, "c");
 		case 4:
-			fprintf(file, "d");
+			to_write = 'd';
+			//fprintf(file, "d");
 		case 5:
-			fprintf(file, "e");
+			to_write = 'e';
+			//fprintf(file, "e");
 		case 6:
-			fprintf(file, "f");
+			to_write = 'f';
+			//fprintf(file, "f");
 		default:
 			return;
 	}
+	serialport_writebyte(fd, (uint8_t)to_write);
 	return;
 }
 
 void Light_cont::deactivate(int pad_a_f)
 {
-		switch(pad_a_f){
+	char to_write = 'A';
+	switch(pad_a_f){
 		case 1:
-			fprintf(file, "A");
+			to_write = 'A';
+			//fprintf(file, "a");
 		case 2:
-			fprintf(file, "B");
+			to_write = 'B';
+			//fprintf(file, "b");
 		case 3:
-			fprintf(file, "C");
+			to_write = 'C';
+			//fprintf(file, "c");
 		case 4:
-			fprintf(file, "D");
+			to_write = 'D';
+			//fprintf(file, "d");
 		case 5:
-			fprintf(file, "E");
+			to_write = 'E';
+			//fprintf(file, "e");
 		case 6:
-			fprintf(file, "F");
+			to_write = 'F';
+			//fprintf(file, "f");
 		default:
 			return;
 	}
+	serialport_writebyte(fd, (uint8_t)to_write);
 	return;
 }
