@@ -19,17 +19,17 @@ Light_cont::~Light_cont()
 void Light_cont::activate(int pad_a_f)
 {
 	switch(pad_a_f){
-		case '1':
+		case 1:
 			fprintf(file, "a");
-		case '2':
+		case 2:
 			fprintf(file, "b");
-		case '3':
+		case 3:
 			fprintf(file, "c");
-		case '4':
+		case 4:
 			fprintf(file, "d");
-		case '5':
+		case 5:
 			fprintf(file, "e");
-		case '6':
+		case 6:
 			fprintf(file, "f");
 		default:
 			return;
@@ -40,17 +40,17 @@ void Light_cont::activate(int pad_a_f)
 void Light_cont::deactivate(int pad_a_f)
 {
 		switch(pad_a_f){
-		case '1':
+		case 1:
 			fprintf(file, "A");
-		case '2':
+		case 2:
 			fprintf(file, "B");
-		case '3':
+		case 3:
 			fprintf(file, "C");
-		case '4':
+		case 4:
 			fprintf(file, "D");
-		case '5':
+		case 5:
 			fprintf(file, "E");
-		case '6':
+		case 6:
 			fprintf(file, "F");
 		default:
 			return;
