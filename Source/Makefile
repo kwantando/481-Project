@@ -4,7 +4,7 @@ CFLAGS = -c -g -std=c++11 -pedantic-errors -Wall
 LFLAGS = -g
 LIBS = -lsfml-audio -lsfml-system -lsfml-graphics -lsfml-window
 
-OBJS = Controller.o Game_board.o songinfoparser.o Memory_handler.o main.o Song.o Game.o Mem_game.o React_game.o Utility.o Main_menu.o Light_cont.o
+OBJS = Controller.o Game_board.o Songinfoparser.o Memory_handler.o main.o Song.o Game.o Mem_game.o React_game.o Utility.o Main_menu.o Light_cont.o
 PROG = melodimemori
 
 default: $(PROG)
@@ -12,14 +12,14 @@ default: $(PROG)
 $(PROG): $(OBJS)
 	$(LD) $(LFLAGS) $(OBJS) $(LIBS) -o $(PROG)
 
-Controller.o: Memory_handler.o songinfoparser.o Game_board.o Controller.cpp Controller.h Main_menu.o Utility.o Light_cont.o
+Controller.o: Memory_handler.o Songinfoparser.o Game_board.o Controller.cpp Controller.h Main_menu.o Utility.o Light_cont.o
 	$(LD) $(CFLAGS) Controller.cpp -o Controller.o
 
 Memory_handler.o: Utility.o Memory_handler.cpp Memory_handler.h Game_board.h
 	$(LD) $(CFLAGS) Memory_handler.cpp -o Memory_handler.o
 
-songinfoparser.o: songinfoparser.cpp songinfoparser.h Note.h 
-	$(LD) $(CFLAGS) songinfoparser.cpp -o songinfoparser.o
+Songinfoparser.o: Songinfoparser.cpp Songinfoparser.h Note.h 
+	$(LD) $(CFLAGS) Songinfoparser.cpp -o Songinfoparser.o
 
 Game_board.o: Game_board.cpp Game_board.h
 	$(LD) $(CFLAGS) Game_board.cpp -o Game_board.o

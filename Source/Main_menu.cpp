@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <iterator>
-#include "main_menu.h"
+#include "Main_menu.h"
 
 // Prints debug messages when set to true.
 static const bool DEBUG = false;

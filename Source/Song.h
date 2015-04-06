@@ -5,7 +5,7 @@
 #include <string>
 #include <iosfwd>
 #include <vector>
-#include "songinfoparser.h"
+#include "Songinfoparser.h"
 #include "Note.h"
 #include "Utility.h"
 

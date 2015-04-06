@@ -1,5 +1,5 @@
 #include "Mem_game.h"
-#include "memory_handler.h"
+#include "Memory_handler.h"
 #include "Game_board.h"
 #include "Utility.h"
 #include <memory>

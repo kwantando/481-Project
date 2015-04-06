@@ -1,7 +1,7 @@
 #include "React_game.h"
 #include "Game_board.h"
-#include "songinfoparser.h"
-#include "song.h"
+#include "Songinfoparser.h"
+#include "Song.h"
 #include "Utility.h"
 #include <iostream>
 #include <string>

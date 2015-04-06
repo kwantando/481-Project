@@ -1,6 +1,6 @@
 #include "Controller.h"
-#include "memory_handler.h"
-#include "songinfoparser.h"
+#include "Memory_handler.h"
+#include "Songinfoparser.h"
 #include "Game_board.h"
 #include "Game.h"
 #include "Mem_game.h"
