@@ -4,7 +4,7 @@ To run this on your local device, follow the following steps:
 
 
 Windows:
-OLEKS WRITE HERE
+Compile and run the included Visual Studio solution. You need to make sure that you have /Source set as your working directory. Before the game can be ran, the proejct needs to be linked against the DLLs of SFML. Follow the tutorial here (http://www.sfml-dev.org/tutorials/2.0/start-vc.php) to do so.
 
 
 Mac OSX and 64-bit Linux:
