@@ -109,10 +109,9 @@ void Main_menu::return_key() {
 			render_difficulty(); // if a song is selected, go to the difficulty screen
 		}
 	} else if (difficulty_screen_active) {
-		if (difficulty->back().second && !songs->begin()->second) { // if the back button is highlighted and 
+		
+		if (difficulty->back().second) {
 			render_mode();
-		} else if (difficulty->back().second && songs->begin()->second) {
-			render_songs();
 		} else {
 			window->close();
 		}
