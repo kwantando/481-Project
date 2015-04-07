@@ -95,20 +95,23 @@ void Main_menu::return_key() {
 	// The last item in a vector is either the quit button
 	// or the back button. Hence checking *->back().second
 	if (mode_screen_active) {
-		if (mode->back().second) {
+		if (mode->back().second) { // if quit button selected
 			window->close();
-		} else {
+		} else if (mode->begin()->second) { // if song is highlighted
 			render_songs();
-		}
-	} else if (song_screen_active) {
-		if (songs->back().second) {
-			render_mode();
-		} else {
+		} else { // if pattern is selected
 			render_difficulty();
 		}
+	} else if (song_screen_active) {
+		if (songs->back().second) { // if back button is selected
+			render_mode(); // go back to the home screen
+		} else {
+			render_difficulty(); // if a song is selected, go to the difficulty screen
+		}
 	} else if (difficulty_screen_active) {
+		
 		if (difficulty->back().second) {
-			render_songs();
+			render_mode();
 		} else {
 			window->close();
 		}
