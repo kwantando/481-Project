@@ -15,8 +15,8 @@ int main(int argc, char* argv[])
 		Main_menu menu;
 		Mode game_mode = menu.get_mode();
 		Difficulty game_difficulty = menu.get_difficulty();
-		string song_text_fname = "bhc_more_notes.txt";	// hardcoded for now
-		string song_fname = "beverlyhillscop.ogg";
+		string song_fname = menu.get_song().first;
+		string song_text_fname = menu.get_song().second;
 		Controller main_ctrl(game_mode, game_difficulty,
 			song_text_fname, song_fname);
 		main_ctrl.start_reading_input();

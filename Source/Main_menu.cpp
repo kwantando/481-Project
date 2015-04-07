@@ -15,10 +15,13 @@ Main_menu::Main_menu() : window_height(600), window_width(800), text_size(56) {
 	// not the string is currently highlighted on screen.
 	// Exactly one bool must be true in every vector at initialization.
 	mode = new std::vector< std::pair<std::string, bool> >
-				 {{"Song", true}, {"Pattern", false}, {"Quit", false}};
+			   {{"Song", true}, {"Pattern", false}, {"Quit", false}};
+   	songs = new std::vector< std::pair<std::string, bool> >
+				{{"Victors", true}, {"Techno Jig", false},
+				{"Axel F", false}, {"Back", false}};
 	difficulty = new std::vector< std::pair<std::string, bool> >
-				 {{"Easy", true}, {"Medium", false}, {"Hard", false},
-				  {"Back", false}};
+				 	 {{"Easy", true}, {"Medium", false}, {"Hard", false},
+				  	 {"Back", false}};
 	
 	// The capital L tells SFML to use wide literal strings so the
 	// accented i should render correctly in the title bar (on macs, it does)
@@ -49,6 +52,7 @@ Main_menu::Main_menu() : window_height(600), window_width(800), text_size(56) {
 Main_menu::~Main_menu() {
 	delete mode;
 	delete difficulty;
+	delete songs;
 	delete window;
 }
 
@@ -57,11 +61,25 @@ void Main_menu::key_event(sf::Event event) {
 	switch (event.key.code) {
 		case sf::Keyboard::Up:
 		case sf::Keyboard::Left:
-			move(mode_screen_active ? mode : difficulty, UP);
+			if (mode_screen_active) {
+				move(mode, UP);
+			} else if (difficulty_screen_active) {
+				move(difficulty, UP);
+			} else if (song_screen_active) {
+				move(songs, UP);
+			}
+			//move(mode_screen_active ? mode : difficulty, UP);
 			break;
 		case sf::Keyboard::Down:
 		case sf::Keyboard::Right:
-			move(mode_screen_active ? mode : difficulty, DOWN);
+			//move(mode_screen_active ? mode : difficulty, DOWN);
+			if (mode_screen_active) {
+				move(mode, DOWN);
+			} else if (difficulty_screen_active) {
+				move(difficulty, DOWN);
+			} else if (song_screen_active) {
+				move(songs, DOWN);
+			}
 			break;
 		case sf::Keyboard::Return:
 			return_key();
@@ -80,11 +98,17 @@ void Main_menu::return_key() {
 		if (mode->back().second) {
 			window->close();
 		} else {
+			render_songs();
+		}
+	} else if (song_screen_active) {
+		if (songs->back().second) {
+			render_mode();
+		} else {
 			render_difficulty();
 		}
 	} else if (difficulty_screen_active) {
 		if (difficulty->back().second) {
-			render_mode();
+			render_songs();
 		} else {
 			window->close();
 		}
@@ -158,10 +182,35 @@ Difficulty Main_menu::get_difficulty() {
 	return EASY;
 }
 
+std::pair<std::string, std::string> Main_menu::get_song() {
+	for (auto i : *songs) {
+		if (i.second) {
+			if (i.first == "Victors") {
+				return std::pair<std::string, std::string> {"Victors.ogg", "Victors.txt"};
+			} else if (i.first == "Techno Jig") {
+				return std::pair<std::string, std::string> {"Techno_jig.ogg", "Techno_jig.txt"};
+			} else if (i.first == "Axel F") {
+				return std::pair<std::string, std::string> {"beverlyhillscop.ogg", "bhc_more_notes.txt"};
+			}
+		}
+	}
+	std::cerr << "Warning, get_song returned default value\n";
+	return std::pair<std::string, std::string> {"Victors.ogg", "Victors.txt"};
+}
+
+void Main_menu::render_songs() {
+	if (DEBUG) std::cout << "render_songs() called\n";
+	mode_screen_active = false;
+	difficulty_screen_active = false;
+	song_screen_active = true;
+	render(songs);
+}
+
 void Main_menu::render_difficulty() {
 	if (DEBUG) std::cout << "render_difficulty() called\n";
 	mode_screen_active = false;
 	difficulty_screen_active = true;
+	song_screen_active = false;
 	render(difficulty);
 }
 
@@ -169,6 +218,7 @@ void Main_menu::render_mode() {
 	if (DEBUG) std::cout << "render_mode() called\n";
 	mode_screen_active = true;
 	difficulty_screen_active = false;
+	song_screen_active = false;
 	render(mode);
 }
 
