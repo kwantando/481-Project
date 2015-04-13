@@ -26,7 +26,7 @@ Main_menu::Main_menu() : window_height(600), window_width(800), text_size(56) {
 	// The capital L tells SFML to use wide literal strings so the
 	// accented i should render correctly in the title bar (on macs, it does)
 	window = new sf::RenderWindow(sf::VideoMode(window_width, window_height),
-								  L"MelodiMemorí");
+								  L"MelodiMemorí", sf::Style::Fullscreen);
 	
 	// This is the first screen presented to the user
 	render_mode();

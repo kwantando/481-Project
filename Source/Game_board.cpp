@@ -9,7 +9,8 @@ Game_board::Game_board(sf::RenderWindow*& event_ptr) //:
 //light_controller("/dev/tty.usbmodem1421")
 {
 	event_ptr = event_window = new sf::RenderWindow(sf::VideoMode(930, 625),
-			                            "Event_Handler_Window");
+			                            "Event_Handler_Window",
+			                            sf::Style::Fullscreen);
 
 	if (!button_texture.loadFromFile("button300.png",
 			                             sf::IntRect(0, 0, 300, 300))) {
