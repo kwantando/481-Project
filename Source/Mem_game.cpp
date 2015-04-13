@@ -54,6 +54,7 @@ void Mem_game::reset() {
 
 	reset_lives();
 	reset_score();
+	g_board->clear_buttons();
 	mem_handle.reset(new Memory_handler(game_length));
 	init_game();
 

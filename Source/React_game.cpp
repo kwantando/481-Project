@@ -91,6 +91,7 @@ void React_game::reset() {
 	cout << "Resetting!" << endl;
 	reset_lives();
 	reset_score();
+	g_board->clear_buttons();
 	already_responded = true;
 	Clock reset_timer;
 	while (reset_timer.getElapsedTime() < milliseconds(500));
