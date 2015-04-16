@@ -5,15 +5,20 @@
 using sf::Color;
 using sf::Vector2f;
 
-Game_board::Game_board(sf::RenderWindow*& event_ptr) //:
+const int margin_size_c = 10;
+const int border_size_c = 10;
+const int sprite_size_c = 300;
+
+Game_board::Game_board(sf::RenderWindow*& event_ptr):
+win_width(1024), win_height(768)
 //light_controller("/dev/tty.usbmodem1421")
 {
-	event_ptr = event_window = new sf::RenderWindow(sf::VideoMode(930, 625),
+	event_ptr = event_window = new sf::RenderWindow(sf::VideoMode(win_width, win_height),
 			                            "MelodiMemori",
 			                            sf::Style::Fullscreen);
 
 	if (!button_texture.loadFromFile("button300.png",
-			                             sf::IntRect(0, 0, 300, 300))) {
+			                             sf::IntRect(0, 0, sprite_size_c, sprite_size_c))) {
 		throw std::runtime_error("Failed to load the texture");
 	}
 
@@ -29,14 +34,14 @@ Game_board::~Game_board()
 
 void Game_board::switch_off_button(int button)
 {
-	button_sprites[button].setColor(Color::White);
+	button_sprites[button].setFillColor(Color::White);
 	//light_controller.deactivate(button);
 	redraw_window();
 }
 
 void Game_board::switch_on_button(int button)
 {
-	button_sprites[button].setColor(note_colors[button]);
+	button_sprites[button].setFillColor(note_colors[button]);
 	//light_controller.activate(button);
 	redraw_window();
 }
@@ -44,7 +49,7 @@ void Game_board::switch_on_button(int button)
 void Game_board::clear_buttons()
 {	
 	for (int i = 0; i < 6; ++i) {
-		button_sprites[i].setColor(Color::White);
+		button_sprites[i].setFillColor(Color::White);
 		//light_controller.deactivate(i);
 	}
 	redraw_window();
@@ -53,31 +58,31 @@ void Game_board::clear_buttons()
 void Game_board::init_buttons() 
 {
 	for (int i = 0; i < 6; ++i) {
-		button_sprites.push_back(sf::Sprite(button_texture));
-
+		button_sprites.push_back(sf::CircleShape(sprite_size_c/2.0));///2 for rad
+		button_sprites[i].setTexture(&button_texture);
 		switch (i) {
 		case 0:
-			button_sprites[i].setPosition(Vector2f(5, 5));
+			button_sprites[i].setPosition(Vector2f(margin_size_c, margin_size_c));
 			note_colors.push_back(Color::Red);
 			break;
 		case 1:
-			button_sprites[i].setPosition(Vector2f(310, 5));
+			button_sprites[i].setPosition(Vector2f(sprite_size_c + margin_size_c + border_size_c, border_size_c));
 			note_colors.push_back(Color::Green);
 			break;
 		case 2:
-			button_sprites[i].setPosition(Vector2f(615, 5));
+			button_sprites[i].setPosition(Vector2f((2 * sprite_size_c) + margin_size_c + (2 * border_size_c), border_size_c));
 			note_colors.push_back(Color::Blue);
 			break;
 		case 3:
-			button_sprites[i].setPosition(Vector2f(5, 310));
+			button_sprites[i].setPosition(Vector2f(margin_size_c, sprite_size_c + margin_size_c + border_size_c));
 			note_colors.push_back(Color::Yellow);
 			break;
 		case 4:
-			button_sprites[i].setPosition(Vector2f(310, 310));
+			button_sprites[i].setPosition(Vector2f(sprite_size_c + margin_size_c + border_size_c, sprite_size_c + margin_size_c + border_size_c));
 			note_colors.push_back(Color::Magenta);
 			break;
 		case 5:
-			button_sprites[i].setPosition(Vector2f(615, 310));
+			button_sprites[i].setPosition(Vector2f((2 * sprite_size_c) + margin_size_c + (2 * border_size_c), sprite_size_c + margin_size_c + border_size_c));
 			note_colors.push_back(Color::Cyan);
 			break;
 		default:
@@ -93,7 +98,7 @@ void Game_board::redraw_window()
 
 	event_window->clear();
 
-	for (sf::Sprite& spr : button_sprites) {
+	for (sf::CircleShape& spr : button_sprites) {
 
 		event_window->draw(spr);
 

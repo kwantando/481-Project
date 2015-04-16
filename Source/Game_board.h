@@ -25,7 +25,7 @@ private:
 	sf::Texture button_texture;
 
 	// Sprite container
-	std::vector<sf::Sprite> button_sprites;
+	std::vector<sf::CircleShape> button_sprites;
 
 	// Note color container
 	std::vector<sf::Color> note_colors;
@@ -39,6 +39,8 @@ private:
 	// Redraws the window based on the sprite vector/their positions/colors.
 	void redraw_window();
 
+	int win_width;
+	int win_height;
 };
 
 #endif

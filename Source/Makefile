@@ -2,7 +2,7 @@ CC = g++
 LD = g++
 CFLAGS = -c -g -std=c++11 -pedantic-errors -Wall
 LFLAGS = -g
-LIBS = -lsfml-audio -lsfml-system -lsfml-graphics -lsfml-window
+LIBS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio -v
 
 OBJS = Controller.o Game_board.o songinfoparser.o Memory_handler.o main.o Song.o Game.o Mem_game.o React_game.o Utility.o Main_menu.o Light_cont.o Arduino_cont.o
 PROG = melodimemori
