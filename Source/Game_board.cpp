@@ -46,7 +46,7 @@ Game_board::Game_board(sf::RenderWindow*& event_ptr)
 	text_items.push_back(lives);
 	text_items.push_back(score);
 	for(sf::Text& text: text_items) {
-		text.setColor(sf::Color::Red);
+		text.setColor(text_color_c);
 	}
 	init_buttons();
 	redraw_window();
@@ -126,7 +126,7 @@ void Game_board::init_buttons()
 void Game_board::redraw_window() 
 {
 
-	event_window->clear(sf::Color::White);
+	event_window->clear(bg_color_c);
 
 	for (sf::CircleShape& spr : button_sprites) {
 

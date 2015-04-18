@@ -34,4 +34,8 @@ std::vector<keypads_e> convert_int_to_keypads(const std::vector<int>& vc);
 const int default_note_wait_c = 300;
 const char* const notes_dir_c = "Notes/";
 
+const sf::Color bg_color_c(14, 26, 97);
+const sf::Color text_color_c(222, 199, 29);
+const sf::Color unselected_text_color_c(122, 122, 122);
+
 #endif

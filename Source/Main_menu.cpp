@@ -234,7 +234,7 @@ void Main_menu::render_mode() {
 void Main_menu::render(std::vector< std::pair<std::string, bool> > *menu_items) {
 	if (DEBUG) std::cout << "render() called\n";
 
-	window->clear(sf::Color::White);
+	window->clear(bg_color_c);
 	sf::Font font;
 	if (!font.loadFromFile("Phosphate.ttc")) {
 		std::cerr << "could not load font\n";
@@ -250,12 +250,11 @@ void Main_menu::render(std::vector< std::pair<std::string, bool> > *menu_items) 
 		txt.setFont(font);
 		txt.setString(i->first);
 		txt.setCharacterSize(text_size);
-		txt.setColor(sf::Color::Black);
 		if (i->second) {
-			txt.setColor(sf::Color::Red);
+			txt.setColor(text_color_c);
 			txt.setStyle(sf::Text::Underlined | sf::Text::Bold);
 		} else {
-			txt.setColor(sf::Color(122, 122, 122));
+			txt.setColor(unselected_text_color_c);
 			txt.setStyle(sf::Text::Bold);
 		}
 		// the horizontal position of the text
