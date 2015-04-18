@@ -276,13 +276,3 @@ void Main_menu::render(std::vector< std::pair<std::string, bool> > *menu_items) 
 	window->display();
 }
 
-void Main_menu::show_logo() {
-/*	logo = new sf::Texture;
-	if (!logo->loadFromFile("MelodiMemori_logo_with_alpha.png")) {
-		std::cerr << "Could not load logo texture\n";
-	}
-	sf::Sprite logo_sprite;
-	logo_sprite.setTexture(*logo);
-	logo_sprite.setPosition({(float)(window_width/2), (float)(border_inc)})*/
-}
-
