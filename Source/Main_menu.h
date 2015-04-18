@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MAIN_MENU_H
+#define MAIN_MENU_H
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include <list>
@@ -60,3 +61,4 @@ private:
 	// in an easy to read format. 
 	void render(std::vector< std::pair<std::string, bool> > *menu_items);
 };
+#endif

@@ -17,6 +17,10 @@ public:
 
     //clear all button colors
 	void clear_buttons();
+	//modifies the score to the given value
+	void modify_score(int val);
+	//modifies the lives to the given value
+	void modify_lives(int val);
 private:
 	// Pointer to event/output window for the game.
 	sf::RenderWindow* event_window;
@@ -38,7 +42,12 @@ private:
 	
 	// Redraws the window based on the sprite vector/their positions/colors.
 	void redraw_window();
+	//modifies the given text 
+	//to display the given value
+	void modify_value(const std::string& prefix, int val, sf::Text& text);
 
+	std::vector<sf::Text> text_items;
+	sf::Font font;
 	int win_width;
 	int win_height;
 };
