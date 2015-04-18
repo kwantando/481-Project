@@ -233,7 +233,7 @@ void Main_menu::render(std::vector< std::pair<std::string, bool> > *menu_items) 
 
 	window->clear(sf::Color::White);
 	sf::Font font;
-	if (!font.loadFromFile("arial.ttf")) {
+	if (!font.loadFromFile("Phosphate.ttc")) {
 		std::cerr << "could not load font\n";
 	}
 	// the empty space between top and bottom of options list
@@ -261,12 +261,12 @@ void Main_menu::render(std::vector< std::pair<std::string, bool> > *menu_items) 
 		border_inc += text_size*2;
 	}
 
-
 	// ********* the logo *********
 	logo = new sf::Texture;
 	if (!logo->loadFromFile("MelodiMemori_logo_with_alpha.png")) {
 		std::cerr << "Could not load logo texture\n";
 	}
+
 	logo->setSmooth(true);
 	sf::Sprite logo_sprite;
 	logo_sprite.setTexture(*logo);
