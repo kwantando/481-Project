@@ -52,8 +52,6 @@ private:
 	std::vector<keypads_e> sequence;
 	// Holds the pattern in note (ints) representation.
 	std::vector<int> note_sequence;
-	// Holds a pointer to the game board, which this game uses.
-	std::shared_ptr<Game_board> g_board;
 
 	int seq_it;		// Points to the current place in the sequence.
 	int game_length;// Signifies the max length of the pattern.

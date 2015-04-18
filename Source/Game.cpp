@@ -4,15 +4,15 @@
 
 using namespace sf;
 
+using std::shared_ptr;
+
 const int init_lives = 5;
 
 // Creates a new game with the given difficulty.
-Game::Game(Difficulty diff_) : lives(init_lives), score(0), diff(diff_) {}
+Game::Game(shared_ptr<Game_board> g_board_, Difficulty diff_) : lives(init_lives), score(0), diff(diff_)
+,
+g_board(g_board_) {}
 
-// Resets the lives for a game.
-void Game::reset_lives() {
-	lives = init_lives;
-}
 
 // This function holds the game logic and how it relates to
 // user inputs (that are received as a sf::Event.)
@@ -37,4 +37,34 @@ Game::Command_response Game::command_switch(const Event& event) {
 		}
 	}
 	return Command_response::NO_RESPONSE;
+}
+
+void Game::dec_lives()
+{
+	lives--;
+	g_board->modify_lives(lives);
+}
+
+void Game::reset_lives()
+{
+	lives = init_lives;
+	g_board->modify_lives(lives);
+}
+
+void Game::inc_score()
+{
+	score++;
+	g_board->modify_score(score);
+}
+
+void Game::dec_score()
+{
+	score--;
+	g_board->modify_score(score);
+}
+
+void Game::reset_score()
+{
+	score = 0;
+	g_board->modify_score(score);
 }
