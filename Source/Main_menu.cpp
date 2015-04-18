@@ -189,11 +189,14 @@ std::pair<std::string, std::string> Main_menu::get_song() {
 	for (auto i : *songs) {
 		if (i.second) {
 			if (i.first == "Victors") {
-				return std::pair<std::string, std::string> {"Victors.ogg", "Victors.txt"};
+				return std::pair<std::string, std::string> {"Victors.ogg",
+															"Victors.txt"};
 			} else if (i.first == "Techno Jig") {
-				return std::pair<std::string, std::string> {"Techno_jig.ogg", "Techno_jig.txt"};
+				return std::pair<std::string, std::string> {"Techno_jig.ogg",
+															"Techno_jig.txt"};
 			} else if (i.first == "Axel F") {
-				return std::pair<std::string, std::string> {"beverlyhillscop.ogg", "bhc_more_notes.txt"};
+				return std::pair<std::string, std::string> {"beverlyhillscop.ogg",
+															"bhc_more_notes.txt"};
 			}
 		}
 	}
@@ -228,9 +231,9 @@ void Main_menu::render_mode() {
 void Main_menu::render(std::vector< std::pair<std::string, bool> > *menu_items) {
 	if (DEBUG) std::cout << "render() called\n";
 
-	window->clear(sf::Color::Black);
+	window->clear(sf::Color::White);
 	sf::Font font;
-	if (!font.loadFromFile("arial.ttf")) {
+	if (!font.loadFromFile("Phosphate.ttc")) {
 		std::cerr << "could not load font\n";
 	}
 	// the empty space between top and bottom of options list
@@ -244,6 +247,7 @@ void Main_menu::render(std::vector< std::pair<std::string, bool> > *menu_items) 
 		txt.setFont(font);
 		txt.setString(i->first);
 		txt.setCharacterSize(text_size);
+		txt.setColor(sf::Color::Black);
 		if (i->second) {
 			txt.setColor(sf::Color::Red);
 			txt.setStyle(sf::Text::Underlined | sf::Text::Bold);
@@ -251,10 +255,24 @@ void Main_menu::render(std::vector< std::pair<std::string, bool> > *menu_items) 
 			txt.setColor(sf::Color(122, 122, 122));
 			txt.setStyle(sf::Text::Bold);
 		}
-		txt.setPosition( {(float)(window_width/3), (float)(border_inc)} );
+		// the horizontal position of the text
+		txt.setPosition( {(float)(window_width/2), (float)(border_inc)} );
 		window->draw(txt);
 		border_inc += text_size*2;
 	}
+
+	// ********* the logo *********
+	logo = new sf::Texture;
+	if (!logo->loadFromFile("MelodiMemori_logo_with_alpha.png")) {
+		std::cerr << "Could not load logo texture\n";
+	}
+
+	logo->setSmooth(true);
+	sf::Sprite logo_sprite;
+	logo_sprite.setTexture(*logo);
+	logo_sprite.setPosition({(float)(window_width/11), (float)(window_height/3)});
+	logo_sprite.scale({(float)(0.3), (float)(0.3)});
+	window->draw(logo_sprite);
 	window->display();
 }
 

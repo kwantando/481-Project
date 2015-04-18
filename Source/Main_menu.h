@@ -27,6 +27,8 @@ public:
 private:
 	// A GUI window
 	sf::RenderWindow *window;
+	// The melodiMemori logo
+	sf::Texture *logo;
 	// Window's dimensions
 	int window_height;
 	int window_width;
@@ -61,4 +63,5 @@ private:
 	// in an easy to read format. 
 	void render(std::vector< std::pair<std::string, bool> > *menu_items);
 };
+
 #endif
