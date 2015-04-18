@@ -16,7 +16,7 @@ const int starting_lives_c = 5;
 const int starting_score_c = 0;
 const int lives_ind_c = 0;
 const int score_ind_c = 1;
-const int font_size_c = 50;
+const int font_size_c = 70;
 
 
 Game_board::Game_board(sf::RenderWindow*& event_ptr)
@@ -34,8 +34,8 @@ Game_board::Game_board(sf::RenderWindow*& event_ptr)
 	lives_stream << lives_txt_c << starting_lives_c;
 	string lives_str{lives_stream.str()};
 	string score_str{score_stream.str()};
-	if (!font.loadFromFile("phosphate.ttf")) {
-		throw std::runtime_error("Failed to load font: arial.ttf");
+	if (!font.loadFromFile("Phosphate.ttc")) {
+		throw std::runtime_error("Failed to load font: Phosphate.ttc");
 	}
 	sf::Text lives{lives_str, font, font_size_c};
 	sf::Text score{score_str, font, font_size_c};
