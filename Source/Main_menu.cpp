@@ -10,7 +10,7 @@ static const bool DEBUG = false;
 // the text size. Text may or may not be appropriately spaced after changing
 // window_height, window_width and text_size. It looks best at 600*800 with
 // a text size of 56. All units in the initialization section are pizels.
-Main_menu::Main_menu() : window_height(600), window_width(800), text_size(56) {
+Main_menu::Main_menu() : window_height(win_height_c), window_width(win_width_c), text_size(56) {
 	// Each vector holds pairs of strings and bools. The bool says whether or
 	// not the string is currently highlighted on screen.
 	// Exactly one bool must be true in every vector at initialization.
@@ -26,7 +26,7 @@ Main_menu::Main_menu() : window_height(600), window_width(800), text_size(56) {
 	// The capital L tells SFML to use wide literal strings so the
 	// accented i should render correctly in the title bar (on macs, it does)
 	window = new sf::RenderWindow(sf::VideoMode(window_width, window_height),
-								  L"MelodiMemorí");
+								  L"MelodiMemorí", sf::Style::Fullscreen);
 	
 	// This is the first screen presented to the user
 	render_mode();

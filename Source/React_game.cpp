@@ -38,8 +38,8 @@ static keypads_e note_to_keypad(int note) {
 // difficulty, and song information.
 React_game::React_game(shared_ptr<Game_board> g_board_, Difficulty diff,
 string song_notes_text_fname, string song_fname) :
-Game(diff),
-g_board(g_board_), next_note(0), already_responded(true), text_file_name(song_notes_text_fname),
+Game(g_board_, diff), 
+next_note(0), already_responded(true), text_file_name(song_notes_text_fname),
 song_file_name(song_fname)
 {
 	Song_info_parser parser{song_notes_text_fname};
@@ -72,9 +72,9 @@ void React_game::mid_game_processing() {
 			dec_lives();
 			cout << "New lives = " << get_lives() << endl;
 			cout << "New score = " << get_score() << endl;
-			g_board->switch_off_button(next_note);
+			switch_off_button(next_note);
 		}
-		g_board->switch_on_button(next_note_val);
+		switch_on_button(next_note_val);
 		next_note = next_note_val;
 		cout << "Next note = " << next_note + 1 << endl;
 		already_responded = false;
@@ -91,6 +91,7 @@ void React_game::reset() {
 	cout << "Resetting!" << endl;
 	reset_lives();
 	reset_score();
+	clear_buttons();
 	already_responded = true;
 	Clock reset_timer;
 	while (reset_timer.getElapsedTime() < milliseconds(500));
@@ -158,14 +159,12 @@ void React_game::respond_to_correct_input() {
 	cout << "Entered correct note!" << endl;
 	inc_score();
 	already_responded = true;
-	g_board->switch_off_button(next_note);
+	switch_off_button(next_note);
 	
 }
 
 // Responds to incorrect input.
 void React_game::respond_to_incorrect_input() {
-
-	dec_score();
 	dec_lives();
 	cout << "Entered bad note!" << endl;
 	cout << "Lives = " << get_lives() << endl;
