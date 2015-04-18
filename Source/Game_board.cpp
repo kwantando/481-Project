@@ -10,42 +10,39 @@ using sf::Vector2f;
 using std::ostringstream;
 using std::string;
 
-const int margin_size_c = 30;
-const int border_size_c = 10;
-const int sprite_size_c = 300;
 const char* const score_txt_c = "Score: ";
 const char* const lives_txt_c = "Lives: ";
 const int starting_lives_c = 5;
 const int starting_score_c = 0;
 const int lives_ind_c = 0;
 const int score_ind_c = 1;
+const int font_size_c = 50;
 
 
-Game_board::Game_board(sf::RenderWindow*& event_ptr):
-win_width(win_width_c), win_height(win_height_c)
+Game_board::Game_board(sf::RenderWindow*& event_ptr)
 //light_controller("/dev/tty.usbmodem1421")
 {
+	sf::VideoMode videomode = sf::VideoMode::getFullscreenModes()[0];
+	win_width = videomode.width;
+	win_height = videomode.height;
 	event_ptr = event_window = new sf::RenderWindow(sf::VideoMode(win_width, win_height),
 			                            "MelodiMemori",
 			                            sf::Style::Fullscreen);
-
-	if (!button_texture.loadFromFile("button300.png",
-			                             sf::IntRect(0, 0, sprite_size_c, sprite_size_c))) {
-		throw std::runtime_error("Failed to load the texture");
-	}
 	ostringstream score_stream;
 	score_stream << score_txt_c << starting_score_c;//start with 0 score
 	ostringstream lives_stream;
 	lives_stream << lives_txt_c << starting_lives_c;
 	string lives_str{lives_stream.str()};
 	string score_str{score_stream.str()};
-	if (!font.loadFromFile("arial.ttf")) {
+	if (!font.loadFromFile("phosphate.ttf")) {
 		throw std::runtime_error("Failed to load font: arial.ttf");
 	}
-	sf::Text lives{lives_str, font};
-	sf::Text score{score_str, font};
-	score.setPosition(Vector2f(0, 0));
-	lives.setPosition(Vector2f(win_width - sprite_size_c, 0));
+	sf::Text lives{lives_str, font, font_size_c};
+	sf::Text score{score_str, font, font_size_c};
+	lives_width = lives.getLocalBounds().width;
+	score_width = score.getLocalBounds().width;
+	lives.setPosition(sf::Vector2f(7 * win_width / 8,  3 * win_height/16));
+	score.setPosition(sf::Vector2f(7 * win_width / 8, 11 * win_height / 16));
 	text_items.push_back(lives);
 	text_items.push_back(score);
 	for(sf::Text& text: text_items) {
@@ -86,32 +83,36 @@ void Game_board::clear_buttons()
 
 void Game_board::init_buttons() 
 {
+	if (!button_texture.loadFromFile("button300.png",
+			                             sf::IntRect(0, 0, win_width/4, win_width/4))) {
+		throw std::runtime_error("Failed to load the texture");
+	}
 	for (int i = 0; i < 6; ++i) {
-		button_sprites.push_back(sf::CircleShape(sprite_size_c/2.0));///2 for rad
+		button_sprites.push_back(sf::CircleShape(win_width / 8));
 		button_sprites[i].setTexture(&button_texture);
 		switch (i) {
 		case 0:
-			button_sprites[i].setPosition(Vector2f(margin_size_c, margin_size_c));
+			button_sprites[i].setPosition(Vector2f(0, 0));
 			note_colors.push_back(Color::Red);
 			break;
 		case 1:
-			button_sprites[i].setPosition(Vector2f(sprite_size_c + margin_size_c + border_size_c, margin_size_c));
+			button_sprites[i].setPosition(Vector2f(win_width / 4, 0));
 			note_colors.push_back(Color::Green);
 			break;
 		case 2:
-			button_sprites[i].setPosition(Vector2f((2 * sprite_size_c) + margin_size_c + (2 * border_size_c), margin_size_c));
+			button_sprites[i].setPosition(Vector2f(win_width / 2, 0));
 			note_colors.push_back(Color::Blue);
 			break;
 		case 3:
-			button_sprites[i].setPosition(Vector2f(margin_size_c, sprite_size_c + margin_size_c + border_size_c));
+			button_sprites[i].setPosition(Vector2f(0, win_height / 2));
 			note_colors.push_back(Color::Yellow);
 			break;
 		case 4:
-			button_sprites[i].setPosition(Vector2f(sprite_size_c + margin_size_c + border_size_c, sprite_size_c + margin_size_c + border_size_c));
+			button_sprites[i].setPosition(Vector2f(win_width / 4, win_height / 2));
 			note_colors.push_back(Color::Magenta);
 			break;
 		case 5:
-			button_sprites[i].setPosition(Vector2f((2 * sprite_size_c) + margin_size_c + (2 * border_size_c), sprite_size_c + margin_size_c + border_size_c));
+			button_sprites[i].setPosition(Vector2f(win_width / 2, win_height / 2));
 			note_colors.push_back(Color::Cyan);
 			break;
 		default:
@@ -125,7 +126,7 @@ void Game_board::init_buttons()
 void Game_board::redraw_window() 
 {
 
-	event_window->clear();
+	event_window->clear(sf::Color::White);
 
 	for (sf::CircleShape& spr : button_sprites) {
 

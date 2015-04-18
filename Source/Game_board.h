@@ -50,6 +50,8 @@ private:
 	sf::Font font;
 	int win_width;
 	int win_height;
+	int score_width;
+	int lives_width;
 };
 
 #endif

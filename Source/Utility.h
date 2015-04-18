@@ -33,7 +33,5 @@ void qdsleep(int ms);
 std::vector<keypads_e> convert_int_to_keypads(const std::vector<int>& vc);
 const int default_note_wait_c = 300;
 const char* const notes_dir_c = "Notes/";
-const int win_height_c = 768;
-const int win_width_c = 1024;
 
 #endif
