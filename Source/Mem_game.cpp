@@ -11,8 +11,7 @@ using namespace sf;
 // Creates a memory game using the specified game board and difficulty.
 // Difficulty controls the maximum pattern length.
 Mem_game::Mem_game(shared_ptr<Game_board> g_board_, Difficulty diff) :
-Game(diff),
-g_board(g_board_)
+Game(g_board_, diff)
 {
 	if (get_difficulty() == EASY) {
 		game_length = 10;
@@ -37,10 +36,10 @@ void Mem_game::init_game() {
 
 	// Play pattern notes.
 	int button = 0;
-	while ((button = mem_handle->play_next_note(*g_board)) != -1) {
+	while ((button = mem_handle->play_next_note(*get_board())) != -1) {
 		cout << "Just played " << button + 1 << " note!" << endl;
 	}
-	g_board->clear_buttons();
+	clear_buttons();
 	Clock waiter_clock;
 	while (waiter_clock.getElapsedTime() < milliseconds(500));
 
@@ -54,7 +53,7 @@ void Mem_game::reset() {
 
 	reset_lives();
 	reset_score();
-	g_board->clear_buttons();
+	clear_buttons();
 	mem_handle.reset(new Memory_handler(game_length));
 	init_game();
 
@@ -110,7 +109,7 @@ Game::Command_response Mem_game::command_switch(const Event& event) {
 // one and reinitialize the game based on it.
 void Mem_game::respond_to_correct_input() {
 
-	mem_handle->play_specified_note(seq_it, false, *g_board);
+	mem_handle->play_specified_note(seq_it, false, *get_board());
 	++seq_it;
 
 	if (seq_it >= sequence.size()) {
@@ -121,7 +120,7 @@ void Mem_game::respond_to_correct_input() {
 		Clock waiter_clock;
 		while (waiter_clock.getElapsedTime() < milliseconds(750));
 		cout << "Score now: " << get_score() << endl;
-		g_board->clear_buttons();
+		clear_buttons();
 		init_game();
 
 	}
@@ -134,9 +133,8 @@ void Mem_game::respond_to_correct_input() {
 void Mem_game::respond_to_incorrect_input() {
 
 	mem_handle->alert_fail_note();
-	g_board->clear_buttons();
+	clear_buttons();
 	dec_lives();
-	dec_score();
 
 	if (get_lives() > 0) {
 

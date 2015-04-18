@@ -3,8 +3,8 @@
 
 #include "Utility.h"
 #include <SFML/Graphics.hpp>
-
-class Game_board;
+#include <memory>
+#include "Game_board.h"
 
 // A game is a class that is responsible for interpreting user
 // input according to a set of game rules defined in the design document.
@@ -15,7 +15,7 @@ class Game {
 public:
 
 	// Creates a new game with the given difficulty.
-	Game(Difficulty diff_);
+	Game(std::shared_ptr<Game_board> g_board_, Difficulty diff_);
 	// Does everything required to initiate a game.
 	virtual void init_game() = 0;
 	// Performs any mid-game processing (every game "step")
@@ -49,16 +49,26 @@ protected:
 
 	// Lives manipulation.
 	int get_lives() { return lives; }
-	void dec_lives() { --lives; }
+	void dec_lives();
 	void reset_lives();
 
 	// Score manipulation
 	int get_score() { return score; }
-	void inc_score() { ++score; }
-	void dec_score() { --score; }
-	void reset_score() { score = 0; }
+	void inc_score();
+	void dec_score();
+	void reset_score();
 	
 	Difficulty get_difficulty() { return diff; }
+
+	//wrappers around g_board to allow inherited classes
+	//to manipulate it
+	void switch_off_button(int note) {g_board->switch_off_button(note); }
+	void switch_on_button(int note) { g_board->switch_on_button(note); }
+	void clear_buttons() {g_board->clear_buttons(); }
+
+	std::shared_ptr<Game_board> get_board() { return g_board; } 
+
+
 
 private:
 	bool pressed_lock;	// signifies that the user has not released
@@ -66,6 +76,9 @@ private:
 	int lives;			// Lives that the user currently has.
 	int score;			// Score...
 	Difficulty diff;	// Difficulty of a game.
+
+		// Holds a pointer to the game board, which this game uses.
+	std::shared_ptr<Game_board> g_board;
 };
 
 #endif
