@@ -1,5 +1,4 @@
 #include "Game_board.h"
-//#include "Light_cont.h"
 #include <stdexcept>
 #include <sstream>
 #include <string>
@@ -19,8 +18,7 @@ const int score_ind_c = 1;
 const int font_size_c = 70;
 
 
-Game_board::Game_board(sf::RenderWindow*& event_ptr)
-//light_controller("/dev/tty.usbmodem1421")
+Game_board::Game_board(sf::RenderWindow*& event_ptr): light_controller("/dev/tty.usbmodem1421")
 {
 	sf::VideoMode videomode = sf::VideoMode::getFullscreenModes()[0];
 	win_width = videomode.width;
@@ -61,14 +59,14 @@ Game_board::~Game_board()
 void Game_board::switch_off_button(int button)
 {
 	button_sprites[button].setFillColor(Color::White);
-	//light_controller.deactivate(button);
+	light_controller.deactivate(button);
 	redraw_window();
 }
 
 void Game_board::switch_on_button(int button)
 {
 	button_sprites[button].setFillColor(note_colors[button]);
-	//light_controller.activate(button);
+	light_controller.activate(button);
 	redraw_window();
 }
 
@@ -76,7 +74,7 @@ void Game_board::clear_buttons()
 {	
 	for (int i = 0; i < 6; ++i) {
 		button_sprites[i].setFillColor(Color::White);
-		//light_controller.deactivate(i);
+		light_controller.deactivate(i);
 	}
 	redraw_window();
 }
