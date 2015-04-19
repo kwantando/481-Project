@@ -264,16 +264,34 @@ void Main_menu::render(std::vector< std::pair<std::string, bool> > *menu_items) 
 	}
 
 	// ********* the logo *********
+	// Note that the width of the .png file is 792px and height is 612
 	logo = new sf::Texture;
 	if (!logo->loadFromFile("MelodiMemori_logo_with_alpha.png")) {
 		std::cerr << "Could not load logo texture\n";
 	}
-
 	logo->setSmooth(true);
 	sf::Sprite logo_sprite;
 	logo_sprite.setTexture(*logo);
-	logo_sprite.setPosition({(float)(window_width/11), (float)(window_height/3)});
-	logo_sprite.scale({(float)(0.3), (float)(0.3)});
+	//logo_sprite.setOrigin((float)(window_width/4), (float)(window_height/2));
+	double logo_width = window_width/2;
+	logo_width -= window_width/8;
+
+	std::cout << "Window Height: " << window_height << std::endl;
+	std::cout << "Window Width: " << window_width << std::endl;
+
+	double logo_height = ((612.0/792.0)*logo_width);
+
+	std::cout << "Logo width: " << logo_width << std::endl;
+	std::cout << "Logo height: " << logo_height << std::endl;
+
+	double logo_x_pos = window_width/16;
+	double logo_y_pos = (window_height - logo_height)/2;
+
+	std::cout << "Logo x pos " << logo_x_pos << std::endl;
+	std::cout << "Logo y pos " << logo_y_pos << std::endl;
+
+	logo_sprite.setPosition(logo_x_pos, logo_y_pos);
+	logo_sprite.scale((logo_width/792.0), (logo_height/612.0));
 	window->draw(logo_sprite);
 	window->display();
 }
