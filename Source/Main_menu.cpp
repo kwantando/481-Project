@@ -30,7 +30,8 @@ Main_menu::Main_menu() : text_size(56) {
 	// accented i should render correctly in the title bar (on macs, it does)
 	window = new sf::RenderWindow(sf::VideoMode(window_width, window_height),
 								  L"MelodiMemorí", sf::Style::Fullscreen);
-	
+	window->setMouseCursorVisible(false);
+
 	// This is the first screen presented to the user
 	render_mode();
 
@@ -280,7 +281,7 @@ void Main_menu::render(std::vector< std::pair<std::string, bool> > *menu_items) 
 	double logo_height = ((612.0/792.0)*logo_width);
 
 	// The coordinates of the top left corner of the sprite.
-	double logo_x_pos = window_width/16; // "nice border" * 2
+	double logo_x_pos = window_width/16; // "nice border" divisor * 2
 	double logo_y_pos = (window_height - logo_height)/2;
 
 	logo_sprite.setPosition(logo_x_pos, logo_y_pos);
