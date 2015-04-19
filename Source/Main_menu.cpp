@@ -264,7 +264,6 @@ void Main_menu::render(std::vector< std::pair<std::string, bool> > *menu_items) 
 	}
 
 	// ********* the logo *********
-	// Note that the width of the .png file is 792px and height is 612
 	logo = new sf::Texture;
 	if (!logo->loadFromFile("MelodiMemori_logo_with_alpha.png")) {
 		std::cerr << "Could not load logo texture\n";
@@ -272,25 +271,22 @@ void Main_menu::render(std::vector< std::pair<std::string, bool> > *menu_items) 
 	logo->setSmooth(true);
 	sf::Sprite logo_sprite;
 	logo_sprite.setTexture(*logo);
-	//logo_sprite.setOrigin((float)(window_width/4), (float)(window_height/2));
+	
 	double logo_width = window_width/2;
-	logo_width -= window_width/8;
+	logo_width -= window_width/8; // to give it a nice border 
 
-	std::cout << "Window Height: " << window_height << std::endl;
-	std::cout << "Window Width: " << window_width << std::endl;
-
+	// 612.0/792.0 is the width divided by the height of the original logo
+	// texture. It is used to keep the constraints of the image when scaling.
 	double logo_height = ((612.0/792.0)*logo_width);
 
-	std::cout << "Logo width: " << logo_width << std::endl;
-	std::cout << "Logo height: " << logo_height << std::endl;
-
-	double logo_x_pos = window_width/16;
+	// The coordinates of the top left corner of the sprite.
+	double logo_x_pos = window_width/16; // "nice border" * 2
 	double logo_y_pos = (window_height - logo_height)/2;
 
-	std::cout << "Logo x pos " << logo_x_pos << std::endl;
-	std::cout << "Logo y pos " << logo_y_pos << std::endl;
-
 	logo_sprite.setPosition(logo_x_pos, logo_y_pos);
+
+	// Dividing the new logo height and width by their original values gives
+	// you a scale factor, which is the only way to resize sprites.
 	logo_sprite.scale((logo_width/792.0), (logo_height/612.0));
 	window->draw(logo_sprite);
 	window->display();
