@@ -3,6 +3,8 @@
 
 #include <string>
 
+class SerialClass;
+
 class Light_cont
 {
 public:
@@ -12,7 +14,11 @@ public:
 	void deactivate(int pad);
 
 private:
+#ifndef _WIN32
 	int fd; //file descriptor for serial communication with Arduino
+#else
+	SerialClass* serialcomm;
+#endif
 };
 
 
