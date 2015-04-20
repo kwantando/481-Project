@@ -268,12 +268,26 @@ void Main_menu::render(std::vector< std::pair<std::string, bool> > *menu_items) 
 	if (!logo->loadFromFile("MelodiMemori_logo_with_alpha.png")) {
 		std::cerr << "Could not load logo texture\n";
 	}
-
 	logo->setSmooth(true);
 	sf::Sprite logo_sprite;
 	logo_sprite.setTexture(*logo);
-	logo_sprite.setPosition({(float)(window_width/11), (float)(window_height/3)});
-	logo_sprite.scale({(float)(0.3), (float)(0.3)});
+	
+	double logo_width = window_width/2;
+	logo_width -= window_width/8; // to give it a nice border 
+
+	// 612.0/792.0 is the width divided by the height of the original logo
+	// texture. It is used to keep the constraints of the image when scaling.
+	double logo_height = ((612.0/792.0)*logo_width);
+
+	// The coordinates of the top left corner of the sprite.
+	double logo_x_pos = window_width/16; // "nice border" * 2
+	double logo_y_pos = (window_height - logo_height)/2;
+
+	logo_sprite.setPosition(logo_x_pos, logo_y_pos);
+
+	// Dividing the new logo height and width by their original values gives
+	// you a scale factor, which is the only way to resize sprites.
+	logo_sprite.scale((logo_width/792.0), (logo_height/612.0));
 	window->draw(logo_sprite);
 	window->display();
 }
