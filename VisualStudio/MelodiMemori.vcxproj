@@ -121,27 +121,33 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Source\Arduino_cont.h" />
     <ClInclude Include="..\Source\Controller.h" />
     <ClInclude Include="..\Source\Game.h" />
     <ClInclude Include="..\Source\Game_board.h" />
+    <ClInclude Include="..\Source\Light_cont.h" />
     <ClInclude Include="..\Source\Main_menu.h" />
     <ClInclude Include="..\Source\Memory_handler.h" />
     <ClInclude Include="..\Source\Mem_game.h" />
     <ClInclude Include="..\Source\Note.h" />
     <ClInclude Include="..\Source\React_game.h" />
+    <ClInclude Include="..\Source\SerialClass.h" />
     <ClInclude Include="..\Source\Song.h" />
     <ClInclude Include="..\Source\Songinfoparser.h" />
     <ClInclude Include="..\Source\Utility.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Source\Arduino_cont.cpp" />
     <ClCompile Include="..\Source\Controller.cpp" />
     <ClCompile Include="..\Source\Game.cpp" />
     <ClCompile Include="..\Source\Game_board.cpp" />
+    <ClCompile Include="..\Source\Light_cont.cpp" />
     <ClCompile Include="..\Source\main.cpp" />
     <ClCompile Include="..\Source\Main_menu.cpp" />
     <ClCompile Include="..\Source\Memory_handler.cpp" />
     <ClCompile Include="..\Source\Mem_game.cpp" />
     <ClCompile Include="..\Source\React_game.cpp" />
+    <ClCompile Include="..\Source\SerialClass.cpp" />
     <ClCompile Include="..\Source\Song.cpp" />
     <ClCompile Include="..\Source\Songinfoparser.cpp" />
     <ClCompile Include="..\Source\Utility.cpp" />
