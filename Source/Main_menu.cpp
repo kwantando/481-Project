@@ -36,11 +36,10 @@ Main_menu::Main_menu() : text_size(56) {
 
 	// This is the first screen presented to the user
 	render_mode();
-
 	// Event loop that handles user input.
 	sf::Event event;
 	while(window->isOpen()) {
-		while (window->pollEvent(event)) {
+		while (window->waitEvent(event)) {
 			switch (event.type) {
 				case sf::Event::Closed:
 					window->close();
@@ -222,6 +221,7 @@ void Main_menu::render_songs() {
 	mode_screen_active = false;
 	difficulty_screen_active = false;
 	song_screen_active = true;
+	instructions_screen_active = false;
 	render(songs);
 }
 
@@ -230,6 +230,7 @@ void Main_menu::render_difficulty() {
 	mode_screen_active = false;
 	difficulty_screen_active = true;
 	song_screen_active = false;
+	instructions_screen_active = false;
 	render(difficulty);
 }
 
@@ -238,6 +239,7 @@ void Main_menu::render_mode() {
 	mode_screen_active = true;
 	difficulty_screen_active = false;
 	song_screen_active = false;
+	instructions_screen_active = false;
 	render(mode);
 }
 
