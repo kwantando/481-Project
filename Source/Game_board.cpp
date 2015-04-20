@@ -17,8 +17,13 @@ const int lives_ind_c = 0;
 const int score_ind_c = 1;
 const int font_size_c = 60;
 
+#ifndef _WIN32
+const char* const port_name = "/dev/tty.usbmodem1421";
+#else
+const char* const port_name = "COM4";
+#endif
 
-Game_board::Game_board(sf::RenderWindow*& event_ptr): light_controller("/dev/tty.usbmodem1421")
+Game_board::Game_board(sf::RenderWindow*& event_ptr): light_controller(port_name)
 {
 	sf::VideoMode videomode = sf::VideoMode::getFullscreenModes()[0];
 	win_width = videomode.width;
@@ -35,8 +40,8 @@ Game_board::Game_board(sf::RenderWindow*& event_ptr): light_controller("/dev/tty
 	if (!font.loadFromFile("Phosphate.ttc")) {
 		throw std::runtime_error("Failed to load font: Phosphate.ttc");
 	}
-	sf::Text lives{lives_str, font, font_size_c};
-	sf::Text score{score_str, font, font_size_c};
+	sf::Text lives{lives_str, font, (unsigned int)font_size_c};
+	sf::Text score{ score_str, font, (unsigned int)font_size_c };
 	lives_width = lives.getLocalBounds().width;
 	score_width = score.getLocalBounds().width;
 	lives.setPosition(sf::Vector2f(3 * win_width / 4,  3 * win_height/16));

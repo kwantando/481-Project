@@ -30,20 +30,19 @@
  *  Added patch to clean up odd baudrates from Andy at hexapodia.org
  *
  */
+#ifndef _WIN32
 
 #include <stdio.h>    /* Standard input/output definitions */
 #include <stdlib.h> 
 #include <stdint.h>   /* Standard types */
 #include <string.h>   /* String function definitions */
-#include <unistd.h>   /* UNIX standard function definitions */
 #include <fcntl.h>    /* File control definitions */
 #include <errno.h>    /* Error number definitions */
-#include <termios.h>  /* POSIX terminal control definitions */
+#include "Arduino_cont.h"
+#include <unistd.h>
+#include <termios.h>
 #include <sys/ioctl.h>
 #include <getopt.h>
-#include "Arduino_cont.h"
-
-
 
 int serialport_write(int fd, const char* str, int len)
 {
@@ -104,3 +103,5 @@ int serialport_init(const char* serialport)
 
     return fd;
 }
+
+#endif
