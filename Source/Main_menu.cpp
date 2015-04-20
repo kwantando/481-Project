@@ -253,8 +253,8 @@ void Main_menu::render_instructions()
 	}
 	sf::Text text;
 	text.setFont(font);
-	text.setString("The instructions for running this program\n can be found at InstructionVideo.ogg,\nin the same folder you found this program. Enjoy!\nPress enter to return to the menu.");
-	text.setCharacterSize(30);
+	text.setString("The instructions for running this program\ncan be found at InstructionVideo.ogg,\nin the same folder you found this program. Enjoy!\nPress enter to return to the menu.");
+	text.setCharacterSize(40);
 	text.setColor(text_color_c);
 	text.setStyle(sf::Text::Bold);
 	text.setPosition({float(window_width/4), float(window_height / 3)});
