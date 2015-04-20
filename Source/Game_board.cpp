@@ -15,10 +15,15 @@ const int starting_lives_c = 5;
 const int starting_score_c = 0;
 const int lives_ind_c = 0;
 const int score_ind_c = 1;
-const int font_size_c = 70;
+const int font_size_c = 60;
 
+#ifndef _WIN32
+const char* const port_name = "/dev/tty.usbmodem1421";
+#else
+const char* const port_name = "COM4";
+#endif
 
-Game_board::Game_board(sf::RenderWindow*& event_ptr): light_controller("/dev/tty.usbmodem1421")
+Game_board::Game_board(sf::RenderWindow*& event_ptr): light_controller(port_name)
 {
 	sf::VideoMode videomode = sf::VideoMode::getFullscreenModes()[0];
 	win_width = videomode.width;
@@ -35,12 +40,12 @@ Game_board::Game_board(sf::RenderWindow*& event_ptr): light_controller("/dev/tty
 	if (!font.loadFromFile("Phosphate.ttc")) {
 		throw std::runtime_error("Failed to load font: Phosphate.ttc");
 	}
-	sf::Text lives{lives_str, font, font_size_c};
-	sf::Text score{score_str, font, font_size_c};
+	sf::Text lives{lives_str, font, (unsigned int)font_size_c};
+	sf::Text score{ score_str, font, (unsigned int)font_size_c };
 	lives_width = lives.getLocalBounds().width;
 	score_width = score.getLocalBounds().width;
-	lives.setPosition(sf::Vector2f(7 * win_width / 8,  3 * win_height/16));
-	score.setPosition(sf::Vector2f(7 * win_width / 8, 11 * win_height / 16));
+	lives.setPosition(sf::Vector2f(3 * win_width / 4,  3 * win_height/16));
+	score.setPosition(sf::Vector2f(3 * win_width / 4, 11 * win_height / 16));
 	text_items.push_back(lives);
 	text_items.push_back(score);
 	for(sf::Text& text: text_items) {
@@ -55,18 +60,18 @@ Game_board::~Game_board()
 	delete event_window;
 }
 
-
+//adjust buttons by 1 for light controller
 void Game_board::switch_off_button(int button)
 {
 	button_sprites[button].setFillColor(Color::White);
-	light_controller.deactivate(button);
+	light_controller.deactivate(button + 1);
 	redraw_window();
 }
 
 void Game_board::switch_on_button(int button)
 {
 	button_sprites[button].setFillColor(note_colors[button]);
-	light_controller.activate(button);
+	light_controller.activate(button + 1);
 	redraw_window();
 }
 
@@ -74,7 +79,7 @@ void Game_board::clear_buttons()
 {	
 	for (int i = 0; i < 6; ++i) {
 		button_sprites[i].setFillColor(Color::White);
-		light_controller.deactivate(i);
+		light_controller.deactivate(i + 1);
 	}
 	redraw_window();
 }
@@ -91,7 +96,7 @@ void Game_board::init_buttons()
 		switch (i) {
 		case 0:
 			button_sprites[i].setPosition(Vector2f(0, 0));
-			note_colors.push_back(Color::Red);
+			note_colors.push_back(Color(255, 128, 0));
 			break;
 		case 1:
 			button_sprites[i].setPosition(Vector2f(win_width / 4, 0));
@@ -103,15 +108,15 @@ void Game_board::init_buttons()
 			break;
 		case 3:
 			button_sprites[i].setPosition(Vector2f(0, win_height / 2));
-			note_colors.push_back(Color::Yellow);
+			note_colors.push_back(Color(137, 0, 255));
 			break;
 		case 4:
 			button_sprites[i].setPosition(Vector2f(win_width / 4, win_height / 2));
-			note_colors.push_back(Color::Magenta);
+			note_colors.push_back(Color::Red);
 			break;
 		case 5:
 			button_sprites[i].setPosition(Vector2f(win_width / 2, win_height / 2));
-			note_colors.push_back(Color::Cyan);
+			note_colors.push_back(Color::Yellow);
 			break;
 		default:
 			break;
