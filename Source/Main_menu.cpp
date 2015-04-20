@@ -39,6 +39,7 @@ Main_menu::Main_menu() : text_size(56) {
 	// Event loop that handles user input.
 	sf::Event event;
 	while(window->isOpen()) {
+		window->setActive();
 		while (window->waitEvent(event)) {
 			switch (event.type) {
 				case sf::Event::Closed:
@@ -252,11 +253,11 @@ void Main_menu::render_instructions()
 	}
 	sf::Text text;
 	text.setFont(font);
-	text.setString("The instructions for running this program can be found at InstructionVideo.ogg,\nin the same folder you found this program. Enjoy!");
+	text.setString("The instructions for running this program can be found at InstructionVideo.ogg,\nin the same folder you found this program. Enjoy!\nPress enter to return to the menu.");
 	text.setCharacterSize(30);
 	text.setColor(text_color_c);
 	text.setStyle(sf::Text::Bold);
-	text.setPosition({float(window_width / 3), float(window_height / 3)});
+	text.setPosition({float(window_width/4), float(window_height / 2)});
 	window->draw(text);
 	instructions_screen_active = true;
 	mode_screen_active = false;
