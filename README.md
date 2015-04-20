@@ -18,13 +18,14 @@ This runs the program.
 Note that both require the SFML library on your computer; information on installing it can be found at the following webpage: http://www.sfml-dev.org/tutorials/2.2/
 
 
-The program is to be run with a Makey Makey and Galileo; the game board provides both, and simply needs both USBs connected to the laptop to run effectively; the user can navigate the menu with the arrow keys, and then use the board to interface with the game as it begins.
+The program is to be run with a Makey Makey and Galileo; the game board provides both, and simply needs both USBs connected to the laptop to run effectively; the user can navigate the menu with the arrow keys, and then use the board to interface with the game as it begins. The Galileo will need to be flashed with the on_board_light_cont.ino logic, found in this repository; if a MicroSD card is available, a workaround is available to make this unnecessary, but otherwise it is unable to save state.
 
 
 Note that these should be plugged in prior to the executable launching.
 
 
 Finally, there is currently a bug with Apple's OpenAL implementation that can cause segfaults to rarely occur, when 16-bit .wavs are run. Our program has multiple workarounds to this bug in place, including replacing 16-bit .wavs, until Apple has resolved the issue, but it something to be aware of. There's more info on this issue here: https://github.com/LaurentGomila/SFML/issues/541
+Downloading and installing the latest SFML implementation from Github (or 2.3, if it is out) will resolve this issue.
 
 
 The code for the project is all available under the Source directory. 
