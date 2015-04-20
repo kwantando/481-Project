@@ -15,7 +15,7 @@ const int starting_lives_c = 5;
 const int starting_score_c = 0;
 const int lives_ind_c = 0;
 const int score_ind_c = 1;
-const int font_size_c = 70;
+const int font_size_c = 60;
 
 
 Game_board::Game_board(sf::RenderWindow*& event_ptr): light_controller("/dev/tty.usbmodem1421")
@@ -39,8 +39,8 @@ Game_board::Game_board(sf::RenderWindow*& event_ptr): light_controller("/dev/tty
 	sf::Text score{score_str, font, font_size_c};
 	lives_width = lives.getLocalBounds().width;
 	score_width = score.getLocalBounds().width;
-	lives.setPosition(sf::Vector2f(7 * win_width / 8,  3 * win_height/16));
-	score.setPosition(sf::Vector2f(7 * win_width / 8, 11 * win_height / 16));
+	lives.setPosition(sf::Vector2f(3 * win_width / 4,  3 * win_height/16));
+	score.setPosition(sf::Vector2f(3 * win_width / 4, 11 * win_height / 16));
 	text_items.push_back(lives);
 	text_items.push_back(score);
 	for(sf::Text& text: text_items) {
