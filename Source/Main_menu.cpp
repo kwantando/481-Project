@@ -127,7 +127,7 @@ void Main_menu::return_key() {
 			window->close();
 		}
 	} else if (instructions_screen_active) {
-		render_songs();
+		render_mode();
 	}
 }
 
