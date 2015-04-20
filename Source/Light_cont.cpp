@@ -13,6 +13,9 @@ Light_cont::Light_cont(const std::string &port)
 
 Light_cont::~Light_cont()
 {
+	for(int i = 1; i <= 6; i++) {
+		deactivate(i);
+	}
 	close(fd);
 }
 

@@ -55,18 +55,18 @@ Game_board::~Game_board()
 	delete event_window;
 }
 
-
+//adjust buttons by 1 for light controller
 void Game_board::switch_off_button(int button)
 {
 	button_sprites[button].setFillColor(Color::White);
-	light_controller.deactivate(button);
+	light_controller.deactivate(button + 1);
 	redraw_window();
 }
 
 void Game_board::switch_on_button(int button)
 {
 	button_sprites[button].setFillColor(note_colors[button]);
-	light_controller.activate(button);
+	light_controller.activate(button + 1);
 	redraw_window();
 }
 
@@ -74,7 +74,7 @@ void Game_board::clear_buttons()
 {	
 	for (int i = 0; i < 6; ++i) {
 		button_sprites[i].setFillColor(Color::White);
-		light_controller.deactivate(i);
+		light_controller.deactivate(i + 1);
 	}
 	redraw_window();
 }
@@ -91,7 +91,7 @@ void Game_board::init_buttons()
 		switch (i) {
 		case 0:
 			button_sprites[i].setPosition(Vector2f(0, 0));
-			note_colors.push_back(Color::Red);
+			note_colors.push_back(Color(255, 128, 0));
 			break;
 		case 1:
 			button_sprites[i].setPosition(Vector2f(win_width / 4, 0));
@@ -103,15 +103,15 @@ void Game_board::init_buttons()
 			break;
 		case 3:
 			button_sprites[i].setPosition(Vector2f(0, win_height / 2));
-			note_colors.push_back(Color::Yellow);
+			note_colors.push_back(Color(137, 0, 255));
 			break;
 		case 4:
 			button_sprites[i].setPosition(Vector2f(win_width / 4, win_height / 2));
-			note_colors.push_back(Color::Magenta);
+			note_colors.push_back(Color::Red);
 			break;
 		case 5:
 			button_sprites[i].setPosition(Vector2f(win_width / 2, win_height / 2));
-			note_colors.push_back(Color::Cyan);
+			note_colors.push_back(Color::Yellow);
 			break;
 		default:
 			break;

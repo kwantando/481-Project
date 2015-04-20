@@ -68,7 +68,6 @@ void React_game::mid_game_processing() {
 		//next_note_val = rand() % 6;
 		if (!already_responded) {
 			cout << "You missed a note!" << endl;
-			dec_score();
 			dec_lives();
 			cout << "New lives = " << get_lives() << endl;
 			cout << "New score = " << get_score() << endl;
