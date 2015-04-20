@@ -1,10 +1,13 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <iterator>
+#include <stdlib.h>
 #include "Main_menu.h"
 
 // Prints debug messages when set to true.
 static const bool DEBUG = false;
+using std::cout;
+using std::endl;
 
 // Text size is in pixels.
 Main_menu::Main_menu() : text_size(56) {
@@ -107,8 +110,7 @@ void Main_menu::return_key() {
 		} else if (mode->begin()->second) { // if song is highlighted
 			render_songs();
 		} else if (mode_itr->second) {
-			std::cout << "play_video\n";
-			
+			render_instructions();
 		} else { // if pattern is selected
 			render_difficulty();
 		}
@@ -124,6 +126,8 @@ void Main_menu::return_key() {
 		} else {
 			window->close();
 		}
+	} else if (instructions_screen_active) {
+		render_songs();
 	}
 }
 
@@ -235,6 +239,28 @@ void Main_menu::render_mode() {
 	difficulty_screen_active = false;
 	song_screen_active = false;
 	render(mode);
+}
+
+void Main_menu::render_instructions()
+{
+	window->clear(bg_color_c);
+	sf::Font font;
+	if(!font.loadFromFile("Arial.ttf")) {
+		std::cerr << "Unable to load Arial font" << endl;
+	}
+	sf::Text text;
+	text.setFont(font);
+	text.setString("The instructions for running this program can be found at InstructionVideo.ogg,\nin the same folder you found this program. Enjoy!");
+	text.setCharacterSize(30);
+	text.setColor(text_color_c);
+	text.setStyle(sf::Text::Bold);
+	text.setPosition({float(window_width / 3), float(window_height / 3)});
+	window->draw(text);
+	instructions_screen_active = true;
+	mode_screen_active = false;
+	difficulty_screen_active = false;
+	song_screen_active = false;
+	window->display();
 }
 
 void Main_menu::render(std::vector< std::pair<std::string, bool> > *menu_items) {

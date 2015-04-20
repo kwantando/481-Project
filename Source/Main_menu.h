@@ -43,6 +43,7 @@ private:
 	bool mode_screen_active;
 	bool difficulty_screen_active;
 	bool song_screen_active;
+	bool instructions_screen_active;
 	// Allows menus with any number of user selectable options to be added
 	// to the window, automatically looping to the top or bottom if necessary.
 	void move(std::vector< std::pair<std::string, bool> > *menu_items,
@@ -54,11 +55,12 @@ private:
 	// render_difficulty(). Closes the window if the user quits or makes
 	// their selection on render_difficulty.
 	void return_key();
-	// These three functions set the appropriate *_screen_active bools before
+	// These four functions set the appropriate *_screen_active bools before
 	// calling render().
 	void render_mode();
 	void render_difficulty();
 	void render_songs();
+	void render_instructions();
 	// Changes the colors of the menu_items. Spaces each menu item
 	// in an easy to read format. 
 	void render(std::vector< std::pair<std::string, bool> > *menu_items);
