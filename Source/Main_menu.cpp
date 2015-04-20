@@ -6,19 +6,18 @@
 // Prints debug messages when set to true.
 static const bool DEBUG = false;
 
-// You can change the window size here in initialization section, along with
-// the text size. Text may or may not be appropriately spaced after changing
-// window_height, window_width and text_size. It looks best at 600*800 with
-// a text size of 56. All units in the initialization section are pizels.
+// Text size is in pixels.
 Main_menu::Main_menu() : text_size(56) {
-	// Each vector holds pairs of strings and bools. The bool says whether or
-	// not the string is currently highlighted on screen.
-	// Exactly one bool must be true in every vector at initialization.
 	sf::VideoMode videomode = sf::VideoMode::getFullscreenModes()[0];
 	window_width = videomode.width;
 	window_height = videomode.height;
+
+	// Each vector holds pairs of strings and bools. The bool says whether or
+	// not the string is currently highlighted on screen.
+	// Exactly one bool must be true in every vector at initialization.
 	mode = new std::vector< std::pair<std::string, bool> >
-			   {{"Song", true}, {"Pattern", false}, {"Quit", false}};
+			   {{"Song", true}, {"Pattern", false}, {"Tutorial", false},
+			   {"Quit", false}};
    	songs = new std::vector< std::pair<std::string, bool> >
 				{{"Victors", true}, {"Techno Jig", false},
 				{"Axel F", false}, {"Back", false}};
@@ -58,6 +57,7 @@ Main_menu::~Main_menu() {
 	delete difficulty;
 	delete songs;
 	delete window;
+	delete logo;
 }
 
 void Main_menu::key_event(sf::Event event) {
@@ -99,10 +99,16 @@ void Main_menu::return_key() {
 	// The last item in a vector is either the quit button
 	// or the back button. Hence checking *->back().second
 	if (mode_screen_active) {
+		auto mode_itr = mode->begin();
+		++mode_itr;
+		++mode_itr;
 		if (mode->back().second) { // if quit button selected
 			window->close();
 		} else if (mode->begin()->second) { // if song is highlighted
 			render_songs();
+		} else if (mode_itr->second) {
+			std::cout << "play_video\n";
+			
 		} else { // if pattern is selected
 			render_difficulty();
 		}
@@ -113,7 +119,6 @@ void Main_menu::return_key() {
 			render_difficulty(); // if a song is selected, go to the difficulty screen
 		}
 	} else if (difficulty_screen_active) {
-		
 		if (difficulty->back().second) {
 			render_mode();
 		} else {
@@ -234,8 +239,9 @@ void Main_menu::render_mode() {
 
 void Main_menu::render(std::vector< std::pair<std::string, bool> > *menu_items) {
 	if (DEBUG) std::cout << "render() called\n";
-
 	window->clear(bg_color_c);
+	
+	// *************************** options list ***************************
 	sf::Font font;
 	if (!font.loadFromFile("Phosphate.ttc")) {
 		std::cerr << "could not load font\n";
@@ -264,7 +270,7 @@ void Main_menu::render(std::vector< std::pair<std::string, bool> > *menu_items) 
 		border_inc += text_size*2;
 	}
 
-	// ********* the logo *********
+	// *************************** logo ***************************
 	logo = new sf::Texture;
 	if (!logo->loadFromFile("MelodiMemori_logo_with_alpha.png")) {
 		std::cerr << "Could not load logo texture\n";
@@ -274,14 +280,14 @@ void Main_menu::render(std::vector< std::pair<std::string, bool> > *menu_items) 
 	logo_sprite.setTexture(*logo);
 	
 	double logo_width = window_width/2;
-	logo_width -= window_width/8; // to give it a nice border 
+	logo_width -= window_width/8; // to give some space on the sides 
 
 	// 612.0/792.0 is the width divided by the height of the original logo
 	// texture. It is used to keep the constraints of the image when scaling.
 	double logo_height = ((612.0/792.0)*logo_width);
 
 	// The coordinates of the top left corner of the sprite.
-	double logo_x_pos = window_width/16; // "nice border" divisor * 2
+	double logo_x_pos = window_width/16; // "space on the sides" divisor * 2
 	double logo_y_pos = (window_height - logo_height)/2;
 
 	logo_sprite.setPosition(logo_x_pos, logo_y_pos);
